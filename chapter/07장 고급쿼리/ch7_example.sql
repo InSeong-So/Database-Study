@@ -1,4 +1,4 @@
-1. °èÃþÇü Äõ¸® ÀÀ¿ëÆí¿¡¼­ LISTAGG ÇÔ¼ö¸¦ »ç¿ëÇØ ´ÙÀ½°ú °°ÀÌ ·Î¿ì¸¦ ÄÃ·³À¸·Î ºÐ¸®Çß¾ú´Ù. 
+1. ê³„ì¸µí˜• ì¿¼ë¦¬ ì‘ìš©íŽ¸ì—ì„œ LISTAGG í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ ë‹¤ìŒê³¼ ê°™ì´ ë¡œìš°ë¥¼ ì»¬ëŸ¼ìœ¼ë¡œ ë¶„ë¦¬í–ˆì—ˆë‹¤. 
    
   SELECT department_id,
          LISTAGG(emp_name, ',') WITHIN GROUP (ORDER BY emp_name) as empnames
@@ -6,9 +6,9 @@
    WHERE department_id IS NOT NULL
    GROUP BY department_id;
    
-  LISTAGG ÇÔ¼ö ´ë½Å °èÃþÇü Äõ¸®, ºÐ¼®ÇÔ¼ö¸¦ »ç¿ëÇØ¼­ À§ Äõ¸®¿Í µ¿ÀÏÇÑ °á°ú¸¦ »êÃâÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇØ º¸ÀÚ. 
+  LISTAGG í•¨ìˆ˜ ëŒ€ì‹  ê³„ì¸µí˜• ì¿¼ë¦¬, ë¶„ì„í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ì„œ ìœ„ ì¿¼ë¦¬ì™€ ë™ì¼í•œ ê²°ê³¼ë¥¼ ì‚°ì¶œí•˜ëŠ” ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ ë³´ìž. 
   
-  <Á¤´ä>
+  <ì •ë‹µ>
 SELECT department_id, 
        SUBSTR(SYS_CONNECT_BY_PATH(emp_name, ','),2) empnames
  FROM ( SELECT emp_name, 
@@ -23,7 +23,7 @@ CONNECT BY PRIOR rowseq + 1 = rowseq
     AND PRIOR department_id = department_id; 
     
     
-2. ¾Æ·¡ÀÇ Äõ¸®´Â »ç¿øÅ×ÀÌºí¿¡¼­ JOB_ID°¡ 'SH_CLERK'ÀÎ »ç¿øÀ» Á¶È¸ÇÏ´Â Äõ¸®ÀÌ´Ù. 
+2. ì•„ëž˜ì˜ ì¿¼ë¦¬ëŠ” ì‚¬ì›í…Œì´ë¸”ì—ì„œ JOB_IDê°€ 'SH_CLERK'ì¸ ì‚¬ì›ì„ ì¡°íšŒí•˜ëŠ” ì¿¼ë¦¬ì´ë‹¤. 
 
 SELECT employee_id, emp_name, hire_date
 FROM employees
@@ -42,8 +42,8 @@ EMPLOYEE_ID EMP_NAME             HIRE_DATE
         199 Douglas Grant        2008/01/13 00:00:00
         183 Girard Geoni         2008/02/03 00:00:00
 
-»ç¿øÅ×ÀÌºí¿¡¼­ Åð»çÀÏÀÚ(retire_date)´Â ¸ðµÎ ºñ¾îÀÖ´Âµ¥, À§ °á°ú¿¡¼­ »ç¿ø¹øÈ£°¡ 184ÀÎ »ç¿øÀÇ Åð»çÀÏÀÚ´Â ´ÙÀ½À¸·Î ÀÔ»çÀÏÀÚ°¡ ºü¸¥ 192¹ø »ç¿øÀÇ ÀÔ»çÀÏÀÚ¶ó°í °¡Á¤ÇØ¼­
-´ÙÀ½°ú °°Àº ÇüÅÂ·Î °á°ú¸¦ ÃßÃâÇØ³¾ ¼ö ÀÖµµ·Ï Äõ¸®¸¦ ÀÛ¼ºÇØ º¸ÀÚ. (ÀÔ»çÀÏÀÚ°¡ °¡Àå ÃÖ±ÙÀÎ 183¹ø »ç¿øÀÇ Åð»çÀÏÀÚ´Â NULLÀÌ´Ù)
+ì‚¬ì›í…Œì´ë¸”ì—ì„œ í‡´ì‚¬ì¼ìž(retire_date)ëŠ” ëª¨ë‘ ë¹„ì–´ìžˆëŠ”ë°, ìœ„ ê²°ê³¼ì—ì„œ ì‚¬ì›ë²ˆí˜¸ê°€ 184ì¸ ì‚¬ì›ì˜ í‡´ì‚¬ì¼ìžëŠ” ë‹¤ìŒìœ¼ë¡œ ìž…ì‚¬ì¼ìžê°€ ë¹ ë¥¸ 192ë²ˆ ì‚¬ì›ì˜ ìž…ì‚¬ì¼ìžë¼ê³  ê°€ì •í•´ì„œ
+ë‹¤ìŒê³¼ ê°™ì€ í˜•íƒœë¡œ ê²°ê³¼ë¥¼ ì¶”ì¶œí•´ë‚¼ ìˆ˜ ìžˆë„ë¡ ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ ë³´ìž. (ìž…ì‚¬ì¼ìžê°€ ê°€ìž¥ ìµœê·¼ì¸ 183ë²ˆ ì‚¬ì›ì˜ í‡´ì‚¬ì¼ìžëŠ” NULLì´ë‹¤)
 
 EMPLOYEE_ID EMP_NAME             HIRE_DATE             RETIRE_DATE
 ----------- -------------------- -------------------  ---------------------------
@@ -58,7 +58,7 @@ EMPLOYEE_ID EMP_NAME             HIRE_DATE             RETIRE_DATE
         183 Girard Geoni         2008/02/03 00:00:00
         
         
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT employee_id, emp_name, hire_date,
        LEAD(hire_date) OVER ( PARTITION BY JOB_ID ORDER BY HIRE_DATE) AS retire_date
 FROM employees
@@ -66,19 +66,19 @@ WHERE job_id = 'SH_CLERK'
 ORDER BY hire_date;
 
 
-3. sales Å×ÀÌºí¿¡´Â ÆÇ¸Åµ¥ÀÌÅÍ, customers Å×ÀÌºí¿¡´Â °í°´Á¤º¸°¡ ÀÖ´Ù. 2001³â 12¿ù(SALES_MONTH = '200112') ÆÇ¸Åµ¥ÀÌÅÍ Áß
-   ÇöÀçÀÏÀÚ¸¦ ±âÁØÀ¸·Î °í°´ÀÇ ³ªÀÌ(customers.cust_year_of_birth)¸¦ °è»êÇØ¼­ ´ÙÀ½°ú °°ÀÌ ¿¬·É´ëº° ¸ÅÃâ±Ý¾×À» º¸¿©ÁÖ´Â Äõ¸®¸¦ ÀÛ¼ºÇØ º¸ÀÚ.
+3. sales í…Œì´ë¸”ì—ëŠ” íŒë§¤ë°ì´í„°, customers í…Œì´ë¸”ì—ëŠ” ê³ ê°ì •ë³´ê°€ ìžˆë‹¤. 2001ë…„ 12ì›”(SALES_MONTH = '200112') íŒë§¤ë°ì´í„° ì¤‘
+   í˜„ìž¬ì¼ìžë¥¼ ê¸°ì¤€ìœ¼ë¡œ ê³ ê°ì˜ ë‚˜ì´(customers.cust_year_of_birth)ë¥¼ ê³„ì‚°í•´ì„œ ë‹¤ìŒê³¼ ê°™ì´ ì—°ë ¹ëŒ€ë³„ ë§¤ì¶œê¸ˆì•¡ì„ ë³´ì—¬ì£¼ëŠ” ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ ë³´ìž.
    
 -------------------------   
-¿¬·É´ë    ¸ÅÃâ±Ý¾×
+ì—°ë ¹ëŒ€    ë§¤ì¶œê¸ˆì•¡
 -------------------------
-10´ë      xxxxxx
-20´ë      ....
-30´ë      .... 
-40´ë      ....
+10ëŒ€      xxxxxx
+20ëŒ€      ....
+30ëŒ€      .... 
+40ëŒ€      ....
 -------------------------   
    
-<Á¤´ä>
+<ì •ë‹µ>
 WITH basis AS ( SELECT WIDTH_BUCKET(to_char(sysdate, 'yyyy') - b.cust_year_of_birth, 10, 90, 8) AS old_seg,
                        TO_CHAR(SYSDATE, 'yyyy') - b.cust_year_of_birth as olds,
                        s.amount_sold
@@ -87,7 +87,7 @@ WITH basis AS ( SELECT WIDTH_BUCKET(to_char(sysdate, 'yyyy') - b.cust_year_of_bi
                  WHERE s.sales_month = '200112'
                    AND s.cust_id = b.CUST_ID
               ),
-     real_data AS ( SELECT old_seg * 10 || ' ´ë' AS old_segment,
+     real_data AS ( SELECT old_seg * 10 || ' ëŒ€' AS old_segment,
                            SUM(amount_sold) as old_seg_amt
                       FROM basis
                      GROUP BY old_seg
@@ -97,18 +97,18 @@ WITH basis AS ( SELECT WIDTH_BUCKET(to_char(sysdate, 'yyyy') - b.cust_year_of_bi
  ORDER BY old_segment;   
  
  
-4. 3¹ø ¹®Á¦¸¦ ÀÌ¿ëÇØ ¿ùº°·Î ÆÇ¸Å±Ý¾×ÀÌ °¡Àå ÇÏÀ§¿¡ ¼ÓÇÏ´Â ´ë·ú ¸ñ·ÏÀ» »Ì¾Æº¸ÀÚ.
-   ( ´ë·ú¸ñ·ÏÀº countries Å×ÀÌºíÀÇ country_region¿¡ ÀÖÀ¸¸ç, country_id ÄÃ·³À¸·Î customers Å×ÀÌºí°ú Á¶ÀÎÀ» ÇØ¼­ ±¸ÇÑ´Ù.)
+4. 3ë²ˆ ë¬¸ì œë¥¼ ì´ìš©í•´ ì›”ë³„ë¡œ íŒë§¤ê¸ˆì•¡ì´ ê°€ìž¥ í•˜ìœ„ì— ì†í•˜ëŠ” ëŒ€ë¥™ ëª©ë¡ì„ ë½‘ì•„ë³´ìž.
+   ( ëŒ€ë¥™ëª©ë¡ì€ countries í…Œì´ë¸”ì˜ country_regionì— ìžˆìœ¼ë©°, country_id ì»¬ëŸ¼ìœ¼ë¡œ customers í…Œì´ë¸”ê³¼ ì¡°ì¸ì„ í•´ì„œ êµ¬í•œë‹¤.)
    
 ---------------------------------   
-¸ÅÃâ¿ù    Áö¿ª(´ë·ú)  ¸ÅÃâ±Ý¾× 
+ë§¤ì¶œì›”    ì§€ì—­(ëŒ€ë¥™)  ë§¤ì¶œê¸ˆì•¡ 
 ---------------------------------
 199801    Oceania      xxxxxx
 199803    Oceania      xxxxxx
 ...
 ---------------------------------
 
-<Á¤´ä>
+<ì •ë‹µ>
 WITH basis AS ( SELECT c.country_region, s.sales_month, SUM(s.amount_solD) AS amt
                   FROM sales s, 
                        customers b,
@@ -130,19 +130,19 @@ WITH basis AS ( SELECT c.country_region, s.sales_month, SUM(s.amount_solD) AS am
 
 
 
-5. 5Àå ¿¬½À¹®Á¦ 5¹øÀÇ Á¤´ä °á°ú¸¦ ÀÌ¿ëÇØ ´ÙÀ½°ú °°ÀÌ Áö¿ªº°, ´ëÃâÁ¾·ùº°, ¿ùº° ´ëÃâÀÜ¾×°ú Áö¿ªº° ÆÄÆ¼¼ÇÀ» ¸¸µé¾î ´ëÃâÁ¾·ùº° ´ëÃâÀÜ¾×ÀÇ %¸¦ ±¸ÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇØº¸ÀÚ. 
+5. 5ìž¥ ì—°ìŠµë¬¸ì œ 5ë²ˆì˜ ì •ë‹µ ê²°ê³¼ë¥¼ ì´ìš©í•´ ë‹¤ìŒê³¼ ê°™ì´ ì§€ì—­ë³„, ëŒ€ì¶œì¢…ë¥˜ë³„, ì›”ë³„ ëŒ€ì¶œìž”ì•¡ê³¼ ì§€ì—­ë³„ íŒŒí‹°ì…˜ì„ ë§Œë“¤ì–´ ëŒ€ì¶œì¢…ë¥˜ë³„ ëŒ€ì¶œìž”ì•¡ì˜ %ë¥¼ êµ¬í•˜ëŠ” ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ë³´ìž. 
 
 ------------------------------------------------------------------------------------------------
-Áö¿ª    ´ëÃâÁ¾·ù        201111         201112    201210    201211   201212   203110    201311
+ì§€ì—­    ëŒ€ì¶œì¢…ë¥˜        201111         201112    201210    201211   201212   203110    201311
 ------------------------------------------------------------------------------------------------
-¼­¿ï    ±âÅ¸´ëÃâ       73996.9( 36% )
-¼­¿ï    ÁÖÅÃ´ãº¸´ëÃâ   130105.9( 64% ) 
-ºÎ»ê
+ì„œìš¸    ê¸°íƒ€ëŒ€ì¶œ       73996.9( 36% )
+ì„œìš¸    ì£¼íƒë‹´ë³´ëŒ€ì¶œ   130105.9( 64% ) 
+ë¶€ì‚°
 ...
 ...
 -------------------------------------------------------------------------------------------------
 
-  <Á¤´ä>
+  <ì •ë‹µ>
 WITH basis AS (
 SELECT REGION, GUBUN,
        SUM(AMT1) AS AMT1, 

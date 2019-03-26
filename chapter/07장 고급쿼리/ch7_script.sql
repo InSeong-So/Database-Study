@@ -1,4 +1,4 @@
--- °èÃşÇü Äõ¸®
+-- ê³„ì¸µí˜• ì¿¼ë¦¬
 
 
 SELECT department_id, 
@@ -148,8 +148,8 @@ SELECT department_id, LPAD(' ' , 3 * (LEVEL-1)) || department_name AS depname, L
 CONNECT BY NOCYCLE PRIOR department_id  = parent_id; 
 
   
--- °èÃşÇü Äõ¸® ÀÀ¿ë 
--- »ùÇÃ µ¥ÀÌÅÍ »ı¼º  
+-- ê³„ì¸µí˜• ì¿¼ë¦¬ ì‘ìš© 
+-- ìƒ˜í”Œ ë°ì´í„° ìƒì„±  
   
 CREATE TABLE ex7_1 AS  
 SELECT ROWNUM seq, 
@@ -176,7 +176,7 @@ FROM (
 )
 CONNECT BY LEVEL <= 4;
   
--- ·Î¿ì¸¦ ÄÃ·³À¸·Î
+-- ë¡œìš°ë¥¼ ì»¬ëŸ¼ìœ¼ë¡œ
 
 CREATE TABLE ex7_2 AS
   SELECT department_id,
@@ -189,7 +189,7 @@ CREATE TABLE ex7_2 AS
 SELECT *
 FROM ex7_2;
 
--- ÄÃ·³À» ·Î¿ì·Î
+-- ì»¬ëŸ¼ì„ ë¡œìš°ë¡œ
   
 SELECT empnames,
        DECODE(level, 1, 1, instr(empnames, ',', 1, level-1)) st,
@@ -232,7 +232,7 @@ FROM ( SELECT empnames,
 ) ;
                   
   
--- WITH Àı
+-- WITH ì ˆ
   
 SELECT b2.*
 FROM ( SELECT period, region, sum(loan_jan_amt) jan_amt
@@ -279,7 +279,7 @@ SELECT b2.*
  ORDER BY 1;           
            
            
--- ¼øÈ¯ ¼­ºêÄõ¸®
+-- ìˆœí™˜ ì„œë¸Œì¿¼ë¦¬
            
 SELECT department_id, LPAD(' ' , 3 * (LEVEL-1)) || department_name, LEVEL
   FROM departments
@@ -313,7 +313,7 @@ SELECT department_id, LPAD(' ' , 3 * (lvl-1)) || department_name, lvl, order_seq
  FROM recur; 
 
 
--- ºĞ¼®ÇÔ¼ö
+-- ë¶„ì„í•¨ìˆ˜
 
 SELECT department_id, emp_name, 
        ROW_NUMBER() OVER (PARTITION BY department_id 
@@ -382,7 +382,7 @@ SELECT emp_name, hire_date, salary,
  WHERE department_id = 30;
  
  
--- WindowÀı
+-- Windowì ˆ
  
 SELECT department_id, emp_name, hire_date, salary,
        SUM(salary) OVER (PARTITION BY department_id ORDER BY hire_Date
@@ -452,7 +452,7 @@ SELECT department_id, emp_name, hire_date, salary,
   FROM employees
  WHERE department_id IN (30, 90) ; 
  
--- ±âÅ¸ ºĞ¼® ÇÔ¼ö 
+-- ê¸°íƒ€ ë¶„ì„ í•¨ìˆ˜ 
 
 SELECT department_id, emp_name, 
        salary
@@ -472,8 +472,8 @@ WITH basis AS ( SELECT period, region, SUM(loan_jan_amt) jan_amt
                  GROUP BY period
               )
  SELECT a.period, 
-        b.region "ÃÖ¼ÒÁö¿ª", b.jan_amt "ÃÖ¼Ò±İ¾×",
-        c.region "ÃÖ´ëÁö¿ª", c.jan_amt "ÃÖ´ë±İ¾×"
+        b.region "ìµœì†Œì§€ì—­", b.jan_amt "ìµœì†Œê¸ˆì•¡",
+        c.region "ìµœëŒ€ì§€ì—­", c.jan_amt "ìµœëŒ€ê¸ˆì•¡"
    FROM basis2 a, basis b, basis c
   WHERE a.period  = b.period
     AND a.min_amt = b.jan_amt 
@@ -488,10 +488,10 @@ WITH basis AS (
                 GROUP BY period, region
               )
 SELECT a.period, 
-       MIN(a.region) KEEP ( DENSE_RANK FIRST ORDER BY jan_amt) "ÃÖ¼ÒÁö¿ª", 
-       MIN(jan_amt) "ÃÖ¼Ò±İ¾×", 
-       MAX(a.region) keep ( DENSE_RANK LAST ORDER BY jan_amt) "ÃÖ´ëÁö¿ª",
-       MAX(jan_amt) "ÃÖ´ë±İ¾×"
+       MIN(a.region) KEEP ( DENSE_RANK FIRST ORDER BY jan_amt) "ìµœì†Œì§€ì—­", 
+       MIN(jan_amt) "ìµœì†Œê¸ˆì•¡", 
+       MAX(a.region) keep ( DENSE_RANK LAST ORDER BY jan_amt) "ìµœëŒ€ì§€ì—­",
+       MAX(jan_amt) "ìµœëŒ€ê¸ˆì•¡"
 FROM basis a
 GROUP BY a.period
 ORDER BY 1, 2;
@@ -503,8 +503,8 @@ SELECT department_id, emp_name, hire_date, salary,
  WHERE department_id IN (30, 90); 
  
  
--- ´ÙÁß Å×ÀÌºí INSERT
--- ¿©·¯ °³ÀÇ INSERT¹®À» ÇÑ ¹æ¿¡ Ã³¸®
+-- ë‹¤ì¤‘ í…Œì´ë¸” INSERT
+-- ì—¬ëŸ¬ ê°œì˜ INSERTë¬¸ì„ í•œ ë°©ì— ì²˜ë¦¬
 CREATE TABLE ex7_3 (
        emp_id    NUMBER,
        emp_name  VARCHAR2(100));
@@ -514,32 +514,32 @@ CREATE TABLE ex7_4 (
        emp_id    NUMBER,
        emp_name  VARCHAR2(100));
        
-INSERT INTO ex7_3 VALUES (101, 'È«±æµ¿'); 
+INSERT INTO ex7_3 VALUES (101, 'í™ê¸¸ë™'); 
 
-INSERT INTO ex7_3 VALUES (102, '±èÀ¯½Å');       
+INSERT INTO ex7_3 VALUES (102, 'ê¹€ìœ ì‹ ');       
 
 INSERT ALL
-INTO ex7_3 VALUES (103, '°­°¨Âù')
-INTO ex7_3 VALUES (104, '¿¬°³¼Ò¹®')
+INTO ex7_3 VALUES (103, 'ê°•ê°ì°¬')
+INTO ex7_3 VALUES (104, 'ì—°ê°œì†Œë¬¸')
 SELECT *
 FROM DUAL;
 
 INSERT ALL
 INTO ex7_3 VALUES (emp_id, emp_name)
-SELECT 103 emp_id, '°­°¨Âù' emp_name
+SELECT 103 emp_id, 'ê°•ê°ì°¬' emp_name
 FROM DUAL
 UNION ALL
-SELECT 104 emp_id, '¿¬°³¼Ò¹®' emp_name
+SELECT 104 emp_id, 'ì—°ê°œì†Œë¬¸' emp_name
 FROM DUAL;
 
 
 INSERT ALL
-INTO ex7_3 VALUES (105, '°¡°¡°¡')
-INTO ex7_4 VALUES (105, '³ª³ª³ª')
+INTO ex7_3 VALUES (105, 'ê°€ê°€ê°€')
+INTO ex7_4 VALUES (105, 'ë‚˜ë‚˜ë‚˜')
 SELECT *
 FROM DUAL;
 
--- Á¶°Ç¿¡ µû¸¥ ´ÙÁß INSERT
+-- ì¡°ê±´ì— ë”°ë¥¸ ë‹¤ì¤‘ INSERT
 TRUNCATE TABLE ex7_3;
 
 TRUNCATE TABLE ex7_4;

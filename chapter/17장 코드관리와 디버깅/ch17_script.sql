@@ -1,6 +1,6 @@
-01. ¼Ò½º°ü¸®
+01. ì†ŒìŠ¤ê´€ë¦¬
 
--- (2) ¼Ò½º ¹é¾÷
+-- (2) ì†ŒìŠ¤ ë°±ì—…
 SELECT *
 FROM USER_SOURCE
 ORDER BY NAME, LINE;
@@ -46,7 +46,7 @@ SELECT *
 FROM bk_source_20150106;
 
 
--- 02. µð¹ö±ë±â¹ý
+-- 02. ë””ë²„ê¹…ê¸°ë²•
 
 CREATE TABLE ch17_sales_detail (
              channnel_name VARCHAR2(50),
@@ -83,11 +83,11 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
   IS
   
   BEGIN
-    --1. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »èÁ¦
+    --1. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ì‚­ì œ
     DELETE ch17_SALES_DETAIL
      WHERE sales_month = ps_month;
      
-    --2. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »ý¼º
+    --2. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ìƒì„±
     INSERT INTO ch17_SALES_DETAIL
     SELECT b.prod_name, 
            d.channel_desc,
@@ -115,7 +115,7 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
            a.sales_month;
            
            
-    -- 3. ÆÇ¸Å±Ý¾×(sales_amt)ÀÌ pn_amt º¸´Ù Å« °ÇÀº pn_rate ºñÀ² ¸¸Å­ ÇÒÀÎÇÑ´Ù.
+    -- 3. íŒë§¤ê¸ˆì•¡(sales_amt)ì´ pn_amt ë³´ë‹¤ í° ê±´ì€ pn_rate ë¹„ìœ¨ ë§Œí¼ í• ì¸í•œë‹¤.
     UPDATE ch17_SALES_DETAIL
        SET sales_amt = sales_amt - ( sales_amt * pn_rate * 0.01)
      WHERE sales_month = ps_month
@@ -155,19 +155,19 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
   IS
   
   BEGIN
-  	DBMS_OUTPUT.PUT_LINE('--------------<º¯¼ö°ª Ãâ·Â>---------------------');
+  	DBMS_OUTPUT.PUT_LINE('--------------<ë³€ìˆ˜ê°’ ì¶œë ¥>---------------------');
   	DBMS_OUTPUT.PUT_LINE('ps_month : ' || ps_month);
   	DBMS_OUTPUT.PUT_LINE('pn_amt   : ' || pn_amt);
   	DBMS_OUTPUT.PUT_LINE('pn_rate  : ' || pn_rate);  	
   	DBMS_OUTPUT.PUT_LINE('------------------------------------------------');
   	
-    --1. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »èÁ¦
+    --1. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ì‚­ì œ
     DELETE ch17_SALES_DETAIL
      WHERE sales_month = ps_month;
      
-    DBMS_OUTPUT.PUT_LINE('DELETE °Ç¼ö : ' || SQL%ROWCOUNT);
+    DBMS_OUTPUT.PUT_LINE('DELETE ê±´ìˆ˜ : ' || SQL%ROWCOUNT);
      
-    --2. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »ý¼º
+    --2. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ìƒì„±
     INSERT INTO ch17_SALES_DETAIL
     SELECT b.prod_name, 
            d.channel_desc,
@@ -194,20 +194,20 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
            a.sales_date,
            a.sales_month;
            
-    DBMS_OUTPUT.PUT_LINE('INSERT °Ç¼ö : ' || SQL%ROWCOUNT);           
+    DBMS_OUTPUT.PUT_LINE('INSERT ê±´ìˆ˜ : ' || SQL%ROWCOUNT);           
            
            
-    -- 3. ÆÇ¸Å±Ý¾×(sales_amt)ÀÌ pn_amt º¸´Ù Å« °ÇÀº pn_rate ºñÀ² ¸¸Å­ ÇÒÀÎÇÑ´Ù.
+    -- 3. íŒë§¤ê¸ˆì•¡(sales_amt)ì´ pn_amt ë³´ë‹¤ í° ê±´ì€ pn_rate ë¹„ìœ¨ ë§Œí¼ í• ì¸í•œë‹¤.
     UPDATE ch17_SALES_DETAIL
        SET sales_amt = sales_amt - ( sales_amt * pn_rate * 0.01)
      WHERE sales_month = ps_month
        AND sales_amt   > pn_amt;
        
-    DBMS_OUTPUT.PUT_LINE('UPDATE °Ç¼ö : ' || SQL%ROWCOUNT);           
+    DBMS_OUTPUT.PUT_LINE('UPDATE ê±´ìˆ˜ : ' || SQL%ROWCOUNT);           
     
     COMMIT;
     
-    DBMS_OUTPUT.PUT_LINE('¿©±â¼­ÀÇ °ªÀº???? : ' || SQL%ROWCOUNT);    
+    DBMS_OUTPUT.PUT_LINE('ì—¬ê¸°ì„œì˜ ê°’ì€???? : ' || SQL%ROWCOUNT);    
     
   EXCEPTION WHEN OTHERS THEN
          DBMS_OUTPUT.PUT_LINE(SQLERRM);
@@ -225,7 +225,7 @@ BEGIN
 END;
 
 
--- (2) ¼Ò¿ä½Ã°£ Ãâ·Â
+-- (2) ì†Œìš”ì‹œê°„ ì¶œë ¥
 
 CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
   
@@ -233,31 +233,31 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
                                pn_amt   IN NUMBER,
                                pn_rate  IN NUMBER   )
   IS
-     vd_sysdate     DATE;        -- ÇöÀçÀÏÀÚ 
-     vn_total_time NUMBER := 0;  -- ¼Ò¿ä½Ã°£ °è»ê¿ë º¯¼ö 
+     vd_sysdate     DATE;        -- í˜„ìž¬ì¼ìž 
+     vn_total_time NUMBER := 0;  -- ì†Œìš”ì‹œê°„ ê³„ì‚°ìš© ë³€ìˆ˜ 
   
   BEGIN
-  	DBMS_OUTPUT.PUT_LINE('--------------<º¯¼ö°ª Ãâ·Â>---------------------');
+  	DBMS_OUTPUT.PUT_LINE('--------------<ë³€ìˆ˜ê°’ ì¶œë ¥>---------------------');
   	DBMS_OUTPUT.PUT_LINE('ps_month : ' || ps_month);
   	DBMS_OUTPUT.PUT_LINE('pn_amt   : ' || pn_amt);
   	DBMS_OUTPUT.PUT_LINE('pn_rate  : ' || pn_rate);  	
   	DBMS_OUTPUT.PUT_LINE('------------------------------------------------');
   	
-    --1. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »èÁ¦
+    --1. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ì‚­ì œ
     
-	  -- delete Àü vd_sysdate¿¡ ÇöÀç½Ã°¡ ¼³Á¤
+	  -- delete ì „ vd_sysdateì— í˜„ìž¬ì‹œê°€ ì„¤ì •
 	  vd_sysdate := SYSDATE;
 	      
     DELETE ch17_SALES_DETAIL
      WHERE sales_month = ps_month;
      
-    -- DELETE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+    -- DELETE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
     vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
        
      
-    DBMS_OUTPUT.PUT_LINE('DELETE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time );
+    DBMS_OUTPUT.PUT_LINE('DELETE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time );
      
-    --2. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »ý¼º
+    --2. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ìƒì„±
     vd_sysdate := SYSDATE;
     
     INSERT INTO ch17_SALES_DETAIL
@@ -286,13 +286,13 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
            a.sales_date,
            a.sales_month;
            
-    -- INSERT ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+    -- INSERT ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
     vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;           
            
-    DBMS_OUTPUT.PUT_LINE('INSERT °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time ); 
+    DBMS_OUTPUT.PUT_LINE('INSERT ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time ); 
            
            
-    -- 3. ÆÇ¸Å±Ý¾×(sales_amt)ÀÌ pn_amt º¸´Ù Å« °ÇÀº pn_rate ºñÀ² ¸¸Å­ ÇÒÀÎÇÑ´Ù.
+    -- 3. íŒë§¤ê¸ˆì•¡(sales_amt)ì´ pn_amt ë³´ë‹¤ í° ê±´ì€ pn_rate ë¹„ìœ¨ ë§Œí¼ í• ì¸í•œë‹¤.
     vd_sysdate := SYSDATE;
     
     UPDATE ch17_SALES_DETAIL
@@ -300,10 +300,10 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
      WHERE sales_month = ps_month
        AND sales_amt   > pn_amt;
        
-    -- UPDATE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+    -- UPDATE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
     vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;               
        
-    DBMS_OUTPUT.PUT_LINE('UPDATE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time ); 
+    DBMS_OUTPUT.PUT_LINE('UPDATE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time ); 
     
     COMMIT;
   
@@ -325,7 +325,7 @@ BEGIN
 END;
 
 
--- DBMS_UTILITY.GET_TIME »ç¿ë
+-- DBMS_UTILITY.GET_TIME ì‚¬ìš©
 
 CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
   
@@ -333,30 +333,30 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
                                pn_amt   IN NUMBER,
                                pn_rate  IN NUMBER   )
   IS
-     vn_total_time NUMBER := 0;  -- ¼Ò¿ä½Ã°£ °è»ê¿ë º¯¼ö 
+     vn_total_time NUMBER := 0;  -- ì†Œìš”ì‹œê°„ ê³„ì‚°ìš© ë³€ìˆ˜ 
   
   BEGIN
-  	DBMS_OUTPUT.PUT_LINE('--------------<º¯¼ö°ª Ãâ·Â>---------------------');
+  	DBMS_OUTPUT.PUT_LINE('--------------<ë³€ìˆ˜ê°’ ì¶œë ¥>---------------------');
   	DBMS_OUTPUT.PUT_LINE('ps_month : ' || ps_month);
   	DBMS_OUTPUT.PUT_LINE('pn_amt   : ' || pn_amt);
   	DBMS_OUTPUT.PUT_LINE('pn_rate  : ' || pn_rate);  	
   	DBMS_OUTPUT.PUT_LINE('------------------------------------------------');
   	
-    --1. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »èÁ¦
+    --1. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ì‚­ì œ
     
-	  -- delete Àü ½Ã°£ °¡Á®¿À±â 
+	  -- delete ì „ ì‹œê°„ ê°€ì ¸ì˜¤ê¸° 
 	  vn_total_time := DBMS_UTILITY.GET_TIME;
 	      
     DELETE ch17_SALES_DETAIL
      WHERE sales_month = ps_month;
      
-    -- DELETE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- DELETE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time) / 100;
        
      
-    DBMS_OUTPUT.PUT_LINE('DELETE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time );
+    DBMS_OUTPUT.PUT_LINE('DELETE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time );
      
-    --2. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »ý¼º
+    --2. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ìƒì„±
     vn_total_time := DBMS_UTILITY.GET_TIME;
     
     INSERT INTO ch17_SALES_DETAIL
@@ -385,13 +385,13 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
            a.sales_date,
            a.sales_month;
            
-    -- INSERT ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- INSERT ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time)  / 100;        
            
-    DBMS_OUTPUT.PUT_LINE('INSERT °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time ); 
+    DBMS_OUTPUT.PUT_LINE('INSERT ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time ); 
            
            
-    -- 3. ÆÇ¸Å±Ý¾×(sales_amt)ÀÌ pn_amt º¸´Ù Å« °ÇÀº pn_rate ºñÀ² ¸¸Å­ ÇÒÀÎÇÑ´Ù.
+    -- 3. íŒë§¤ê¸ˆì•¡(sales_amt)ì´ pn_amt ë³´ë‹¤ í° ê±´ì€ pn_rate ë¹„ìœ¨ ë§Œí¼ í• ì¸í•œë‹¤.
     vn_total_time := DBMS_UTILITY.GET_TIME;
     
     UPDATE ch17_SALES_DETAIL
@@ -399,10 +399,10 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
      WHERE sales_month = ps_month
        AND sales_amt   > pn_amt;
        
-    -- UPDATE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- UPDATE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time)  / 100;        
        
-    DBMS_OUTPUT.PUT_LINE('UPDATE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time ); 
+    DBMS_OUTPUT.PUT_LINE('UPDATE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time ); 
     
     COMMIT;
   
@@ -417,18 +417,18 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
 END ch17_src_test_pkg; 
 
 
--- (3) ·Î±× Å×ÀÌºí
+-- (3) ë¡œê·¸ í…Œì´ë¸”
 CREATE TABLE program_log (
-       log_id        NUMBER,         -- ·Î±× ¾ÆÀÌµð
-       program_name  VARCHAR2(100),  -- ÇÁ·Î±×·¥¸í
-       parameters    VARCHAR2(500),  -- ÇÁ·Î±×·¥ ¸Å°³º¯¼ö
-       state         VARCHAR2(10),   -- »óÅÂ(Running, Completed, Error) 
-       start_time    TIMESTAMP,      -- ½ÃÀÛ½Ã°£
-       end_time      TIMESTAMP,      -- Á¾·á½Ã°£
-       log_desc      VARCHAR2(2000)  -- ·Î±×³»¿ë 
+       log_id        NUMBER,         -- ë¡œê·¸ ì•„ì´ë””
+       program_name  VARCHAR2(100),  -- í”„ë¡œê·¸ëž¨ëª…
+       parameters    VARCHAR2(500),  -- í”„ë¡œê·¸ëž¨ ë§¤ê°œë³€ìˆ˜
+       state         VARCHAR2(10),   -- ìƒíƒœ(Running, Completed, Error) 
+       start_time    TIMESTAMP,      -- ì‹œìž‘ì‹œê°„
+       end_time      TIMESTAMP,      -- ì¢…ë£Œì‹œê°„
+       log_desc      VARCHAR2(2000)  -- ë¡œê·¸ë‚´ìš© 
        );
        
--- ·Î±× Å×ÀÌºí ½ÃÄö½º
+-- ë¡œê·¸ í…Œì´ë¸” ì‹œí€€ìŠ¤
 CREATE SEQUENCE prg_log_seq
 INCREMENT BY 1
 START WITH 1
@@ -444,20 +444,20 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
                                pn_amt   IN NUMBER,
                                pn_rate  IN NUMBER   )
   IS
-     vn_total_time NUMBER := 0;     -- ¼Ò¿ä½Ã°£ °è»ê¿ë º¯¼ö 
+     vn_total_time NUMBER := 0;     -- ì†Œìš”ì‹œê°„ ê³„ì‚°ìš© ë³€ìˆ˜ 
      
-     vn_log_id     NUMBER;          -- ·Î±× ¾ÆÀÌµð 
-     vs_parameters VARCHAR2(500);   -- ¸Å°³º¯¼ö   
-     vs_prg_log    VARCHAR2(2000);  -- ·Î±×³»¿ë
+     vn_log_id     NUMBER;          -- ë¡œê·¸ ì•„ì´ë”” 
+     vs_parameters VARCHAR2(500);   -- ë§¤ê°œë³€ìˆ˜   
+     vs_prg_log    VARCHAR2(2000);  -- ë¡œê·¸ë‚´ìš©
   BEGIN
-  	-- ¸Å°³º¯¼ö¿Í ±× °ªÀ» °¡Á®¿Â´Ù 
+  	-- ë§¤ê°œë³€ìˆ˜ì™€ ê·¸ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤ 
   	vs_parameters := 'ps_month => ' || ps_month || ', pn_amt => ' || pn_amt || ' , pn_rate => ' || pn_rate;
   	
   	BEGIN
-  	    -- ·Î±× ¾ÆÀÌµð °ª »ý¼º
+  	    -- ë¡œê·¸ ì•„ì´ë”” ê°’ ìƒì„±
   	    vn_log_id := prg_log_seq.NEXTVAL;
   	    
-  	    -- ·Î±× Å×ÀÌºí¿¡ µ¥ÀÌÅÍ »ý¼º
+  	    -- ë¡œê·¸ í…Œì´ë¸”ì— ë°ì´í„° ìƒì„±
   	    INSERT INTO program_log (
   	                log_id, 
   	                program_name, 
@@ -473,21 +473,21 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
         COMMIT;
     END;
   	
-    --1. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »èÁ¦
+    --1. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ì‚­ì œ
     
-	  -- delete Àü ½Ã°£ °¡Á®¿À±â 
+	  -- delete ì „ ì‹œê°„ ê°€ì ¸ì˜¤ê¸° 
 	  vn_total_time := DBMS_UTILITY.GET_TIME;
 	      
     DELETE ch17_SALES_DETAIL
      WHERE sales_month = ps_month;
      
-    -- DELETE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- DELETE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time) / 100;
     
-    -- DELETE ·Î±× ³»¿ë ¸¸µé±â
-    vs_prg_log :=  'DELETE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time || CHR(13); 
+    -- DELETE ë¡œê·¸ ë‚´ìš© ë§Œë“¤ê¸°
+    vs_prg_log :=  'DELETE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time || CHR(13); 
      
-    --2. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ ch17_SALES_DETAIL µ¥ÀÌÅÍ »ý¼º
+    --2. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ ch17_SALES_DETAIL ë°ì´í„° ìƒì„±
     vn_total_time := DBMS_UTILITY.GET_TIME;
     
     INSERT INTO ch17_SALES_DETAIL
@@ -516,13 +516,13 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
            a.sales_date,
            a.sales_month;
            
-    -- INSERT ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- INSERT ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time)  / 100;    
     
-    -- INSERT ·Î±× ³»¿ë ¸¸µé±â
-    vs_prg_log :=  vs_prg_log || 'INSERT °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time || CHR(13);                 
+    -- INSERT ë¡œê·¸ ë‚´ìš© ë§Œë“¤ê¸°
+    vs_prg_log :=  vs_prg_log || 'INSERT ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time || CHR(13);                 
            
-    -- 3. ÆÇ¸Å±Ý¾×(sales_amt)ÀÌ pn_amt º¸´Ù Å« °ÇÀº pn_rate ºñÀ² ¸¸Å­ ÇÒÀÎÇÑ´Ù.
+    -- 3. íŒë§¤ê¸ˆì•¡(sales_amt)ì´ pn_amt ë³´ë‹¤ í° ê±´ì€ pn_rate ë¹„ìœ¨ ë§Œí¼ í• ì¸í•œë‹¤.
     vn_total_time := DBMS_UTILITY.GET_TIME;
     
     UPDATE ch17_SALES_DETAIL
@@ -530,22 +530,22 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
      WHERE sales_month = ps_month
        AND sales_amt   > pn_amt;
        
-    -- UPDATE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- UPDATE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time)  / 100; 
       
-    -- UPDATE ·Î±× ³»¿ë ¸¸µé±â
-    vs_prg_log :=  vs_prg_log || 'UPDATE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time || CHR(13);          
+    -- UPDATE ë¡œê·¸ ë‚´ìš© ë§Œë“¤ê¸°
+    vs_prg_log :=  vs_prg_log || 'UPDATE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time || CHR(13);          
 
     COMMIT;  
     
     
     BEGIN
     
-       -- ·Î±× Á¾·á
+       -- ë¡œê·¸ ì¢…ë£Œ
        UPDATE program_log
           SET state = 'Completed',
               end_time = SYSTIMESTAMP,
-              log_desc = vs_prg_log || 'ÀÛ¾÷Á¾·á!'
+              log_desc = vs_prg_log || 'ìž‘ì—…ì¢…ë£Œ!'
         WHERE log_id = vn_log_id;
         
        COMMIT;
@@ -555,7 +555,7 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
   EXCEPTION WHEN OTHERS THEN
         BEGIN 
           vs_prg_log := SQLERRM;
-          -- ¿À·ù ·Î±×
+          -- ì˜¤ë¥˜ ë¡œê·¸
           UPDATE program_log
              SET state = 'Error',
                  end_time = SYSTIMESTAMP,
@@ -584,8 +584,8 @@ END;
 SELECT *
   FROM program_log;
 
--- 03. µ¿ÀûÄõ¸® µð¹ö±ë
--- (1) °³¿ä
+-- 03. ë™ì ì¿¼ë¦¬ ë””ë²„ê¹…
+-- (1) ê°œìš”
 
 CREATE OR REPLACE PROCEDURE ch17_dynamic_test ( p_emp_id   NUMBER, 
                                                 p_emp_name VARCHAR2, 
@@ -598,28 +598,28 @@ IS
   
 BEGIN
 	
-	-- µ¿ÀûÄõ¸® »ý¼º
+	-- ë™ì ì¿¼ë¦¬ ìƒì„±
 	vs_query :=             'SELECT COUNT(*) ' || CHR(13);
 	vs_query := vs_query || '  FROM employees ' || CHR(13);
   vs_query := vs_query || ' WHERE 1=1 ' || CHR(13);
   
-  -- »ç¹øÀÌ NULLÀÌ ¾Æ´Ï¸é Á¶°ÇÃß°¡
+  -- ì‚¬ë²ˆì´ NULLì´ ì•„ë‹ˆë©´ ì¡°ê±´ì¶”ê°€
   IF p_emp_id IS NOT NULL THEN     
      vs_query := vs_query || ' AND employee_id = ' || p_emp_id || CHR(13);
   END IF;
   
-  -- »ç¿ø¸íÀÌ NULLÀÌ ¾Æ´Ï¸é Á¶°ÇÃß°¡	
+  -- ì‚¬ì›ëª…ì´ NULLì´ ì•„ë‹ˆë©´ ì¡°ê±´ì¶”ê°€	
   IF p_emp_name IS NOT NULL THEN     
      vs_query := vs_query || ' AND emp_name like ' || '''' || vs_empname || '''' || CHR(13);
   END IF;	
-	-- JOB_ID°¡ NULLÀÌ ¾Æ´Ï¸é Á¶°ÇÃß°¡ 
+	-- JOB_IDê°€ NULLì´ ì•„ë‹ˆë©´ ì¡°ê±´ì¶”ê°€ 
   IF p_job_id IS NOT NULL THEN     
      vs_query := vs_query || ' AND job_id = ' || '''' || p_job_id || '''' || CHR(13);
   END IF;		
-  -- µ¿ÀûÄõ¸® ½ÇÇà, °Ç¼ö´Â vn_cnt º¯¼ö¿¡ ´ã´Â´Ù. 
+  -- ë™ì ì¿¼ë¦¬ ì‹¤í–‰, ê±´ìˆ˜ëŠ” vn_cnt ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. 
   EXECUTE IMMEDIATE vs_query INTO vn_cnt;
   
-  DBMS_OUTPUT.PUT_LINE('°á°ú°Ç¼ö : ' || vn_cnt);
+  DBMS_OUTPUT.PUT_LINE('ê²°ê³¼ê±´ìˆ˜ : ' || vn_cnt);
   DBMS_OUTPUT.PUT_LINE(vs_query);  
 	
 END;              
@@ -632,7 +632,7 @@ EXEC ch17_dynamic_test (NULL, NULL, 'SA_REP' );
 
 EXEC ch17_dynamic_test (NULL, 'Jon', 'SA_REP' );
 
--- (2) CLOB Å¸ÀÔÀ» ÀÌ¿ëÇÑ µð¹ö±ë
+-- (2) CLOB íƒ€ìž…ì„ ì´ìš©í•œ ë””ë²„ê¹…
 
 CREATE TABLE ch17_dyquery (
              program_name  VARCHAR2(50),
@@ -650,34 +650,34 @@ IS
   
 BEGIN
 	
-	-- µ¿ÀûÄõ¸® »ý¼º
+	-- ë™ì ì¿¼ë¦¬ ìƒì„±
 	vs_query :=             'SELECT COUNT(*) ' || CHR(13);
 	vs_query := vs_query || '  FROM employees ' || CHR(13);
   vs_query := vs_query || ' WHERE 1=1 ' || CHR(13);
   
-  -- »ç¹øÀÌ NULLÀÌ ¾Æ´Ï¸é Á¶°ÇÃß°¡
+  -- ì‚¬ë²ˆì´ NULLì´ ì•„ë‹ˆë©´ ì¡°ê±´ì¶”ê°€
   IF p_emp_id IS NOT NULL THEN     
      vs_query := vs_query || ' AND employee_id = ' || p_emp_id || CHR(13);
   END IF;
   
-  -- »ç¿ø¸íÀÌ NULLÀÌ ¾Æ´Ï¸é Á¶°ÇÃß°¡	
+  -- ì‚¬ì›ëª…ì´ NULLì´ ì•„ë‹ˆë©´ ì¡°ê±´ì¶”ê°€	
   IF p_emp_name IS NOT NULL THEN     
      vs_query := vs_query || ' AND emp_name like ' || '''' || vs_empname || '''' || CHR(13);
   END IF;	
-	-- JOB_ID°¡ NULLÀÌ ¾Æ´Ï¸é Á¶°ÇÃß°¡ 
+	-- JOB_IDê°€ NULLì´ ì•„ë‹ˆë©´ ì¡°ê±´ì¶”ê°€ 
   IF p_job_id IS NOT NULL THEN     
      vs_query := vs_query || ' AND job_id = ' || '''' || p_job_id || '''' || CHR(13);
   END IF;		
-  -- µ¿ÀûÄõ¸® ½ÇÇà, °Ç¼ö´Â vn_cnt º¯¼ö¿¡ ´ã´Â´Ù. 
+  -- ë™ì ì¿¼ë¦¬ ì‹¤í–‰, ê±´ìˆ˜ëŠ” vn_cnt ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. 
   EXECUTE IMMEDIATE vs_query INTO vn_cnt;
   
-  DBMS_OUTPUT.PUT_LINE('°á°ú°Ç¼ö : ' || vn_cnt);
+  DBMS_OUTPUT.PUT_LINE('ê²°ê³¼ê±´ìˆ˜ : ' || vn_cnt);
   --DBMS_OUTPUT.PUT_LINE(vs_query);  
   
-  -- ±âÁ¸ µ¥ÀÌÅÍ¸¦ ¸ðµÎ »èÁ¦ÇÑ´Ù. 
+  -- ê¸°ì¡´ ë°ì´í„°ë¥¼ ëª¨ë‘ ì‚­ì œí•œë‹¤. 
   DELETE ch17_dyquery;
   
-  -- Äõ¸®±¸¹®À» ch17_dyquery ¿¡ ³Ö´Â´Ù.
+  -- ì¿¼ë¦¬êµ¬ë¬¸ì„ ch17_dyquery ì— ë„£ëŠ”ë‹¤.
   INSERT INTO ch17_dyquery (program_name, query_text)
   VALUES ( 'ch17_dynamic_test', vs_query);
   
@@ -691,21 +691,21 @@ EXEC ch17_dynamic_test (NULL, 'Jon', 'SA_REP' );
 SELECT  *
 FROM ch17_dyquery;
 
--- 04. DML¹®À» ½ÇÇàÇÑ µ¥ÀÌÅÍ ÃßÀû
---(1) º¯°æµÇ°Å³ª »èÁ¦ µÈ µ¥ÀÌÅÍ¸¦ ÃßÀûÇØº¸ÀÚ
+-- 04. DMLë¬¸ì„ ì‹¤í–‰í•œ ë°ì´í„° ì¶”ì 
+--(1) ë³€ê²½ë˜ê±°ë‚˜ ì‚­ì œ ëœ ë°ì´í„°ë¥¼ ì¶”ì í•´ë³´ìž
 
 CREATE OR REPLACE ch17_upd_test_prc ( pn_emp_id NUMBER,
                                       pn_rate   NUMBER )
 IS
 
 BEGIN
-	-- ±Þ¿© = ±Þ¿© * pn_rate * 0.01
+	-- ê¸‰ì—¬ = ê¸‰ì—¬ * pn_rate * 0.01
 	UPDATE employees
      SET salary = salary * pn_rate * 0.01
    WHERE employee_id = pn_emp_id;
    
-  DBMS_OUTPUT.PUT_LINE('»ç¹ø : ' || pn_emp_id);
-  DBMS_OUTPUT.PUT_LINE('±Þ¿©´Â??? : ');
+  DBMS_OUTPUT.PUT_LINE('ì‚¬ë²ˆ : ' || pn_emp_id);
+  DBMS_OUTPUT.PUT_LINE('ê¸‰ì—¬ëŠ”??? : ');
  
  COMMIT;
 	
@@ -716,36 +716,36 @@ END;
 CREATE OR REPLACE PROCEDURE ch17_upd_test_prc ( pn_emp_id NUMBER,
                                       pn_rate   NUMBER )
 IS
-  vn_salary NUMBER := 0; -- °»½ÅµÈ ±Þ¿©¸¦ ¹Þ¾Æ¿Ã º¯¼ö
+  vn_salary NUMBER := 0; -- ê°±ì‹ ëœ ê¸‰ì—¬ë¥¼ ë°›ì•„ì˜¬ ë³€ìˆ˜
 BEGIN
-	-- ±Þ¿© = ±Þ¿© * pn_rate * 0.01
+	-- ê¸‰ì—¬ = ê¸‰ì—¬ * pn_rate * 0.01
 	UPDATE employees
      SET salary = salary * pn_rate * 0.01
    WHERE employee_id = pn_emp_id;
    
-  -- ±Þ¿©¸¦ Á¶È¸ÇÑ´Ù.
+  -- ê¸‰ì—¬ë¥¼ ì¡°íšŒí•œë‹¤.
   SELECT salary 
     INTO vn_salary
     FROM employees
    WHERE employee_id = pn_emp_id;
    
-  DBMS_OUTPUT.PUT_LINE('»ç¹ø : ' || pn_emp_id);
-  DBMS_OUTPUT.PUT_LINE('±Þ¿© : ' || vn_salary);
+  DBMS_OUTPUT.PUT_LINE('ì‚¬ë²ˆ : ' || pn_emp_id);
+  DBMS_OUTPUT.PUT_LINE('ê¸‰ì—¬ : ' || vn_salary);
  
  COMMIT;
 	
 END;
 
                                 
--- (2) RETURNING INTO ÀýÀ» ÀÌ¿ëÇÑ µð¹ö±ë
+-- (2) RETURNING INTO ì ˆì„ ì´ìš©í•œ ë””ë²„ê¹…
 
--- ¨ç ´ÜÀÏ ·Î¿ì UPDATE
+-- â‘  ë‹¨ì¼ ë¡œìš° UPDATE
 DECLARE
   vn_salary   NUMBER := 0;
   vs_empname  VARCHAR2(30); 
 BEGIN
 
-  -- 171¹ø »ç¿øÀÇ ±Þ¿©¸¦ 10000·Î °»½Å
+  -- 171ë²ˆ ì‚¬ì›ì˜ ê¸‰ì—¬ë¥¼ 10000ë¡œ ê°±ì‹ 
   UPDATE employees
      SET salary = 10000
    WHERE employee_id = 171
@@ -754,26 +754,26 @@ BEGIN
        
   COMMIT;
   
-  DBMS_OUTPUT.PUT_LINE('º¯°æ »ç¿ø¸í : ' || vs_empname);
-  DBMS_OUTPUT.PUT_LINE('º¯°æ ±Þ¿© : ' || vn_salary); 
+  DBMS_OUTPUT.PUT_LINE('ë³€ê²½ ì‚¬ì›ëª… : ' || vs_empname);
+  DBMS_OUTPUT.PUT_LINE('ë³€ê²½ ê¸‰ì—¬ : ' || vn_salary); 
 END;
 
 
--- ¨è ´ÙÁß ·Î¿ì UPDATE
+-- â‘¡ ë‹¤ì¤‘ ë¡œìš° UPDATE
 DECLARE
-  -- ·¹ÄÚµå Å¸ÀÔ ¼±¾ð  
+  -- ë ˆì½”ë“œ íƒ€ìž… ì„ ì–¸  
   TYPE NT_EMP_REC IS RECORD (
        emp_name      employees.emp_name%type,
        department_id employees.department_id%type,
        retire_date   employees.retire_date%type);
        
-  -- NT_EMP_REC ·¹ÄÚµå¸¦ ¿ä¼Ò·Î ÇÏ´Â ÁßÃ¸Å×ÀÌºí ¼±¾ð
+  -- NT_EMP_REC ë ˆì½”ë“œë¥¼ ìš”ì†Œë¡œ í•˜ëŠ” ì¤‘ì²©í…Œì´ë¸” ì„ ì–¸
   TYPE NTT_EMP IS TABLE OF NT_EMP_REC;
-  -- NTT_EMP ÁßÃ¸Å×ÀÌºí º¯¼ö ¼±¾ð
+  -- NTT_EMP ì¤‘ì²©í…Œì´ë¸” ë³€ìˆ˜ ì„ ì–¸
   VR_EMP NTT_EMP;
   
 BEGIN
-  -- 100¹ø ºÎ¼­ÀÇ retire_date¸¦ ÇöÀçÀÏÀÚ·Î ...
+  -- 100ë²ˆ ë¶€ì„œì˜ retire_dateë¥¼ í˜„ìž¬ì¼ìžë¡œ ...
   UPDATE employees
      SET retire_date = SYSDATE
    WHERE department_id = 100
@@ -785,15 +785,15 @@ BEGIN
   FOR i in VR_EMP.FIRST .. VR_EMP.LAST
   LOOP
     DBMS_OUTPUT.PUT_LINE(i || '--------------------------------');
-    DBMS_OUTPUT.PUT_LINE('º¯°æ »ç¿ø¸í : ' || VR_EMP(i).emp_name);
-    DBMS_OUTPUT.PUT_LINE('º¯°æ ºÎ¼­ : ' || VR_EMP(i).department_id);
+    DBMS_OUTPUT.PUT_LINE('ë³€ê²½ ì‚¬ì›ëª… : ' || VR_EMP(i).emp_name);
+    DBMS_OUTPUT.PUT_LINE('ë³€ê²½ ë¶€ì„œ : ' || VR_EMP(i).department_id);
     DBMS_OUTPUT.PUT_LINE('retire_date : ' || VR_EMP(i).retire_date);
   END LOOP;
   
 
 END;
 
--- ¨é ´ÜÀÏ ·Î¿ì DELETE
+-- â‘¢ ë‹¨ì¼ ë¡œìš° DELETE
 
 CREATE TABLE emp_bk AS
 SELECT *
@@ -805,7 +805,7 @@ DECLARE
   vs_empname  VARCHAR2(30); 
 BEGIN
 
-  -- 171¹ø »ç¿ø »èÁ¦
+  -- 171ë²ˆ ì‚¬ì› ì‚­ì œ
   DELETE emp_bk
    WHERE employee_id = 171
   RETURNING emp_name, salary 
@@ -813,26 +813,26 @@ BEGIN
        
   COMMIT;
   
-  DBMS_OUTPUT.PUT_LINE('»èÁ¦ »ç¿ø¸í : ' || vs_empname);
-  DBMS_OUTPUT.PUT_LINE('»èÁ¦µÈ ±Þ¿© : ' || vn_salary); 
+  DBMS_OUTPUT.PUT_LINE('ì‚­ì œ ì‚¬ì›ëª… : ' || vs_empname);
+  DBMS_OUTPUT.PUT_LINE('ì‚­ì œëœ ê¸‰ì—¬ : ' || vn_salary); 
 END;
 
 
--- ¨ê ´ÙÁß ·Î¿ì DELETE
+-- â‘£ ë‹¤ì¤‘ ë¡œìš° DELETE
 DECLARE
-  -- ·¹ÄÚµå Å¸ÀÔ ¼±¾ð  
+  -- ë ˆì½”ë“œ íƒ€ìž… ì„ ì–¸  
   TYPE NT_EMP_REC IS RECORD (
        emp_name      employees.emp_name%type,
        department_id employees.department_id%type,
        job_id        employees.job_id%type);
         
-  -- NT_EMP_REC ·¹ÄÚµå¸¦ ¿ä¼Ò·Î ÇÏ´Â ÁßÃ¸Å×ÀÌºí ¼±¾ð
+  -- NT_EMP_REC ë ˆì½”ë“œë¥¼ ìš”ì†Œë¡œ í•˜ëŠ” ì¤‘ì²©í…Œì´ë¸” ì„ ì–¸
   TYPE NTT_EMP IS TABLE OF NT_EMP_REC;
-  -- NTT_EMP ÁßÃ¸Å×ÀÌºí º¯¼ö ¼±¾ð
+  -- NTT_EMP ì¤‘ì²©í…Œì´ë¸” ë³€ìˆ˜ ì„ ì–¸
   VR_EMP NTT_EMP;
   
 BEGIN
-  -- 60¹ø ºÎ¼­¿¡ ¼ÓÇÑ »ç¿ø »èÁ¦  ...
+  -- 60ë²ˆ ë¶€ì„œì— ì†í•œ ì‚¬ì› ì‚­ì œ  ...
   DELETE emp_bk
    WHERE department_id = 60
   RETURNING emp_name, department_id, job_id
@@ -843,8 +843,8 @@ BEGIN
   FOR i in VR_EMP.FIRST .. VR_EMP.LAST
   LOOP
     DBMS_OUTPUT.PUT_LINE(i || '--------------------------------');
-    DBMS_OUTPUT.PUT_LINE('º¯°æ »ç¿ø¸í : ' || VR_EMP(i).emp_name);
-    DBMS_OUTPUT.PUT_LINE('º¯°æ ºÎ¼­ : ' || VR_EMP(i).department_id);
+    DBMS_OUTPUT.PUT_LINE('ë³€ê²½ ì‚¬ì›ëª… : ' || VR_EMP(i).emp_name);
+    DBMS_OUTPUT.PUT_LINE('ë³€ê²½ ë¶€ì„œ : ' || VR_EMP(i).department_id);
     DBMS_OUTPUT.PUT_LINE('retire_date : ' || VR_EMP(i).job_id);
   END LOOP;
   

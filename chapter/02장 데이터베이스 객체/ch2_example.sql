@@ -1,7 +1,7 @@
 --
-1. ´ÙÀ½°ú °°Àº ±¸Á¶ÀÇ Å×ÀÌºíÀ» »ý¼ºÇØ º¸ÀÚ.
-- Å×ÀÌºí : ORDERS
-- ÄÃ·³ :   ORDER_ID	    NUMBER(12,0)
+1. ë‹¤ìŒê³¼ ê°™ì€ êµ¬ì¡°ì˜ í…Œì´ë¸”ì„ ìƒì„±í•´ ë³´ìž.
+- í…Œì´ë¸” : ORDERS
+- ì»¬ëŸ¼ :   ORDER_ID	    NUMBER(12,0)
            ORDER_DATE   DATE 
            ORDER_MODE	  VARCHAR2(8 BYTE)
            CUSTOMER_ID	NUMBER(6,0)
@@ -9,11 +9,11 @@
            ORDER_TOTAL	NUMBER(8,2)
            SALES_REP_ID	NUMBER(6,0)
            PROMOTION_ID	NUMBER(6,0)
-- Á¦¾à»çÇ× : ±âº»Å°´Â ORDER_ID  
-             ORDER_MODE¿¡´Â 'direct', 'online'¸¸ ÀÔ·Â°¡´É
-             ORDER_TOTALÀÇ µðÆúÆ® °ªÀº 0
+- ì œì•½ì‚¬í•­ : ê¸°ë³¸í‚¤ëŠ” ORDER_ID  
+             ORDER_MODEì—ëŠ” 'direct', 'online'ë§Œ ìž…ë ¥ê°€ëŠ¥
+             ORDER_TOTALì˜ ë””í´íŠ¸ ê°’ì€ 0
              
-<Á¤´ä>
+<ì •ë‹µ>
             
   CREATE TABLE ORDERS (
            ORDER_ID	    NUMBER(12,0),
@@ -30,17 +30,17 @@
 
 
 
-2. ´ÙÀ½°ú °°Àº ±¸Á¶ÀÇ Å×ÀÌºíÀ» »ý¼ºÇØ º¸ÀÚ.
-- Å×ÀÌºí : ORDER_ITEMS 
-- ÄÃ·³ :   ORDER_ID	    NUMBER(12,0)
+2. ë‹¤ìŒê³¼ ê°™ì€ êµ¬ì¡°ì˜ í…Œì´ë¸”ì„ ìƒì„±í•´ ë³´ìž.
+- í…Œì´ë¸” : ORDER_ITEMS 
+- ì»¬ëŸ¼ :   ORDER_ID	    NUMBER(12,0)
            LINE_ITEM_ID NUMBER(3,0) 
            PRODUCT_ID   NUMBER(3,0) 
            UNIT_PRICE   NUMBER(8,2) 
            QUANTITY     NUMBER(8,0)
-- Á¦¾à»çÇ× : ±âº»Å°´Â ORDER_ID¿Í LINE_ITEM_ID
-             UNIT_PRICE, QUANTITY ÀÇ µðÆúÆ® °ªÀº 0
+- ì œì•½ì‚¬í•­ : ê¸°ë³¸í‚¤ëŠ” ORDER_IDì™€ LINE_ITEM_ID
+             UNIT_PRICE, QUANTITY ì˜ ë””í´íŠ¸ ê°’ì€ 0
              
-<Á¤´ä>
+<ì •ë‹µ>
             
   CREATE TABLE ORDER_ITEMS (
            ORDER_ID	    NUMBER(12,0),
@@ -52,13 +52,13 @@
            CONSTRAINT PK_ORDER_ITEMS PRIMARY KEY (ORDER_ID, LINE_ITEM_ID)
            ); 
            
-3. ´ÙÀ½°ú °°Àº ±¸Á¶ÀÇ Å×ÀÌºíÀ» »ý¼ºÇØ º¸ÀÚ.
-- Å×ÀÌºí : PROMOTIONS
-- ÄÃ·³ :   PROMO_ID	    NUMBER(6,0)
+3. ë‹¤ìŒê³¼ ê°™ì€ êµ¬ì¡°ì˜ í…Œì´ë¸”ì„ ìƒì„±í•´ ë³´ìž.
+- í…Œì´ë¸” : PROMOTIONS
+- ì»¬ëŸ¼ :   PROMO_ID	    NUMBER(6,0)
            PROMO_NAME   VARCHAR2(20) 
-- Á¦¾à»çÇ× : ±âº»Å°´Â PROMO_ID
+- ì œì•½ì‚¬í•­ : ê¸°ë³¸í‚¤ëŠ” PROMO_ID
 
-<Á¤´ä>
+<ì •ë‹µ>
 
   CREATE TABLE PROMOTIONS (
            PROMO_ID	    NUMBER(12,0),
@@ -67,18 +67,18 @@
            ); 
 
 
-4. FLOAT Å¸ÀÔÀÇ °æ¿ì, °ýÈ£¾È¿¡ ÁöÁ¤ÇÏ´Â ¼ö´Â ÀÌÁø¼ö ±âÁØ ÀÚ¸´¼ö¶ó°í Çß´Ù.
-   FLOAT(126)ÀÇ °æ¿ì 126 * 0.30103 = 37.92978 ÀÌ µÇ¾î NUMBER Å¸ÀÔÀÇ 38ÀÚ¸®¿Í °°´Ù.
-   ±×·±µ¥ ¿Ö 0.30103À» °öÇÏ´Â °ÍÀÏ±î?
+4. FLOAT íƒ€ìž…ì˜ ê²½ìš°, ê´„í˜¸ì•ˆì— ì§€ì •í•˜ëŠ” ìˆ˜ëŠ” ì´ì§„ìˆ˜ ê¸°ì¤€ ìžë¦¿ìˆ˜ë¼ê³  í–ˆë‹¤.
+   FLOAT(126)ì˜ ê²½ìš° 126 * 0.30103 = 37.92978 ì´ ë˜ì–´ NUMBER íƒ€ìž…ì˜ 38ìžë¦¬ì™€ ê°™ë‹¤.
+   ê·¸ëŸ°ë° ì™œ 0.30103ì„ ê³±í•˜ëŠ” ê²ƒì¼ê¹Œ?
    
-<Á¤´ä>
-ÀÌÁø¼ö¸¦ ½ÊÁø¼ö·Î º¯È¯ÇÏ´Â °ÍÀÌ´Ù. 10Áø¼ö ±âÁØÀ¸·Î LOG(2)ÀÇ °ªÀÌ ¹Ù·Î 0.30103 ÀÌ´Ù.
-Áï, 10¿¡´Ù 0.30103 Á¦°öÀ» ÇÏ¸é 2°¡ ³ª¿À´Â °ÍÀÌ´Ù.
+<ì •ë‹µ>
+ì´ì§„ìˆ˜ë¥¼ ì‹­ì§„ìˆ˜ë¡œ ë³€í™˜í•˜ëŠ” ê²ƒì´ë‹¤. 10ì§„ìˆ˜ ê¸°ì¤€ìœ¼ë¡œ LOG(2)ì˜ ê°’ì´ ë°”ë¡œ 0.30103 ì´ë‹¤.
+ì¦‰, 10ì—ë‹¤ 0.30103 ì œê³±ì„ í•˜ë©´ 2ê°€ ë‚˜ì˜¤ëŠ” ê²ƒì´ë‹¤.
 
 
-5. ÃÖ¼Ò°ª 1, ÃÖ´ë°ª 99999999, 1000ºÎÅÍ ½ÃÀÛÇØ¼­ 1¾¿ Áõ°¡ÇÏ´Â ORDERS_SEQ ¶ó´Â ½ÃÄö½º¸¦ ¸¸µé¾îº¸ÀÚ.
+5. ìµœì†Œê°’ 1, ìµœëŒ€ê°’ 99999999, 1000ë¶€í„° ì‹œìž‘í•´ì„œ 1ì”© ì¦ê°€í•˜ëŠ” ORDERS_SEQ ë¼ëŠ” ì‹œí€€ìŠ¤ë¥¼ ë§Œë“¤ì–´ë³´ìž.
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE SEQUENCE ORDERS_SEQ  
 MINVALUE 1 

@@ -1,6 +1,6 @@
 --
   
-1. ´ÙÀ½Àº ±¸±¸´ÜÀ» Ãâ·ÂÇÏ´Â ÀÍ¸íºí·ÏÀÌ´Ù. ÀÌ ºí·ÏÀ» ½ÇÇàÇØº¸°í °á°ú°¡ ¿Ö ±×·¸°Ô ³ª¿Ô´ÂÁö ¼³¸íÇØ º¸ÀÚ. 
+1. ë‹¤ìŒì€ êµ¬êµ¬ë‹¨ì„ ì¶œë ¥í•˜ëŠ” ìµëª…ë¸”ë¡ì´ë‹¤. ì´ ë¸”ë¡ì„ ì‹¤í–‰í•´ë³´ê³  ê²°ê³¼ê°€ ì™œ ê·¸ë ‡ê²Œ ë‚˜ì™”ëŠ”ì§€ ì„¤ëª…í•´ ë³´ìž. 
 
 DECLARE
    vn_base_num NUMBER := 3;
@@ -12,40 +12,40 @@ BEGIN
 END;
 
 
-<Á¤´ä>
-¾Æ¹«°Íµµ Ãâ·ÂÇÏÁö ¾Ê´Â´Ù. ±× ÀÌÀ¯´Â REVERSE¸¦ ¸í½ÃÇÒ °æ¿ì ÃÖÁ¾°ª¿¡¼­ ½ÃÀÛÇØ 1¾¿ °¨¼ÒÇÏ¸ç ÃÊ±â°ª¿¡ ÀÌ¸£´Âµ¥,
-ÃÖÁ¾°ªÀÌ 1, ÃÊ±â°ªÀÌ 9ÀÌ¹Ç·Î ·çÇÁ¸¦ ¼öÇàÇÏÁö ¾Ê´Â °ÍÀÌ´Ù. 
+<ì •ë‹µ>
+ì•„ë¬´ê²ƒë„ ì¶œë ¥í•˜ì§€ ì•ŠëŠ”ë‹¤. ê·¸ ì´ìœ ëŠ” REVERSEë¥¼ ëª…ì‹œí•  ê²½ìš° ìµœì¢…ê°’ì—ì„œ ì‹œìž‘í•´ 1ì”© ê°ì†Œí•˜ë©° ì´ˆê¸°ê°’ì— ì´ë¥´ëŠ”ë°,
+ìµœì¢…ê°’ì´ 1, ì´ˆê¸°ê°’ì´ 9ì´ë¯€ë¡œ ë£¨í”„ë¥¼ ìˆ˜í–‰í•˜ì§€ ì•ŠëŠ” ê²ƒì´ë‹¤. 
 
 
 
-2. SQL ÇÔ¼ö Áß INITCAPÀÌ¶õ ÇÔ¼ö°¡ ÀÖ´Ù. ÀÌ ÇÔ¼ö´Â ¸Å°³º¯¼ö·Î Àü´ÞÇÑ ¹®ÀÚ¿­¿¡¼­ ¾Õ ±ÛÀÚ¸¸ ´ë¹®ÀÚ·Î º¯È¯ÇÏ´Â ÇÔ¼öÀÌ´Ù.
-   INITCAP°ú ¶È°°ÀÌ µ¿ÀÛÇÏ´Â my_initcap ÀÌ¶õ ÀÌ¸§À¸·Î ÇÔ¼ö¸¦ ¸¸µé¾îº¸ÀÚ. (´Ü ¿©±â¼­´Â °ø¹é ÇÑ ±ÛÀÚ·Î ´Ü¾î »çÀÌ¸¦ ±¸ºÐÇÑ´Ù°í °¡Á¤ÇÑ´Ù)
+2. SQL í•¨ìˆ˜ ì¤‘ INITCAPì´ëž€ í•¨ìˆ˜ê°€ ìžˆë‹¤. ì´ í•¨ìˆ˜ëŠ” ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬í•œ ë¬¸ìžì—´ì—ì„œ ì•ž ê¸€ìžë§Œ ëŒ€ë¬¸ìžë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜ì´ë‹¤.
+   INITCAPê³¼ ë˜‘ê°™ì´ ë™ìž‘í•˜ëŠ” my_initcap ì´ëž€ ì´ë¦„ìœ¼ë¡œ í•¨ìˆ˜ë¥¼ ë§Œë“¤ì–´ë³´ìž. (ë‹¨ ì—¬ê¸°ì„œëŠ” ê³µë°± í•œ ê¸€ìžë¡œ ë‹¨ì–´ ì‚¬ì´ë¥¼ êµ¬ë¶„í•œë‹¤ê³  ê°€ì •í•œë‹¤)
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE FUNCTION my_initcap ( ps_string VARCHAR2 )
    RETURN VARCHAR2
 IS
-   vn_pos1   NUMBER := 1;   -- °¢ ´Ü¾î ½ÃÀÛ À§Ä¡
+   vn_pos1   NUMBER := 1;   -- ê° ë‹¨ì–´ ì‹œìž‘ ìœ„ì¹˜
    vs_temp   VARCHAR2(100) :=  ps_string;
-   vs_return VARCHAR2(80);  -- ¹ÝÈ¯ÇÒ ´ë¹®ÀÚ·Î º¯È¯µÈ ¹®ÀÚ¿­ º¯¼ö
+   vs_return VARCHAR2(80);  -- ë°˜í™˜í•  ëŒ€ë¬¸ìžë¡œ ë³€í™˜ëœ ë¬¸ìžì—´ ë³€ìˆ˜
    vn_len   NUMBER;         -- 
 BEGIN
    
-   WHILE vn_pos1 <> 0 -- °ø¹é¹®ÀÚ¸¦ ¹ß°ßÇÏÁö ¸øÇÒ ¶§±îÁö ·çÇÁ¸¦ µ·´Ù. 
+   WHILE vn_pos1 <> 0 -- ê³µë°±ë¬¸ìžë¥¼ ë°œê²¬í•˜ì§€ ëª»í•  ë•Œê¹Œì§€ ë£¨í”„ë¥¼ ëˆë‹¤. 
    LOOP
-       -- °ø¹é¹®ÀÚÀÇ À§Ä¡¸¦ °¡Á®¿Â´Ù. 
+       -- ê³µë°±ë¬¸ìžì˜ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜¨ë‹¤. 
        vn_pos1 := INSTR(vs_temp, ' ');
        
-       IF vn_pos1 = 0 THEN -- °ø¹é¹®ÀÚ¸¦ ¹ß°ßÇÏÁö ¸øÇßÀ» °æ¿ì, Áï ¸Ç ¸¶Áö¸· ´Ü¾îÀÏ °æ¿ì....
+       IF vn_pos1 = 0 THEN -- ê³µë°±ë¬¸ìžë¥¼ ë°œê²¬í•˜ì§€ ëª»í–ˆì„ ê²½ìš°, ì¦‰ ë§¨ ë§ˆì§€ë§‰ ë‹¨ì–´ì¼ ê²½ìš°....
           vs_return := vs_return || UPPER(SUBSTR(vs_temp, 1, 1)) ||SUBSTR(vs_temp, 2, vn_len -1);
-       ELSE -- °ø¹é¹®ÀÚ À§Ä¡¸¦ ±âÁØÀ¸·Î, ¸Ç Ã¹ÀÚ´Â UPPER¸¦ »ç¿ëÇØ ´ë¹®ÀÚ·Î º¯È¯ÇÏ°í, ³ª¸ÓÁö ¹®ÀÚ¸¦ Àß¶ó¼­ º¯¼ö¿¡ ³Ö´Â´Ù. 
+       ELSE -- ê³µë°±ë¬¸ìž ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ, ë§¨ ì²«ìžëŠ” UPPERë¥¼ ì‚¬ìš©í•´ ëŒ€ë¬¸ìžë¡œ ë³€í™˜í•˜ê³ , ë‚˜ë¨¸ì§€ ë¬¸ìžë¥¼ ìž˜ë¼ì„œ ë³€ìˆ˜ì— ë„£ëŠ”ë‹¤. 
           vs_return := vs_return || UPPER(SUBSTR(vs_temp, 1, 1)) ||SUBSTR(vs_temp, 2, vn_pos1 -2) || ' ';
        END IF;      
 
 
        vn_len := LENGTH(vs_temp);
-       -- vs_temp º¯¼ö´Â ÃÖÃÊ ÀüÃ¼ ¹®ÀÚ¿­ÀÌ µé¾î¿À¸ç, ·çÇÁ¸¦ µ¹¸é¼­ ÇÑ ´Ü¾î¾¿ Â÷·Ê·Î ¾ø¾Ø´Ù.
+       -- vs_temp ë³€ìˆ˜ëŠ” ìµœì´ˆ ì „ì²´ ë¬¸ìžì—´ì´ ë“¤ì–´ì˜¤ë©°, ë£¨í”„ë¥¼ ëŒë©´ì„œ í•œ ë‹¨ì–´ì”© ì°¨ë¡€ë¡œ ì—†ì•¤ë‹¤.
        vs_temp := SUBSTR(vs_temp, vn_pos1+1, vn_len - vn_pos1);
 
    
@@ -55,10 +55,10 @@ BEGIN
 END;
 
 
-3. ³¯Â¥Çü SQL ÇÔ¼ö Áß¿¡´Â ÇØ´ç ¿ù ¸¶Áö¸· ÀÏÀÚ¸¦ ¹ÝÈ¯ÇÏ´Â LAST_DAY¶õ ÇÔ¼ö°¡ ÀÖ´Ù.
-   ¸Å°³º¯¼ö·Î ¹®ÀÚÇüÀ¸·Î ÀÏÀÚ¸¦ ¹Þ¾Æ, ÇØ´ç ÀÏÀÚÀÇ ¿ù ¸¶Áö¸· ³¯Â¥¸¦ ¹®ÀÚÇüÀ¸·Î ¹ÝÈ¯ÇÏ´Â ÇÔ¼ö¸¦ my_last_day¶õ ÀÌ¸§À¸·Î ¸¸µé¾î º¸ÀÚ.
+3. ë‚ ì§œí˜• SQL í•¨ìˆ˜ ì¤‘ì—ëŠ” í•´ë‹¹ ì›” ë§ˆì§€ë§‰ ì¼ìžë¥¼ ë°˜í™˜í•˜ëŠ” LAST_DAYëž€ í•¨ìˆ˜ê°€ ìžˆë‹¤.
+   ë§¤ê°œë³€ìˆ˜ë¡œ ë¬¸ìží˜•ìœ¼ë¡œ ì¼ìžë¥¼ ë°›ì•„, í•´ë‹¹ ì¼ìžì˜ ì›” ë§ˆì§€ë§‰ ë‚ ì§œë¥¼ ë¬¸ìží˜•ìœ¼ë¡œ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜ë¥¼ my_last_dayëž€ ì´ë¦„ìœ¼ë¡œ ë§Œë“¤ì–´ ë³´ìž.
    
-<Á¤´ä>   
+<ì •ë‹µ>   
    
 CREATE OR REPLACE FUNCTION my_last_day ( p_input_date VARCHAR2)
     RETURN VARCHAR2
@@ -69,28 +69,28 @@ IS
    vs_return_date VARCHAR2(50);
 BEGIN
 	 
-	 -- ÀÔ·ÂÀÏÀÚ¿¡¼­ '-'¸¦ Á¦°Å 
+	 -- ìž…ë ¥ì¼ìžì—ì„œ '-'ë¥¼ ì œê±° 
 	 vs_input_date := REPLACE(vs_input_date, '-', '');
 	
-	 -- ÀÔ·ÂÀÏÀÚ¿¡¼­ '-'¸¦ Á¦°ÅÇÑ ¹®ÀÚ¿­ ±æÀÌ°¡ 8ÀÌ ¾Æ´Ò °æ¿ì ¿À·ù ¸Þ½ÃÁö Ãâ·Â
+	 -- ìž…ë ¥ì¼ìžì—ì„œ '-'ë¥¼ ì œê±°í•œ ë¬¸ìžì—´ ê¸¸ì´ê°€ 8ì´ ì•„ë‹ ê²½ìš° ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥
 	 IF LENGTH(vs_input_date) <> 8 THEN
-	    vs_return_date := 'ÀÔ·ÂÀÏÀÚ ¿À·ù';
+	    vs_return_date := 'ìž…ë ¥ì¼ìž ì˜¤ë¥˜';
 	 ELSE
-	   vs_temp_year  := SUBSTR(vs_input_date, 1, 4); -- ³âµµ¸¦ °¡Á®¿È
-	   vs_temp_month := SUBSTR(vs_input_date, 5, 2); -- ¿ùÀ» °¡Á®¿È
+	   vs_temp_year  := SUBSTR(vs_input_date, 1, 4); -- ë…„ë„ë¥¼ ê°€ì ¸ì˜´
+	   vs_temp_month := SUBSTR(vs_input_date, 5, 2); -- ì›”ì„ ê°€ì ¸ì˜´
 	   
-	   IF vs_temp_month = '12' THEN -- ¿ùÀÌ 12¿ùÀÌ¸é 
-	      -- ³âµµ´Â +1, 
+	   IF vs_temp_month = '12' THEN -- ì›”ì´ 12ì›”ì´ë©´ 
+	      -- ë…„ë„ëŠ” +1, 
 	      vs_temp_year := TO_CHAR(TO_NUMBER(vs_temp_year) + 1);
-	      -- ¿ùÀº ¹«Á¶°Ç 1¿ù 
+	      -- ì›”ì€ ë¬´ì¡°ê±´ 1ì›” 
 	      vs_temp_month := '01';
 	      
 	   ELSE
-	      -- 12¿ùÀÌ ¾Æ´Ï¸é ±âÁ¸ ¿ù¿¡¼­ +1
+	      -- 12ì›”ì´ ì•„ë‹ˆë©´ ê¸°ì¡´ ì›”ì—ì„œ +1
 	      vs_temp_month := TRIM(TO_CHAR(TO_NUMBER(vs_temp_month) + 1, '00'));
 	   END IF;   
 	   
-	   -- ³âµµ + ´ÙÀ½¿ù + 01ÀÏ¿¡¼­ -1ÀÏÀ» ÇÏ¸é ÀÔ·ÂÀÏÀÚ ¿ùÀÇ ¸¶Áö¸· ÀÏÀÚ°¡ ³ª¿È
+	   -- ë…„ë„ + ë‹¤ìŒì›” + 01ì¼ì—ì„œ -1ì¼ì„ í•˜ë©´ ìž…ë ¥ì¼ìž ì›”ì˜ ë§ˆì§€ë§‰ ì¼ìžê°€ ë‚˜ì˜´
 	   vs_return_date := TO_CHAR(TO_DATE(vs_temp_year || vs_temp_month || '01', 'YYYY-MM-DD') -1, 'YYYYMMDD');
 	 END IF; 
 	 
@@ -100,18 +100,18 @@ END;
 
 
 
-4. ¾Æ·¡ÀÇ Å×ÀÌºíÀ» »ý¼ºÇØ º¸ÀÚ.
+4. ì•„ëž˜ì˜ í…Œì´ë¸”ì„ ìƒì„±í•´ ë³´ìž.
 
    CREATE TABLE ch09_dept (
           DEPARTMENT_ID    NUMBER,
           DEPARTMENT_NAME  VARCHAR2(100),
           LEVELS           NUMBER );
           
-7Àå¿¡¼­ ¹è¿ü´ø ºÎ¼­º° °èÃþÇü Äõ¸®¸¦ »ç¿ëÇØ À§ Å×ÀÌºí¿¡ ºÎ¼­º° °èÃþÁ¤º¸¸¦ ³Ö´Â my_hier_dept_proc¶õ ÇÁ·Î½ÃÀú¸¦ ÀÛ¼ºÇÏ´Âµ¥, 
-¸Å°³º¯¼ö´Â ¾ø°í, ÇÁ·Î½ÃÀú¸¦ ½ÇÇàÇÏ¸é À§ Å×ÀÌºí¿¡ ÀÖ´Â ±âÁ¸ µ¥ÀÌÅÍ¸¦ »èÁ¦ÇÏ°í ´Ù½Ã ³Ö´Â ÇüÅÂ·Î ¸¸µé¾î º¸ÀÚ. 
+7ìž¥ì—ì„œ ë°°ì› ë˜ ë¶€ì„œë³„ ê³„ì¸µí˜• ì¿¼ë¦¬ë¥¼ ì‚¬ìš©í•´ ìœ„ í…Œì´ë¸”ì— ë¶€ì„œë³„ ê³„ì¸µì •ë³´ë¥¼ ë„£ëŠ” my_hier_dept_procëž€ í”„ë¡œì‹œì €ë¥¼ ìž‘ì„±í•˜ëŠ”ë°, 
+ë§¤ê°œë³€ìˆ˜ëŠ” ì—†ê³ , í”„ë¡œì‹œì €ë¥¼ ì‹¤í–‰í•˜ë©´ ìœ„ í…Œì´ë¸”ì— ìžˆëŠ” ê¸°ì¡´ ë°ì´í„°ë¥¼ ì‚­ì œí•˜ê³  ë‹¤ì‹œ ë„£ëŠ” í˜•íƒœë¡œ ë§Œë“¤ì–´ ë³´ìž. 
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE my_hier_dept_proc
 IS
@@ -131,8 +131,8 @@ BEGIN
 END;
 
 
-5. ¾Æ·¡ ÇÁ·Î½ÃÀú´Â ÀÌ¹ø Àå¿¡¼­ ÇÐ½ÀÇß´ø my_new_job_proc ÇÁ·Î½ÃÀúÀÌ´Ù. ÀÌ ÇÁ·Î½ÃÀú´Â JOBS Å×ÀÌºí¿¡ ±âÁ¸ µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é INSERT, ÀÖÀ¸¸é UPDATE¸¦ ¼öÇàÇÏ´Âµ¥
-   IF¹®À» »ç¿ëÇØ ±¸ÇöÇÏ¿´´Ù. IF¹®À» Á¦°ÅÇÏ°í µ¿ÀÏÇÑ ·ÎÁ÷À» Ã³¸®ÇÏµµ·Ï MERGE¹®À» »ç¿ëÇØ my_new_job_proc2 ¶õ ÇÁ·Î½ÃÀú¸¦ »ý¼ºÇØ º¸ÀÚ. 
+5. ì•„ëž˜ í”„ë¡œì‹œì €ëŠ” ì´ë²ˆ ìž¥ì—ì„œ í•™ìŠµí–ˆë˜ my_new_job_proc í”„ë¡œì‹œì €ì´ë‹¤. ì´ í”„ë¡œì‹œì €ëŠ” JOBS í…Œì´ë¸”ì— ê¸°ì¡´ ë°ì´í„°ê°€ ì—†ìœ¼ë©´ INSERT, ìžˆìœ¼ë©´ UPDATEë¥¼ ìˆ˜í–‰í•˜ëŠ”ë°
+   IFë¬¸ì„ ì‚¬ìš©í•´ êµ¬í˜„í•˜ì˜€ë‹¤. IFë¬¸ì„ ì œê±°í•˜ê³  ë™ì¼í•œ ë¡œì§ì„ ì²˜ë¦¬í•˜ë„ë¡ MERGEë¬¸ì„ ì‚¬ìš©í•´ my_new_job_proc2 ëž€ í”„ë¡œì‹œì €ë¥¼ ìƒì„±í•´ ë³´ìž. 
 
 CREATE OR REPLACE PROCEDURE my_new_job_proc 
           ( p_job_id    IN JOBS.JOB_ID%TYPE,
@@ -142,17 +142,17 @@ CREATE OR REPLACE PROCEDURE my_new_job_proc
 IS
   vn_cnt NUMBER := 0;
 BEGIN
--- µ¿ÀÏÇÑ job_id°¡ ÀÖ´ÂÁö Ã¼Å©
+-- ë™ì¼í•œ job_idê°€ ìžˆëŠ”ì§€ ì²´í¬
 SELECT COUNT(*)
   INTO vn_cnt
   FROM JOBS
  WHERE job_id = p_job_id;
 	 
--- ¾øÀ¸¸é INSERT 
+-- ì—†ìœ¼ë©´ INSERT 
 IF vn_cnt = 0 THEN 
    INSERT INTO JOBS ( job_id, job_title, min_salary, max_salary, create_date, update_date)
              VALUES ( p_job_id, p_job_title, p_min_sal, p_max_sal, SYSDATE, SYSDATE);
-ELSE -- ÀÖÀ¸¸é UPDATE
+ELSE -- ìžˆìœ¼ë©´ UPDATE
 	UPDATE JOBS
 	    SET job_title   = p_job_title,
 	        min_salary  = p_min_sal,
@@ -164,7 +164,7 @@ COMMIT;
 END ;
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 
 CREATE OR REPLACE PROCEDURE my_new_job_proc2
@@ -192,22 +192,22 @@ BEGIN
 END ;
 
 
-6. ºÎ¼­ Å×ÀÌºíÀÇ º¹»çº» Å×ÀÌºíÀ» ´ÙÀ½°ú °°ÀÌ ¸¸µé¾îº¸ÀÚ.
+6. ë¶€ì„œ í…Œì´ë¸”ì˜ ë³µì‚¬ë³¸ í…Œì´ë¸”ì„ ë‹¤ìŒê³¼ ê°™ì´ ë§Œë“¤ì–´ë³´ìž.
 
    CREATE TABLE ch09_departments AS
    SELECT DEPARTMENT_ID, DEPARTMENT_NAME, PARENT_ID
      FROM DEPARTMENTS;
      
-À§ Å×ÀÌºíÀ» ´ë»óÀ¸·Î ´ÙÀ½°ú °°Àº Ã³¸®¸¦ ÇÏ´Â ÇÁ·Î½ÃÀú¸¦ my_dept_manage_proc ¶õ ÀÌ¸§À¸·Î ¸¸µé¾îº¸ÀÚ.
+ìœ„ í…Œì´ë¸”ì„ ëŒ€ìƒìœ¼ë¡œ ë‹¤ìŒê³¼ ê°™ì€ ì²˜ë¦¬ë¥¼ í•˜ëŠ” í”„ë¡œì‹œì €ë¥¼ my_dept_manage_proc ëž€ ì´ë¦„ìœ¼ë¡œ ë§Œë“¤ì–´ë³´ìž.
 
-(1) ¸Å°³º¯¼ö : ºÎ¼­¹øÈ£, ºÎ¼­¸í, »óÀ§ºÎ¼­¹øÈ£, µ¿ÀÛ flag 
-(2) µ¿ÀÛ flag ¸Å°³º¯¼ö °ªÀº 'upsert' -> µ¥ÀÌÅÍ°¡ ÀÖÀ¸¸é UPDATE, ¾Æ´Ï¸é INSERT
-                            'delete' -> ÇØ´ç ºÎ¼­ »èÁ¦
-(3) »èÁ¦ ½Ã, ¸¸¾à ÇØ´ç ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ Á¸ÀçÇÏ´ÂÁö »ç¿øÅ×ÀÌºíÀ» Ã¼Å©ÇØ Á¸ÀçÇÏ¸é °æ°í¸Þ½ÃÁö¿Í ÇÔ²² delete¸¦ ÇÏÁö ¾Ê´Â´Ù. 
+(1) ë§¤ê°œë³€ìˆ˜ : ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…, ìƒìœ„ë¶€ì„œë²ˆí˜¸, ë™ìž‘ flag 
+(2) ë™ìž‘ flag ë§¤ê°œë³€ìˆ˜ ê°’ì€ 'upsert' -> ë°ì´í„°ê°€ ìžˆìœ¼ë©´ UPDATE, ì•„ë‹ˆë©´ INSERT
+                            'delete' -> í•´ë‹¹ ë¶€ì„œ ì‚­ì œ
+(3) ì‚­ì œ ì‹œ, ë§Œì•½ í•´ë‹¹ ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ì¡´ìž¬í•˜ëŠ”ì§€ ì‚¬ì›í…Œì´ë¸”ì„ ì²´í¬í•´ ì¡´ìž¬í•˜ë©´ ê²½ê³ ë©”ì‹œì§€ì™€ í•¨ê»˜ deleteë¥¼ í•˜ì§€ ì•ŠëŠ”ë‹¤. 
 
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE my_dept_manage_proc
           ( p_department_id    IN ch11_departments.DEPARTMENT_ID%TYPE,
@@ -219,7 +219,7 @@ IS
   vn_cnt2 NUMBER := 0;
 BEGIN
 	
-	-- INSERT³ª UPDATE ÇÒ °æ¿ì, µ¿ÀÛ flag ¸Å°³º¯¼ö°¡ ¼Ò¹®ÀÚ·Î µé¾î¿Ã ¼ö ÀÖÀ¸¹Ç·Î ´ë¹®ÀÚ·Î º¯È¯ ÈÄ ºñ±³ÇÔ 
+	-- INSERTë‚˜ UPDATE í•  ê²½ìš°, ë™ìž‘ flag ë§¤ê°œë³€ìˆ˜ê°€ ì†Œë¬¸ìžë¡œ ë“¤ì–´ì˜¬ ìˆ˜ ìžˆìœ¼ë¯€ë¡œ ëŒ€ë¬¸ìžë¡œ ë³€í™˜ í›„ ë¹„êµí•¨ 
 	IF UPPER(p_flag) = 'UPSERT' THEN
 	
 	  MERGE INTO ch09_departments a
@@ -233,30 +233,30 @@ BEGIN
 	     INSERT ( a.department_id, a.department_name, a.parent_id )
 	     VALUES ( p_department_id, p_department_name, p_parent_id );	
 	
-	-- »èÁ¦ÇÒ °æ¿ì
+	-- ì‚­ì œí•  ê²½ìš°
 	ELSIF UPPER(p_flag) = 'DELETE' THEN
 	
-	   -- ÇØ´ç ºÎ¼­°¡ ÀÖ´ÂÁö Ã¼Å©
+	   -- í•´ë‹¹ ë¶€ì„œê°€ ìžˆëŠ”ì§€ ì²´í¬
 	   SELECT COUNT(*)
 	     INTO vn_cnt1
 	     FROM ch09_departments
 	    WHERE department_id = p_department_id;
 	    
-	   -- ÇØ´ç ºÎ¼­°¡ ¾øÀ¸¸é ¸Þ½ÃÁö¿Í ÇÔ²² ÇÁ·Î½ÃÀú Á¾·á 
+	   -- í•´ë‹¹ ë¶€ì„œê°€ ì—†ìœ¼ë©´ ë©”ì‹œì§€ì™€ í•¨ê»˜ í”„ë¡œì‹œì € ì¢…ë£Œ 
 	   IF vn_cnt1 = 0 THEN
-	      DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­°¡ ¾ø¾î »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù');
+	      DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œê°€ ì—†ì–´ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤');
 	      RETURN;
 	   END IF;
 	   
-	   -- ÇØ´ç ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ ÀÖ´ÂÁö Ã¼Å©
+	   -- í•´ë‹¹ ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ìžˆëŠ”ì§€ ì²´í¬
 	   SELECT COUNT(*)
 	     INTO vn_cnt2
 	     FROM employees
 	    WHERE department_id = p_department_id;
 	    
-	   -- ÇØ´ç ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ ÀÖÀ¸¸é ¸Þ½ÃÁö¿Í ÇÔ²² ÇÁ·Î½ÃÀú Á¾·á 
+	   -- í•´ë‹¹ ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ìžˆìœ¼ë©´ ë©”ì‹œì§€ì™€ í•¨ê»˜ í”„ë¡œì‹œì € ì¢…ë£Œ 
 	   IF vn_cnt2 > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ Á¸ÀçÇÏ¹Ç·Î »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù');
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ì¡´ìž¬í•˜ë¯€ë¡œ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤');
 	      RETURN;	   	   
 	   END IF;
 	   

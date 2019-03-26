@@ -1,16 +1,16 @@
--- 16Àå ¿¬½À¹®Á¦ 
+-- 16ìž¥ ì—°ìŠµë¬¸ì œ 
 
 
-1. RESULT CACHE Àý¿¡¼­ V$RESULT_CACHE_STATISTICS ½Ã½ºÅÛºä¸¦ Á¶È¸ÇßÀ» ¶§ 'Find Count' Ç×¸ñÀÇ °ªÀÌ 107988 ÀÌ¾ú´Ù. 
-   ÀÌ ¼ýÀÚ°¡ ¾î¶»°Ô ³ª¿À°Ô µÈ °ÍÀÎÁö ¼³¸íÇØº¸ÀÚ. 
+1. RESULT CACHE ì ˆì—ì„œ V$RESULT_CACHE_STATISTICS ì‹œìŠ¤í…œë·°ë¥¼ ì¡°íšŒí–ˆì„ ë•Œ 'Find Count' í•­ëª©ì˜ ê°’ì´ 107988 ì´ì—ˆë‹¤. 
+   ì´ ìˆ«ìžê°€ ì–´ë–»ê²Œ ë‚˜ì˜¤ê²Œ ëœ ê²ƒì¸ì§€ ì„¤ëª…í•´ë³´ìž. 
    
-<Á¤´ä>
-Ã·ºÎ ¿¢¼¿ ÆÄÀÏ ÂüÁ¶. 
+<ì •ë‹µ>
+ì²¨ë¶€ ì—‘ì…€ íŒŒì¼ ì°¸ì¡°. 
 
 
-2. JOBS Å×ÀÌºí¿¡¼­ JOB_ID °ªÀ» ¸Å°³º¯¼ö·Î ¹Þ¾Æ JOB_TITLEÀ» ¹ÝÈ¯ÇÏ´Â RESULT CACHE ±â´ÉÀ» ÀÌ¿ëÇÑ ÇÔ¼ö¸¦ ¸¸µé¾î º¸ÀÚ. 
+2. JOBS í…Œì´ë¸”ì—ì„œ JOB_ID ê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ JOB_TITLEì„ ë°˜í™˜í•˜ëŠ” RESULT CACHE ê¸°ëŠ¥ì„ ì´ìš©í•œ í•¨ìˆ˜ë¥¼ ë§Œë“¤ì–´ ë³´ìž. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE FUNCTION fn_get_jobtitle_rsltcache ( pv_job_id VARCHAR2 )
      RETURN VARCHAR2
@@ -33,10 +33,10 @@ EXCEPTION WHEN OTHERS THEN
 END;
 
 
-3. 3¹ø¿¡¼­ ¸¸µç ÇÔ¼ö¸¦ ÀÌ¿ëÇØ EMP_BULK Å×ÀÌºíÀÇ JOB_TITLE ÄÃ·³ °ªÀ» °»½ÅÇÏ´Â ÀÍ¸íºí·ÏÀ» ¸¸µé¾îº¸ÀÚ. 
+3. 3ë²ˆì—ì„œ ë§Œë“  í•¨ìˆ˜ë¥¼ ì´ìš©í•´ EMP_BULK í…Œì´ë¸”ì˜ JOB_TITLE ì»¬ëŸ¼ ê°’ì„ ê°±ì‹ í•˜ëŠ” ìµëª…ë¸”ë¡ì„ ë§Œë“¤ì–´ë³´ìž. 
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 DECLARE
   vn_cnt        NUMBER := 0;
@@ -45,7 +45,7 @@ vn_total_time NUMBER := 0;
 
 BEGIN
   vd_sysdate := SYSDATE;
-  -- RESULT CACHE ±â´ÉÀÌ Å¾ÀçµÈ ÇÔ¼ö È£Ãâ
+  -- RESULT CACHE ê¸°ëŠ¥ì´ íƒ‘ìž¬ëœ í•¨ìˆ˜ í˜¸ì¶œ
   UPDATE emp_bulk
      SET job_title = fn_get_jobtitle_rsltcache ( job_id )
    WHERE bulk_id BETWEEN 1 AND 1000;
@@ -54,13 +54,13 @@ BEGIN
   
   COMMIT;
 
-  -- ÃÑ ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+  -- ì´ ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
   vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
   
- -- UPDATE °Ç¼ö Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('ÀüÃ¼°Ç¼ö : ' || vn_cnt);
-  -- ÃÑ ¼Ò¿ä½Ã°£ Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('¼Ò¿ä½Ã°£ : ' || vn_total_time);  
+ -- UPDATE ê±´ìˆ˜ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ì „ì²´ê±´ìˆ˜ : ' || vn_cnt);
+  -- ì´ ì†Œìš”ì‹œê°„ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ì†Œìš”ì‹œê°„ : ' || vn_total_time);  
 
 END;
 

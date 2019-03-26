@@ -1,7 +1,7 @@
--- ╣╔юлем ют╥б
+-- К█╟Л²╢М└╟ Л·┘К═╔
 INSERT INTO ch15_job_test VALUES ( 1, SYSDATE);
 
 COMMIT;
 
--- SQL*PLUS╦╕ ╨Эа╝ Ё╙©ю╢б ╦М╥и╬Н 
+-- SQL*PLUSК╔╪ К╧═Л═╦ К┌≤Л≤╓К┼■ К╙┘К═╧Л√╢ 
 EXIT;

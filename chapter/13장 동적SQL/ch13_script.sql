@@ -7,9 +7,9 @@ BEGIN
 	
 END;
 
--- °ª Ãâ·Â
+-- ê°’ ì¶œë ¥
 DECLARE
-  --Ãâ·Â º¯¼ö ¼±¾ð 
+  --ì¶œë ¥ ë³€ìˆ˜ ì„ ì–¸ 
   vn_emp_id    employees.employee_id%TYPE;
   vs_emp_name  employees.emp_name%TYPE;
   vs_job_id    employees.job_id%TYPE;
@@ -25,16 +25,16 @@ BEGIN
 END;
 
 
--- SQL¹®À» º¯¼ö·Î
+-- SQLë¬¸ì„ ë³€ìˆ˜ë¡œ
 DECLARE
-  --Ãâ·Â º¯¼ö ¼±¾ð 
+  --ì¶œë ¥ ë³€ìˆ˜ ì„ ì–¸ 
   vn_emp_id    employees.employee_id%TYPE;
   vs_emp_name  employees.emp_name%TYPE;
   vs_job_id    employees.job_id%TYPE;
   
   vs_sql VARCHAR2(1000);
 BEGIN
-	-- SQL¹®À» º¯¼ö¿¡ ´ã´Â´Ù. 
+	-- SQLë¬¸ì„ ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. 
 	vs_sql := 'SELECT employee_id, emp_name, job_id 
 	                FROM employees WHERE job_id = ''AD_ASST'' ';
 	
@@ -46,16 +46,16 @@ BEGIN
 END;
 
 
--- ¹ÙÀÎµå º¯¼ö
+-- ë°”ì¸ë“œ ë³€ìˆ˜
 DECLARE
-  --Ãâ·Â º¯¼ö ¼±¾ð 
+  --ì¶œë ¥ ë³€ìˆ˜ ì„ ì–¸ 
   vn_emp_id    employees.employee_id%TYPE;
   vs_emp_name  employees.emp_name%TYPE;
   vs_job_id    employees.job_id%TYPE;
   
   vs_sql VARCHAR2(1000);
 BEGIN
-	-- SQL¹®À» º¯¼ö¿¡ ´ã´Â´Ù. 
+	-- SQLë¬¸ì„ ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. 
 	vs_sql := 'SELECT employee_id, emp_name, job_id 
 	            FROM employees 
 	           WHERE job_id = ''SA_REP'' 
@@ -69,28 +69,28 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE( 'job_id : '   || vs_job_id );	         
 END;
 
--- ¹ÙÀÎµåº¯¼ö 2
+-- ë°”ì¸ë“œë³€ìˆ˜ 2
 DECLARE
-  --Ãâ·Â º¯¼ö ¼±¾ð 
+  --ì¶œë ¥ ë³€ìˆ˜ ì„ ì–¸ 
   vn_emp_id    employees.employee_id%TYPE;
   vs_emp_name  employees.emp_name%TYPE;
   vs_job_id    employees.job_id%TYPE;
   
   vs_sql VARCHAR2(1000);
   
-  -- ¹ÙÀÎµå º¯¼ö ¼±¾ð°ú °ª ¼³Á¤
+  -- ë°”ì¸ë“œ ë³€ìˆ˜ ì„ ì–¸ê³¼ ê°’ ì„¤ì •
   vs_job      employees.job_id%TYPE := 'SA_REP';
   vn_sal      employees.salary%TYPE := 7000;
   vn_manager  employees.manager_id%TYPE := 148;
 BEGIN
-	-- SQL¹®À» º¯¼ö¿¡ ´ã´Â´Ù. (¹ÙÀÎµå º¯¼ö ¾Õ¿¡ : ¸¦ ºÙÀÎ´Ù)
+	-- SQLë¬¸ì„ ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. (ë°”ì¸ë“œ ë³€ìˆ˜ ì•žì— : ë¥¼ ë¶™ì¸ë‹¤)
 	vs_sql := 'SELECT employee_id, emp_name, job_id 
 	            FROM employees 
 	           WHERE job_id = :a 
 	             AND salary < :b
 	             AND manager_id = :c ';
 	
-	-- SQL¹®¿¡¼­ ¼±¾ðÇÑ ¼ø¼­´ë·Î USING ´ÙÀ½¿¡ º¯¼ö¸¦ ³Ö´Â´Ù. 
+	-- SQLë¬¸ì—ì„œ ì„ ì–¸í•œ ìˆœì„œëŒ€ë¡œ USING ë‹¤ìŒì— ë³€ìˆ˜ë¥¼ ë„£ëŠ”ë‹¤. 
   EXECUTE IMMEDIATE vs_sql INTO vn_emp_id, vs_emp_name, vs_job_id
                            USING vs_job, vn_sal, vn_manager;
 	                  
@@ -105,7 +105,7 @@ CREATE TABLE ch13_physicist ( ids       NUMBER,
                               names     VARCHAR2(50), 
                               birth_dt  DATE );
                          
--- INSERT ¹®
+-- INSERT ë¬¸
 DECLARE
   vn_ids   ch13_physicist.ids%TYPE := 10;
   vs_name  ch13_physicist.names%TYPE := 'Albert Einstein';
@@ -114,7 +114,7 @@ DECLARE
   vs_sql   VARCHAR2(1000);  
 
 BEGIN
-	-- INSERT¹® ÀÛ¼º 
+	-- INSERTë¬¸ ìž‘ì„± 
 	vs_sql := 'INSERT INTO ch13_physicist VALUES (:a, :a, :a)';
 	
 	EXECUTE IMMEDIATE vs_sql USING vn_ids, vs_name, vd_dt;
@@ -123,7 +123,7 @@ BEGIN
 	
 END;                         
                          
--- UPDATE¿Í DELETE
+-- UPDATEì™€ DELETE
 DECLARE
   vn_ids   ch13_physicist.ids%TYPE := 10;
   vs_name  ch13_physicist.names%TYPE := 'Max Planck';
@@ -134,7 +134,7 @@ DECLARE
   vn_cnt   NUMBER := 0;
 
 BEGIN
-	-- UPDATE¹®
+	-- UPDATEë¬¸
 	vs_sql := 'UPDATE ch13_physicist
 	              SET names = :a, birth_dt = :a
 	            WHERE ids = :a ';
@@ -145,9 +145,9 @@ BEGIN
 	  INTO vs_name
 	  FROM ch13_physicist;
 	  
-	DBMS_OUTPUT.PUT_LINE('UPDATE ÈÄ ÀÌ¸§: ' || vs_name);
+	DBMS_OUTPUT.PUT_LINE('UPDATE í›„ ì´ë¦„: ' || vs_name);
 	
-	-- DELETE ¹®
+	-- DELETE ë¬¸
 	vs_sql := 'DELETE ch13_physicist
 	            WHERE ids = :a ';
 	
@@ -163,7 +163,7 @@ BEGIN
 	
 END;  
 
--- ¹ÙÀÎµå º¯¼öÃ³¸® 2
+-- ë°”ì¸ë“œ ë³€ìˆ˜ì²˜ë¦¬ 2
 
 CREATE OR REPLACE PROCEDURE ch13_bind_proc1 ( pv_arg1 IN VARCHAR2, 
                                               pn_arg2 IN NUMBER, 
@@ -177,7 +177,7 @@ BEGIN
 END;
                                               
                             
--- µ¿Àû SQL·Î ÇÁ·Î½ÃÀú ½ÇÇà
+-- ë™ì  SQLë¡œ í”„ë¡œì‹œì € ì‹¤í–‰
 DECLARE
   vs_data1 VARCHAR2(30) := 'Albert Einstein';
   vn_data2 NUMBER := 100;
@@ -185,7 +185,7 @@ DECLARE
 
   vs_sql   VARCHAR2(1000);
 BEGIN
-  -- ÇÁ·Î½ÃÀú ½ÇÇà
+  -- í”„ë¡œì‹œì € ì‹¤í–‰
   ch13_bind_proc1 ( vs_data1, vn_data2, vd_data3);
   
   DBMS_OUTPUT.PUT_LINE('-----------------------------------');
@@ -196,7 +196,7 @@ BEGIN
   
 END;
 
--- ¹ÙÀÎµå º¯¼ö¸¦ Àß¸ø ±âÀçÇÑ °æ¿ì
+-- ë°”ì¸ë“œ ë³€ìˆ˜ë¥¼ ìž˜ëª» ê¸°ìž¬í•œ ê²½ìš°
 BEGIN
 	DBMS_OUTPUT.PUT_LINE ('pv_arg1 = ' || pv_arg1);
 	DBMS_OUTPUT.PUT_LINE ('pn_arg2 = ' || pn_arg2);
@@ -205,7 +205,7 @@ BEGIN
 END;
                                               
                             
--- µ¿Àû SQL·Î ÇÁ·Î½ÃÀú ½ÇÇà
+-- ë™ì  SQLë¡œ í”„ë¡œì‹œì € ì‹¤í–‰
 DECLARE
   vs_data1 VARCHAR2(30) := 'Albert Einstein';
   vn_data2 NUMBER := 100;
@@ -213,7 +213,7 @@ DECLARE
 
   vs_sql   VARCHAR2(1000);
 BEGIN
-  -- ¹ÙÀÎµå º¯¼ö¸íÀ» Àß¸ø ±âÀçÇÑ °æ¿ì.    
+  -- ë°”ì¸ë“œ ë³€ìˆ˜ëª…ì„ ìž˜ëª» ê¸°ìž¬í•œ ê²½ìš°.    
   vs_sql := 'BEGIN ch13_bind_proc1 (:a, :a, :c); END;';
   
   EXECUTE IMMEDIATE vs_sql USING vs_data1, vn_data2, vd_data3;
@@ -229,8 +229,8 @@ IS
 BEGIN
 	DBMS_OUTPUT.PUT_LINE ('pv_arg1 = ' || pv_arg1);
 	
-	pv_arg2 := 'µÎ ¹øÂ° OUT º¯¼ö';
-	pv_arg3 := '¼¼ ¹øÂ° INOUT º¯¼ö';
+	pv_arg2 := 'ë‘ ë²ˆì§¸ OUT ë³€ìˆ˜';
+	pv_arg3 := 'ì„¸ ë²ˆì§¸ INOUT ë³€ìˆ˜';
 	
 END;
 
@@ -242,7 +242,7 @@ DECLARE
 
   vs_sql   VARCHAR2(1000);
 BEGIN
-  -- ¹ÙÀÎµå º¯¼ö  
+  -- ë°”ì¸ë“œ ë³€ìˆ˜  
   vs_sql := 'BEGIN ch13_bind_proc2 (:a, :b, :c); END;';
   
   EXECUTE IMMEDIATE vs_sql USING vs_data1, OUT vs_data2, IN OUT vs_data3;
@@ -253,7 +253,7 @@ BEGIN
 END;
 
 
--- DDL¹®°ú ALTER SESSION
+-- DDLë¬¸ê³¼ ALTER SESSION
 CREATE OR REPLACE PROCEDURE ch13_ddl_proc ( pd_arg1 IN DATE )
 IS
 BEGIN
@@ -274,7 +274,7 @@ CREATE OR REPLACE PROCEDURE ch13_ddl_proc ( pd_arg1 IN DATE )
 IS
   vs_sql VARCHAR2(1000);
 BEGIN
-	 -- DDL¹®À» µ¿ÀûSQL·Î ...
+	 -- DDLë¬¸ì„ ë™ì SQLë¡œ ...
 	 vs_sql := 'CREATE TABLE ch13_ddl_tab ( col1 VARCHAR2(30) )' ;
 	 EXECUTE IMMEDIATE vs_sql;
 	 
@@ -301,8 +301,8 @@ BEGIN
 END; 
   
   
--- (2) ´ÙÁß·Î¿ì Ã³¸®
--- ¨ç OPEN FOR¹®
+-- (2) ë‹¤ì¤‘ë¡œìš° ì²˜ë¦¬
+-- â‘  OPEN FORë¬¸
 TRUNCATE TABLE ch13_physicist ;
 
 INSERT INTO ch13_physicist VALUES (1, 'Galileo Galilei', TO_DATE('1564-02-15','YYYY-MM-DD'));
@@ -317,11 +317,11 @@ COMMIT;
 
    
 DECLARE
-  -- Ä¿¼­Å¸ÀÔ ¼±¾ð
+  -- ì»¤ì„œíƒ€ìž… ì„ ì–¸
   TYPE query_physicist IS REF CURSOR;
-  -- Ä¿¼­ º¯¼ö ¼±¾ð
+  -- ì»¤ì„œ ë³€ìˆ˜ ì„ ì–¸
   myPhysicist query_physicist;
-  -- ¹ÝÈ¯°ªÀ» ¹ÞÀ» ·¹ÄÚµå ¼±¾ð
+  -- ë°˜í™˜ê°’ì„ ë°›ì„ ë ˆì½”ë“œ ì„ ì–¸
   empPhysicist ch13_physicist%ROWTYPE;
   
 
@@ -329,9 +329,9 @@ DECLARE
 
 BEGIN
 	vs_sql := 'SELECT * FROM ch13_physicist';
-	-- OPEN FOR¹®À» »ç¿ëÇÑ µ¿Àû SQL
+	-- OPEN FORë¬¸ì„ ì‚¬ìš©í•œ ë™ì  SQL
 	OPEN myPhysicist FOR vs_sql;
-	--·çÇÁ¸¦ µ¹¸ç Ä¿¼­º¯¼ö¿¡ ´ã±ä °ªÀ» Ãâ·ÂÇÑ´Ù.
+	--ë£¨í”„ë¥¼ ëŒë©° ì»¤ì„œë³€ìˆ˜ì— ë‹´ê¸´ ê°’ì„ ì¶œë ¥í•œë‹¤.
 	LOOP
 	  FETCH myPhysicist INTO empPhysicist;
     EXIT WHEN myPhysicist%NOTFOUND;	
@@ -342,11 +342,11 @@ BEGIN
 END;
 
 
--- ¹ÙÀÎµå º¯¼ö    
+-- ë°”ì¸ë“œ ë³€ìˆ˜    
 DECLARE
-  -- Ä¿¼­ º¯¼ö ¼±¾ð
+  -- ì»¤ì„œ ë³€ìˆ˜ ì„ ì–¸
   myPhysicist SYS_REFCURSOR;
-  -- ¹ÝÈ¯°ªÀ» ¹ÞÀ» ·¹ÄÚµå ¼±¾ð
+  -- ë°˜í™˜ê°’ì„ ë°›ì„ ë ˆì½”ë“œ ì„ ì–¸
   empPhysicist ch13_physicist%ROWTYPE;
   
 
@@ -355,11 +355,11 @@ DECLARE
   vs_names ch13_physicist.names%TYPE  := 'Albert%';
 
 BEGIN
-	-- ¹ÙÀÎµå º¯¼ö »ç¿ëÀ» À§ÇØ WHEREÁ¶°Ç Ãß°¡ 
+	-- ë°”ì¸ë“œ ë³€ìˆ˜ ì‚¬ìš©ì„ ìœ„í•´ WHEREì¡°ê±´ ì¶”ê°€ 
 	vs_sql := 'SELECT * FROM ch13_physicist WHERE IDS > :a AND NAMES LIKE :a ';
-	-- OPEN FOR¹®À» »ç¿ëÇÑ µ¿Àû SQL
+	-- OPEN FORë¬¸ì„ ì‚¬ìš©í•œ ë™ì  SQL
 	OPEN myPhysicist FOR vs_sql USING vn_id, vs_names;
-	--·çÇÁ¸¦ µ¹¸ç Ä¿¼­º¯¼ö¿¡ ´ã±ä °ªÀ» Ãâ·ÂÇÑ´Ù.
+	--ë£¨í”„ë¥¼ ëŒë©° ì»¤ì„œë³€ìˆ˜ì— ë‹´ê¸´ ê°’ì„ ì¶œë ¥í•œë‹¤.
 	LOOP
 	  FETCH myPhysicist INTO empPhysicist;
     EXIT WHEN myPhysicist%NOTFOUND;	
@@ -370,25 +370,25 @@ BEGIN
 END;
 
 
--- ¼º´É Çâ»óÀ» À§ÇÑ ´ÙÁß ·Î¿ì Ã³¸®
+-- ì„±ëŠ¥ í–¥ìƒì„ ìœ„í•œ ë‹¤ì¤‘ ë¡œìš° ì²˜ë¦¬
 
--- BULK COLLECT INTO¸¦ »ç¿ëÇÑ Á¤Àû SQL
+-- BULK COLLECT INTOë¥¼ ì‚¬ìš©í•œ ì •ì  SQL
 DECLARE
-  -- ·¹ÄÚµå ¼±¾ð 
+  -- ë ˆì½”ë“œ ì„ ì–¸ 
   TYPE rec_physicist IS RECORD  (
       ids      ch13_physicist.ids%TYPE,
       names    ch13_physicist.names%TYPE,
       birth_dt ch13_physicist.birth_dt%TYPE );
-  -- ·¹ÄÚµå¸¦ Ç×¸ñÀ¸·Î ÇÏ´Â ÁßÃ¸Å×ÀÌºí ¼±¾ð
+  -- ë ˆì½”ë“œë¥¼ í•­ëª©ìœ¼ë¡œ í•˜ëŠ” ì¤‘ì²©í…Œì´ë¸” ì„ ì–¸
   TYPE NT_physicist IS TABLE OF rec_physicist;
-  -- ÁßÃ¸Å×ÀÌºí º¯¼ö ¼±¾ð
+  -- ì¤‘ì²©í…Œì´ë¸” ë³€ìˆ˜ ì„ ì–¸
   vr_physicist NT_physicist;
 BEGIN
-  -- BULK COLLECT INTO Àý 
+  -- BULK COLLECT INTO ì ˆ 
 	SELECT * 
    BULK COLLECT INTO vr_physicist
    FROM ch13_physicist;
-   -- ·çÇÁ¸¦ µ¹¸ç Ãâ·Â
+   -- ë£¨í”„ë¥¼ ëŒë©° ì¶œë ¥
    FOR i IN 1..vr_physicist.count
    LOOP
      DBMS_OUTPUT.PUT_LINE(vr_physicist(i).names);
@@ -396,28 +396,28 @@ BEGIN
 
 END;
 
--- BULK COLLECT INTO¸¦ »ç¿ëÇÑ µ¿Àû  SQL
+-- BULK COLLECT INTOë¥¼ ì‚¬ìš©í•œ ë™ì   SQL
 DECLARE
-  -- ·¹ÄÚµå ¼±¾ð 
+  -- ë ˆì½”ë“œ ì„ ì–¸ 
   TYPE rec_physicist IS RECORD  (
       ids      ch13_physicist.ids%TYPE,
       names    ch13_physicist.names%TYPE,
       birth_dt ch13_physicist.birth_dt%TYPE );
-  -- ·¹ÄÚµå¸¦ Ç×¸ñÀ¸·Î ÇÏ´Â ÁßÃ¸Å×ÀÌºí ¼±¾ð
+  -- ë ˆì½”ë“œë¥¼ í•­ëª©ìœ¼ë¡œ í•˜ëŠ” ì¤‘ì²©í…Œì´ë¸” ì„ ì–¸
   TYPE NT_physicist IS TABLE OF rec_physicist;
-  -- ÁßÃ¸Å×ÀÌºí º¯¼ö ¼±¾ð
+  -- ì¤‘ì²©í…Œì´ë¸” ë³€ìˆ˜ ì„ ì–¸
   vr_physicist NT_physicist;
   
   vs_sql VARCHAR2(1000);
   vn_ids ch13_physicist.ids%TYPE := 1;
 BEGIN
-  -- SELECT ±¸¹® 
+  -- SELECT êµ¬ë¬¸ 
   vs_sql := 'SELECT * FROM ch13_physicist WHERE ids > :a' ;
   
-  -- EXECUTE IMMEDIATE .. BULK COLLECT INTO ±¸¹®
+  -- EXECUTE IMMEDIATE .. BULK COLLECT INTO êµ¬ë¬¸
   EXECUTE IMMEDIATE vs_sql BULK COLLECT INTO vr_physicist USING vn_ids;
   
-   -- ·çÇÁ¸¦ µ¹¸ç Ãâ·Â
+   -- ë£¨í”„ë¥¼ ëŒë©° ì¶œë ¥
    FOR i IN 1..vr_physicist.count
    LOOP
      DBMS_OUTPUT.PUT_LINE(vr_physicist(i).names);
@@ -425,73 +425,73 @@ BEGIN
 
 END;
 
--- ±âº» È°¿ë¹ý (DBMS_SQL)
+-- ê¸°ë³¸ í™œìš©ë²• (DBMS_SQL)
 DECLARE
-  --Ãâ·Â º¯¼ö ¼±¾ð 
+  --ì¶œë ¥ ë³€ìˆ˜ ì„ ì–¸ 
   vn_emp_id    employees.employee_id%TYPE;
   vs_emp_name  employees.emp_name%TYPE;
   vs_job_id    employees.job_id%TYPE;
   
   vs_sql VARCHAR2(1000);
   
-  -- ¹ÙÀÎµå º¯¼ö ¼±¾ð°ú °ª ¼³Á¤
+  -- ë°”ì¸ë“œ ë³€ìˆ˜ ì„ ì–¸ê³¼ ê°’ ì„¤ì •
   vs_job      employees.job_id%TYPE := 'SA_REP';
   vn_sal      employees.salary%TYPE := 7000;
   vn_manager  employees.manager_id%TYPE := 148;
   
-  -- DBMS_SQL ÆÐÅ°Áö °ü·Ã º¯¼ö
-  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- Ä¿¼­¸¦ ¿¬´Ù
+  -- DBMS_SQL íŒ¨í‚¤ì§€ ê´€ë ¨ ë³€ìˆ˜
+  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- ì»¤ì„œë¥¼ ì—°ë‹¤
   vn_return   NUMBER;
 BEGIN
-	-- 1.SQL¹®À» º¯¼ö¿¡ ´ã´Â´Ù. (¹ÙÀÎµå º¯¼ö ¾Õ¿¡ : ¸¦ ºÙÀÎ´Ù)
+	-- 1.SQLë¬¸ì„ ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. (ë°”ì¸ë“œ ë³€ìˆ˜ ì•žì— : ë¥¼ ë¶™ì¸ë‹¤)
 	vs_sql := 'SELECT employee_id, emp_name, job_id 
 	            FROM employees 
 	           WHERE job_id = :a 
 	             AND salary < :b
 	             AND manager_id = :c ';
 	             
-  -- 2. ÆÄ½Ì
+  -- 2. íŒŒì‹±
   DBMS_SQL.PARSE (vn_cur_id, vs_sql, DBMS_SQL.NATIVE);
   
-  -- 3. ¹ÙÀÎµå º¯¼ö ¿¬°á (WHERE Àý¿¡ »ç¿ëÇÑ º¯¼ö°¡ 3°³ ÀÌ¹Ç·Î °¢ º¯¼öº°·Î ÃÑ 3È¸ È£Ãâ)
+  -- 3. ë°”ì¸ë“œ ë³€ìˆ˜ ì—°ê²° (WHERE ì ˆì— ì‚¬ìš©í•œ ë³€ìˆ˜ê°€ 3ê°œ ì´ë¯€ë¡œ ê° ë³€ìˆ˜ë³„ë¡œ ì´ 3íšŒ í˜¸ì¶œ)
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':a', vs_job);
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':b', vn_sal);
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':c', vn_manager);
   
-  -- 4. °á°ú¼±ÅÃ ÄÃ·³ Á¤ÀÇ ( »ç¹ø, »ç¿ø¸í, job_id ÃÑ 3°³ÀÇ ÄÃ·³À» ¼±ÅÃÇßÀ¸¹Ç·Î °¢°¢ ¼ø¼­´ë·Î È£Ãâ)
-  -- SELECT ¼ø¼­¿¡ µû¶ó ¼ø¹øÀ» ¸ÂÃß°í °á°ú¸¦ ´ãÀ» º¯¼ö¿Í ¿¬°áÇÑ´Ù. 
+  -- 4. ê²°ê³¼ì„ íƒ ì»¬ëŸ¼ ì •ì˜ ( ì‚¬ë²ˆ, ì‚¬ì›ëª…, job_id ì´ 3ê°œì˜ ì»¬ëŸ¼ì„ ì„ íƒí–ˆìœ¼ë¯€ë¡œ ê°ê° ìˆœì„œëŒ€ë¡œ í˜¸ì¶œ)
+  -- SELECT ìˆœì„œì— ë”°ë¼ ìˆœë²ˆì„ ë§žì¶”ê³  ê²°ê³¼ë¥¼ ë‹´ì„ ë³€ìˆ˜ì™€ ì—°ê²°í•œë‹¤. 
   DBMS_SQL.DEFINE_COLUMN ( vn_cur_id, 1, vn_emp_id);
-  DBMS_SQL.DEFINE_COLUMN ( vn_cur_id, 2, vs_emp_name, 80); --¹®ÀÚÇüÀº Å©±â±îÁö ÁöÁ¤ 
+  DBMS_SQL.DEFINE_COLUMN ( vn_cur_id, 2, vs_emp_name, 80); --ë¬¸ìží˜•ì€ í¬ê¸°ê¹Œì§€ ì§€ì • 
   DBMS_SQL.DEFINE_COLUMN ( vn_cur_id, 3, vs_job_id, 10);
   
-  -- 5. Äõ¸®½ÇÇà
+  -- 5. ì¿¼ë¦¬ì‹¤í–‰
   vn_return := DBMS_SQL.EXECUTE (vn_cur_id);
   
-  -- 6. °á°úÆÐÄ¡ 
+  -- 6. ê²°ê³¼íŒ¨ì¹˜ 
   LOOP
-    -- °á°ú°Ç¼ö°¡ ¾øÀ¸¸é ·çÇÁ¸¦ ºüÁ®³ª°£´Ù. 
+    -- ê²°ê³¼ê±´ìˆ˜ê°€ ì—†ìœ¼ë©´ ë£¨í”„ë¥¼ ë¹ ì ¸ë‚˜ê°„ë‹¤. 
     IF DBMS_SQL.FETCH_ROWS (vn_cur_id) = 0 THEN
        EXIT;
     END IF;
     
-    -- 7. ÆÐÄ¡µÈ °á°ú°ª ¹Þ¾Æ¿À±â 
+    -- 7. íŒ¨ì¹˜ëœ ê²°ê³¼ê°’ ë°›ì•„ì˜¤ê¸° 
     DBMS_SQL.COLUMN_VALUE ( vn_cur_id, 1, vn_emp_id);
     DBMS_SQL.COLUMN_VALUE ( vn_cur_id, 2, vs_emp_name);
     DBMS_SQL.COLUMN_VALUE ( vn_cur_id, 3, vs_job_id);
     
-    -- °á°ú Ãâ·Â
+    -- ê²°ê³¼ ì¶œë ¥
     DBMS_OUTPUT.PUT_LINE( 'emp_id : '   || vn_emp_id );	          
     DBMS_OUTPUT.PUT_LINE( 'emp_name : ' || vs_emp_name );	 
     DBMS_OUTPUT.PUT_LINE( 'job_id : '   || vs_job_id );	  
   
   END LOOP;
   
-  -- 8. Ä¿¼­ ´Ý±â
+  -- 8. ì»¤ì„œ ë‹«ê¸°
     DBMS_SQL.CLOSE_CURSOR (vn_cur_id);
            
 END;
 
--- DBMS_SQLÀ» ÀÌ¿ëÇÑ INSERT
+-- DBMS_SQLì„ ì´ìš©í•œ INSERT
 DECLARE
   vn_ids   ch13_physicist.ids%TYPE := 1;
   vs_name  ch13_physicist.names%TYPE := 'Galileo Galilei';
@@ -499,29 +499,29 @@ DECLARE
   
   vs_sql   VARCHAR2(1000);  
   
-  -- DBMS_SQL ÆÐÅ°Áö °ü·Ã º¯¼ö
-  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- Ä¿¼­¸¦ ¿¬´Ù
+  -- DBMS_SQL íŒ¨í‚¤ì§€ ê´€ë ¨ ë³€ìˆ˜
+  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- ì»¤ì„œë¥¼ ì—°ë‹¤
   vn_return   NUMBER;  
 
 BEGIN
-	-- 1. INSERT¹® ÀÛ¼º 
+	-- 1. INSERTë¬¸ ìž‘ì„± 
 	vs_sql := 'INSERT INTO ch13_physicist VALUES (:a, :b, :c)';
 	
-  -- 2. ÆÄ½Ì
+  -- 2. íŒŒì‹±
   DBMS_SQL.PARSE (vn_cur_id, vs_sql, DBMS_SQL.NATIVE);
   
-  -- 3. ¹ÙÀÎµå º¯¼ö ¿¬°á (VALUES Àý¿¡¼­ »ç¿ëÇÑ º¯¼ö°¡ 3°³ ÀÌ¹Ç·Î °¢ º¯¼öº°·Î ÃÑ 3È¸ È£Ãâ)
+  -- 3. ë°”ì¸ë“œ ë³€ìˆ˜ ì—°ê²° (VALUES ì ˆì—ì„œ ì‚¬ìš©í•œ ë³€ìˆ˜ê°€ 3ê°œ ì´ë¯€ë¡œ ê° ë³€ìˆ˜ë³„ë¡œ ì´ 3íšŒ í˜¸ì¶œ)
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':a', vn_ids);
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':b', vs_name);
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':c', vd_dt);
   
-  -- 4. Äõ¸®½ÇÇà
+  -- 4. ì¿¼ë¦¬ì‹¤í–‰
   vn_return := DBMS_SQL.EXECUTE (vn_cur_id);  
   
-  -- 5. Ä¿¼­ ´Ý±â
+  -- 5. ì»¤ì„œ ë‹«ê¸°
   DBMS_SQL.CLOSE_CURSOR (vn_cur_id);  
-  --°á°ú°Ç¼ö Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('°á°ú°Ç¼ö: ' || vn_return);
+  --ê²°ê³¼ê±´ìˆ˜ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ê²°ê³¼ê±´ìˆ˜: ' || vn_return);
 	
 	COMMIT;
 	
@@ -536,35 +536,35 @@ INSERT INTO ch13_physicist VALUES (4, 'Albert Einstein', TO_DATE('1879-03-14', '
 
 COMMIT;
 
--- DBMS_SQLÀ» ÀÌ¿ëÇÑ UPDATE
+-- DBMS_SQLì„ ì´ìš©í•œ UPDATE
 DECLARE
   vn_ids   ch13_physicist.ids%TYPE := 3;
   vs_name  ch13_physicist.names%TYPE := ' UPDATED';
   
   vs_sql   VARCHAR2(1000);  
   
-  -- DBMS_SQL ÆÐÅ°Áö °ü·Ã º¯¼ö
-  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- Ä¿¼­¸¦ ¿¬´Ù
+  -- DBMS_SQL íŒ¨í‚¤ì§€ ê´€ë ¨ ë³€ìˆ˜
+  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- ì»¤ì„œë¥¼ ì—°ë‹¤
   vn_return   NUMBER;  
 
 BEGIN
-	-- 1. UPDATE¹® ÀÛ¼º 
+	-- 1. UPDATEë¬¸ ìž‘ì„± 
 	vs_sql := 'UPDATE ch13_physicist SET names = names || :a WHERE ids < :b' ;
 	
-  -- 2. ÆÄ½Ì
+  -- 2. íŒŒì‹±
   DBMS_SQL.PARSE (vn_cur_id, vs_sql, DBMS_SQL.NATIVE);
   
-  -- 3. ¹ÙÀÎµå º¯¼ö ¿¬°á 
+  -- 3. ë°”ì¸ë“œ ë³€ìˆ˜ ì—°ê²° 
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':a', vs_name);
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':b', vn_ids);
   
-  -- 4. Äõ¸®½ÇÇà
+  -- 4. ì¿¼ë¦¬ì‹¤í–‰
   vn_return := DBMS_SQL.EXECUTE (vn_cur_id);  
   
-  -- 5. Ä¿¼­ ´Ý±â
+  -- 5. ì»¤ì„œ ë‹«ê¸°
   DBMS_SQL.CLOSE_CURSOR (vn_cur_id);  
-  --°á°ú°Ç¼ö Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('UPDATE °á°ú°Ç¼ö: ' || vn_return);
+  --ê²°ê³¼ê±´ìˆ˜ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('UPDATE ê²°ê³¼ê±´ìˆ˜: ' || vn_return);
 	
 	COMMIT;
 	
@@ -575,33 +575,33 @@ SELECT *
   FROM ch13_physicist;
   
   
--- DBMS_SQLÀ» ÀÌ¿ëÇÑ DELETE
+-- DBMS_SQLì„ ì´ìš©í•œ DELETE
 DECLARE
   vn_ids   ch13_physicist.ids%TYPE := 3;
   
   vs_sql   VARCHAR2(1000);  
   
-  -- DBMS_SQL ÆÐÅ°Áö °ü·Ã º¯¼ö
-  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- Ä¿¼­¸¦ ¿¬´Ù
+  -- DBMS_SQL íŒ¨í‚¤ì§€ ê´€ë ¨ ë³€ìˆ˜
+  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- ì»¤ì„œë¥¼ ì—°ë‹¤
   vn_return   NUMBER;  
 
 BEGIN
-	--  DELETE ¹® ÀÛ¼º 
+	--  DELETE ë¬¸ ìž‘ì„± 
 	vs_sql := 'DELETE ch13_physicist WHERE ids < :b' ;
 	
-  -- 2. ÆÄ½Ì
+  -- 2. íŒŒì‹±
   DBMS_SQL.PARSE (vn_cur_id, vs_sql, DBMS_SQL.NATIVE);
   
-  -- 3. ¹ÙÀÎµå º¯¼ö ¿¬°á 
+  -- 3. ë°”ì¸ë“œ ë³€ìˆ˜ ì—°ê²° 
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':b', vn_ids);
   
-  -- 4. Äõ¸®½ÇÇà
+  -- 4. ì¿¼ë¦¬ì‹¤í–‰
   vn_return := DBMS_SQL.EXECUTE (vn_cur_id);  
   
-  -- 5. Ä¿¼­ ´Ý±â
+  -- 5. ì»¤ì„œ ë‹«ê¸°
   DBMS_SQL.CLOSE_CURSOR (vn_cur_id);  
-  --°á°ú°Ç¼ö Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('DELETE °á°ú°Ç¼ö: ' || vn_return);
+  --ê²°ê³¼ê±´ìˆ˜ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('DELETE ê²°ê³¼ê±´ìˆ˜: ' || vn_return);
 	
 	COMMIT;
 	
@@ -611,21 +611,21 @@ END;
 TRUNCATE TABLE ch13_physicist;
 
 
--- DBMS_SQLÀ» ÀÌ¿ëÇÑ INSERT 2
+-- DBMS_SQLì„ ì´ìš©í•œ INSERT 2
 DECLARE
-  -- DBMS_SQL ÆÐÅ°Áö¿¡¼­ Á¦°øÇÏ´Â ÄÃ·º¼Ç Å¸ÀÔ º¯¼ö ¼±¾ð 
+  -- DBMS_SQL íŒ¨í‚¤ì§€ì—ì„œ ì œê³µí•˜ëŠ” ì»¬ë ‰ì…˜ íƒ€ìž… ë³€ìˆ˜ ì„ ì–¸ 
   vn_ids_array   DBMS_SQL.NUMBER_TABLE;
   vs_name_array  DBMS_SQL.VARCHAR2_TABLE;
   vd_dt_array    DBMS_SQL.DATE_TABLE;
   
   vs_sql   VARCHAR2(1000);  
   
-  -- DBMS_SQL ÆÐÅ°Áö °ü·Ã º¯¼ö
-  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- Ä¿¼­¸¦ ¿¬´Ù
+  -- DBMS_SQL íŒ¨í‚¤ì§€ ê´€ë ¨ ë³€ìˆ˜
+  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- ì»¤ì„œë¥¼ ì—°ë‹¤
   vn_return   NUMBER;  
 
 BEGIN
-	-- 0. ÀÔ·ÂÇÒ °ª ¼³Á¤
+	-- 0. ìž…ë ¥í•  ê°’ ì„¤ì •
 	vn_ids_array(1)  := 1;
 	vs_name_array(1) := 'Galileo Galilei'; 
 	vd_dt_array(1)   := TO_DATE('1564-02-15', 'YYYY-MM-DD');
@@ -643,44 +643,44 @@ BEGIN
 	vd_dt_array(4)   := TO_DATE('1879-03-14', 'YYYY-MM-DD');	
 	
 	
-	-- 1. INSERT¹® ÀÛ¼º 
+	-- 1. INSERTë¬¸ ìž‘ì„± 
 	vs_sql := 'INSERT INTO ch13_physicist VALUES (:a, :b, :c)';
 	
-  -- 2. ÆÄ½Ì
+  -- 2. íŒŒì‹±
   DBMS_SQL.PARSE (vn_cur_id, vs_sql, DBMS_SQL.NATIVE);
   
-  -- 3. ¹ÙÀÎµå º¯¼ö ¿¬°á (BIND_VARIABLE ´ë½Å BIND_ARRAY »ç¿ë)
+  -- 3. ë°”ì¸ë“œ ë³€ìˆ˜ ì—°ê²° (BIND_VARIABLE ëŒ€ì‹  BIND_ARRAY ì‚¬ìš©)
   DBMS_SQL.BIND_ARRAY ( vn_cur_id, ':a', vn_ids_array);
   DBMS_SQL.BIND_ARRAY ( vn_cur_id, ':b', vs_name_array);
   DBMS_SQL.BIND_ARRAY ( vn_cur_id, ':c', vd_dt_array);
   
-  -- 4. Äõ¸®½ÇÇà
+  -- 4. ì¿¼ë¦¬ì‹¤í–‰
   vn_return := DBMS_SQL.EXECUTE (vn_cur_id);  
   
-  -- 5. Ä¿¼­ ´Ý±â
+  -- 5. ì»¤ì„œ ë‹«ê¸°
   DBMS_SQL.CLOSE_CURSOR (vn_cur_id);  
-  --°á°ú°Ç¼ö Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('°á°ú°Ç¼ö: ' || vn_return);
+  --ê²°ê³¼ê±´ìˆ˜ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ê²°ê³¼ê±´ìˆ˜: ' || vn_return);
 	
 	COMMIT;
 	
 END; 
 
 
--- DBMS_SQLÀ» ÀÌ¿ëÇÑ UPDATE 2
+-- DBMS_SQLì„ ì´ìš©í•œ UPDATE 2
 DECLARE
-  -- DBMS_SQL ÆÐÅ°Áö¿¡¼­ Á¦°øÇÏ´Â ÄÃ·º¼Ç Å¸ÀÔ º¯¼ö ¼±¾ð 
+  -- DBMS_SQL íŒ¨í‚¤ì§€ì—ì„œ ì œê³µí•˜ëŠ” ì»¬ë ‰ì…˜ íƒ€ìž… ë³€ìˆ˜ ì„ ì–¸ 
   vn_ids_array   DBMS_SQL.NUMBER_TABLE;
   vs_name_array  DBMS_SQL.VARCHAR2_TABLE;
 
   vs_sql   VARCHAR2(1000);  
   
-  -- DBMS_SQL ÆÐÅ°Áö °ü·Ã º¯¼ö
-  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- Ä¿¼­¸¦ ¿¬´Ù
+  -- DBMS_SQL íŒ¨í‚¤ì§€ ê´€ë ¨ ë³€ìˆ˜
+  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- ì»¤ì„œë¥¼ ì—°ë‹¤
   vn_return   NUMBER;  
 
 BEGIN
-	-- 0. °»½ÅÇÒ °ª ¼³Á¤
+	-- 0. ê°±ì‹ í•  ê°’ ì„¤ì •
 	vn_ids_array(1)  := 1;
 	vs_name_array(1) := 'Albert Einstein';
 	
@@ -694,23 +694,23 @@ BEGIN
 	vs_name_array(4) := 'Max Plank';
 	
 	
-	-- 1. UPDATE¹® ÀÛ¼º 
+	-- 1. UPDATEë¬¸ ìž‘ì„± 
 	vs_sql := 'UPDATE ch13_physicist SET names = :a WHERE ids = :b';
 	
-  -- 2. ÆÄ½Ì
+  -- 2. íŒŒì‹±
   DBMS_SQL.PARSE (vn_cur_id, vs_sql, DBMS_SQL.NATIVE);
   
-  -- 3. ¹ÙÀÎµå º¯¼ö ¿¬°á (BIND_VARIABLE ´ë½Å BIND_ARRAY »ç¿ë)
+  -- 3. ë°”ì¸ë“œ ë³€ìˆ˜ ì—°ê²° (BIND_VARIABLE ëŒ€ì‹  BIND_ARRAY ì‚¬ìš©)
   DBMS_SQL.BIND_ARRAY ( vn_cur_id, ':a', vs_name_array);
   DBMS_SQL.BIND_ARRAY ( vn_cur_id, ':b', vn_ids_array);
   
-  -- 4. Äõ¸®½ÇÇà
+  -- 4. ì¿¼ë¦¬ì‹¤í–‰
   vn_return := DBMS_SQL.EXECUTE (vn_cur_id);  
   
-  -- 5. Ä¿¼­ ´Ý±â
+  -- 5. ì»¤ì„œ ë‹«ê¸°
   DBMS_SQL.CLOSE_CURSOR (vn_cur_id);  
-  --°á°ú°Ç¼ö Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('°á°ú°Ç¼ö: ' || vn_return);
+  --ê²°ê³¼ê±´ìˆ˜ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ê²°ê³¼ê±´ìˆ˜: ' || vn_return);
 	
 	COMMIT;
 	
@@ -721,59 +721,59 @@ select ids, names
 from ch13_physicist;
 
 
--- DBMS_SQ.TO_REFCURSOR ÇÔ¼ö
+-- DBMS_SQ.TO_REFCURSOR í•¨ìˆ˜
 DECLARE
-  --Ãâ·Â¿ë º¯¼ö ¼±¾ð 
+  --ì¶œë ¥ìš© ë³€ìˆ˜ ì„ ì–¸ 
   vc_cur       SYS_REFCURSOR;
   va_emp_id    DBMS_SQL.NUMBER_TABLE;
   va_emp_name  DBMS_SQL.VARCHAR2_TABLE;
   
   vs_sql VARCHAR2(1000);
   
-  -- ¹ÙÀÎµå º¯¼ö ¼±¾ð°ú °ª ¼³Á¤
+  -- ë°”ì¸ë“œ ë³€ìˆ˜ ì„ ì–¸ê³¼ ê°’ ì„¤ì •
   vs_job      employees.job_id%TYPE := 'SA_REP';
   vn_sal      employees.salary%TYPE := 9000;
   vn_manager  employees.manager_id%TYPE := 148;
   
-  -- DBMS_SQL ÆÐÅ°Áö °ü·Ã º¯¼ö
-  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- Ä¿¼­¸¦ ¿¬´Ù
+  -- DBMS_SQL íŒ¨í‚¤ì§€ ê´€ë ¨ ë³€ìˆ˜
+  vn_cur_id   NUMBER := DBMS_SQL.OPEN_CURSOR(); -- ì»¤ì„œë¥¼ ì—°ë‹¤
   vn_return   NUMBER;
 BEGIN
-	-- 1.SQL¹®À» º¯¼ö¿¡ ´ã´Â´Ù. (¹ÙÀÎµå º¯¼ö ¾Õ¿¡ : ¸¦ ºÙÀÎ´Ù)
+	-- 1.SQLë¬¸ì„ ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. (ë°”ì¸ë“œ ë³€ìˆ˜ ì•žì— : ë¥¼ ë¶™ì¸ë‹¤)
 	vs_sql := 'SELECT employee_id, emp_name
 	            FROM employees 
 	           WHERE job_id = :a 
 	             AND salary < :b
 	             AND manager_id = :c ';
 	             
-  -- 2. ÆÄ½Ì
+  -- 2. íŒŒì‹±
   DBMS_SQL.PARSE (vn_cur_id, vs_sql, DBMS_SQL.NATIVE);
   
-  -- 3. ¹ÙÀÎµå º¯¼ö ¿¬°á (WHERE Àý¿¡ »ç¿ëÇÑ º¯¼ö°¡ 3°³ ÀÌ¹Ç·Î °¢ º¯¼öº°·Î ÃÑ 3È¸ È£Ãâ)
+  -- 3. ë°”ì¸ë“œ ë³€ìˆ˜ ì—°ê²° (WHERE ì ˆì— ì‚¬ìš©í•œ ë³€ìˆ˜ê°€ 3ê°œ ì´ë¯€ë¡œ ê° ë³€ìˆ˜ë³„ë¡œ ì´ 3íšŒ í˜¸ì¶œ)
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':a', vs_job);
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':b', vn_sal);
   DBMS_SQL.BIND_VARIABLE ( vn_cur_id, ':c', vn_manager);  
  
-  -- 4. Äõ¸®½ÇÇà
+  -- 4. ì¿¼ë¦¬ì‹¤í–‰
   vn_return := DBMS_SQL.EXECUTE (vn_cur_id);
   
-  -- 5. DBMS_SQL.TO_REFCURSOR¸¦ »ç¿ëÇØ Ä¿¼­·Î º¯È¯ 
+  -- 5. DBMS_SQL.TO_REFCURSORë¥¼ ì‚¬ìš©í•´ ì»¤ì„œë¡œ ë³€í™˜ 
   vc_cur := DBMS_SQL.TO_REFCURSOR (vn_cur_id);
   
-  -- 6. º¯È¯ÇÑ Ä¿¼­¸¦ »ç¿ëÇØ °á°ú¸¦ ÆÐÄ¡ÇÏ°í °á°ú Ãâ·Â
+  -- 6. ë³€í™˜í•œ ì»¤ì„œë¥¼ ì‚¬ìš©í•´ ê²°ê³¼ë¥¼ íŒ¨ì¹˜í•˜ê³  ê²°ê³¼ ì¶œë ¥
   FETCH vc_cur BULK COLLECT INTO va_emp_id, va_emp_name;
    
   FOR i IN 1 .. va_emp_id.COUNT LOOP
       DBMS_OUTPUT.PUT_LINE(va_emp_id(i) || ' - ' || va_emp_name(i));
   END LOOP; 
   
-  -- 7. Ä¿¼­ ´Ý±â
+  -- 7. ì»¤ì„œ ë‹«ê¸°
   CLOSE vc_cur;
            
 END;
 
 
--- ÇöÀå ³ëÇÏ¿ì 
+-- í˜„ìž¥ ë…¸í•˜ìš° 
 
 CREATE OR REPLACE PROCEDURE print_table( p_query IN VARCHAR2 )
 IS
@@ -783,27 +783,27 @@ IS
     l_descTbl       DBMS_SQL.DESC_TAB;
     l_colCnt        NUMBER;
 BEGIN
-    -- Äõ¸®±¸¹® ÀÚÃ¼¸¦ p_query ¸Å°³º¯¼ö¿¡ ¹Þ¾Æ¿Â´Ù. 
-    -- ¹Þ¾Æ¿Â Äõ¸®¸¦ ÆÄ½ÌÇÑ´Ù. 
+    -- ì¿¼ë¦¬êµ¬ë¬¸ ìžì²´ë¥¼ p_query ë§¤ê°œë³€ìˆ˜ì— ë°›ì•„ì˜¨ë‹¤. 
+    -- ë°›ì•„ì˜¨ ì¿¼ë¦¬ë¥¼ íŒŒì‹±í•œë‹¤. 
     DBMS_SQL.PARSE(  l_theCursor,  p_query, DBMS_SQL.NATIVE );
     
-    -- DESCRIBE_COLUMN ÇÁ·Î½ÃÀú : Ä¿¼­¿¡ ´ëÇÑ ÄÃ·³Á¤º¸¸¦ DBMS_SQL.DESC_TAB Çü º¯¼ö¿¡ ³Ö´Â´Ù. 
+    -- DESCRIBE_COLUMN í”„ë¡œì‹œì € : ì»¤ì„œì— ëŒ€í•œ ì»¬ëŸ¼ì •ë³´ë¥¼ DBMS_SQL.DESC_TAB í˜• ë³€ìˆ˜ì— ë„£ëŠ”ë‹¤. 
     DBMS_SQL.DESCRIBE_COLUMNS ( l_theCursor, l_colCnt, l_descTbl );
 
-    -- ¼±ÅÃµÈ ÄÃ·³ °³¼ö¸¸Å­ ·çÇÁ¸¦ µ¹¸ç DEFINE_COLUMN ÇÁ·Î½ÃÀú¸¦ È£ÃâÇØ ÄÃ·³À» Á¤ÀÇÇÑ´Ù. 
+    -- ì„ íƒëœ ì»¬ëŸ¼ ê°œìˆ˜ë§Œí¼ ë£¨í”„ë¥¼ ëŒë©° DEFINE_COLUMN í”„ë¡œì‹œì €ë¥¼ í˜¸ì¶œí•´ ì»¬ëŸ¼ì„ ì •ì˜í•œë‹¤. 
     FOR i IN 1..l_colCnt 
     LOOP
         DBMS_SQL.DEFINE_COLUMN (l_theCursor, i, l_columnValue, 4000);
     END LOOP;
 
-    -- ½ÇÇà 
+    -- ì‹¤í–‰ 
     l_status := DBMS_SQL.EXECUTE(l_theCursor);
 
     WHILE ( DBMS_SQL.FETCH_ROWS (l_theCursor) > 0 ) 
     LOOP
-        -- ÄÃ·³ °³¼ö¸¸Å­ ´Ù½Ã ·çÇÁ¸¦ µ¹¸é¼­ ÄÃ·³ °ªÀ» l_columnValue º¯¼ö¿¡ ´ã´Â´Ù.
-        -- DBMS_SQL.DESC_TAB Çü º¯¼öÀÎ l_descTbl.COL_NAMEÀº ÄÃ·³ ¸íÄªÀÌ ÀÖ°í 
-        -- l_columnValue¿¡´Â ÄÃ·³ °ªÀÌ µé¾îÀÖ´Ù. 
+        -- ì»¬ëŸ¼ ê°œìˆ˜ë§Œí¼ ë‹¤ì‹œ ë£¨í”„ë¥¼ ëŒë©´ì„œ ì»¬ëŸ¼ ê°’ì„ l_columnValue ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤.
+        -- DBMS_SQL.DESC_TAB í˜• ë³€ìˆ˜ì¸ l_descTbl.COL_NAMEì€ ì»¬ëŸ¼ ëª…ì¹­ì´ ìžˆê³  
+        -- l_columnValueì—ëŠ” ì»¬ëŸ¼ ê°’ì´ ë“¤ì–´ìžˆë‹¤. 
         FOR i IN 1..l_colCnt 
         LOOP
           DBMS_SQL.COLUMN_VALUE ( l_theCursor, i, l_columnValue );
@@ -827,28 +827,28 @@ IS
     l_descTbl       DBMS_SQL.DESC_TAB;
     l_colCnt        NUMBER;   
     
-    v_sel_sql       VARCHAR2(1000);  -- SELECT ¹®Àå
-    v_ins_sql       VARCHAR2(1000);  -- INSERT ¹®Àå
+    v_sel_sql       VARCHAR2(1000);  -- SELECT ë¬¸ìž¥
+    v_ins_sql       VARCHAR2(1000);  -- INSERT ë¬¸ìž¥
 BEGIN
-	  -- ÀÔ·Â¹ÞÀº Å×ÀÌºí¸íÀ¸·Î SELECT Äõ¸®¸¦ ¸¸µç´Ù. 
+	  -- ìž…ë ¥ë°›ì€ í…Œì´ë¸”ëª…ìœ¼ë¡œ SELECT ì¿¼ë¦¬ë¥¼ ë§Œë“ ë‹¤. 
     v_sel_sql := 'SELECT * FROM ' || p_table || ' WHERE ROWNUM = 1';
 
 
-    -- ¹Þ¾Æ¿Â Äõ¸®¸¦ ÆÄ½ÌÇÑ´Ù. 
+    -- ë°›ì•„ì˜¨ ì¿¼ë¦¬ë¥¼ íŒŒì‹±í•œë‹¤. 
     DBMS_SQL.PARSE(  l_theCursor,  v_sel_sql, DBMS_SQL.NATIVE );
     
-    -- DESCRIBE_COLUMN ÇÁ·Î½ÃÀú : Ä¿¼­¿¡ ´ëÇÑ ÄÃ·³Á¤º¸¸¦ DBMS_SQL.DESC_TAB Çü º¯¼ö¿¡ ³Ö´Â´Ù. 
+    -- DESCRIBE_COLUMN í”„ë¡œì‹œì € : ì»¤ì„œì— ëŒ€í•œ ì»¬ëŸ¼ì •ë³´ë¥¼ DBMS_SQL.DESC_TAB í˜• ë³€ìˆ˜ì— ë„£ëŠ”ë‹¤. 
     DBMS_SQL.DESCRIBE_COLUMNS ( l_theCursor, l_colCnt, l_descTbl );
 
-    -- INSERT¹® Äõ¸®¸¦ ¸¸µç´Ù. 
+    -- INSERTë¬¸ ì¿¼ë¦¬ë¥¼ ë§Œë“ ë‹¤. 
     v_ins_sql := 'INSERT INTO ' || p_table || ' ( ';   
 
     FOR i IN 1..l_colCnt 
     LOOP
-      -- ¸Ç ¸¶Áö¸· ÄÃ·³¿¡ ¿À¸é ³¡¿¡ °ýÈ£¸¦ ºÙÀÎ´Ù. 
+      -- ë§¨ ë§ˆì§€ë§‰ ì»¬ëŸ¼ì— ì˜¤ë©´ ëì— ê´„í˜¸ë¥¼ ë¶™ì¸ë‹¤. 
       IF i = l_colCnt THEN        
         v_ins_sql := v_ins_sql || l_descTbl(i).COL_NAME || ' )';     
-      ELSE -- ·çÇÁ¸¦ µ¹¸ç 'ÄÃ·¯¸í,' ÇüÅÂ·Î ¸¸µç´Ù. 
+      ELSE -- ë£¨í”„ë¥¼ ëŒë©° 'ì»¬ëŸ¬ëª…,' í˜•íƒœë¡œ ë§Œë“ ë‹¤. 
         v_ins_sql := v_ins_sql || l_descTbl(i).COL_NAME || ', ';      
       END IF;
     END LOOP;

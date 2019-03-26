@@ -1,6 +1,6 @@
 --
   
-1. ´ÙÀ½°ú °°ÀÌ ºÎ¼­Å×ÀÌºíÀÇ º¹»çº»À» ¸¸µç´Ù. 
+1. ë‹¤ìŒê³¼ ê°™ì´ ë¶€ì„œí…Œì´ë¸”ì˜ ë³µì‚¬ë³¸ì„ ë§Œë“ ë‹¤. 
 
 CREATE TABLE ch10_departments 
 AS
@@ -11,10 +11,10 @@ SELECT department_id, department_name
 ALTER TABLE ch10_departments ADD CONSTRAINTS pk_ch10_departments PRIMARY KEY (department_id);  
   
   
-ºÎ¼­¹øÈ£, ºÎ¼­¸í, ÀÛ¾÷ flag(I: insert, U:update, D:delete)À» ¸Å°³º¯¼ö·Î ¹Þ¾Æ ch10_departments Å×ÀÌºí¿¡ 
-°¢°¢ INSERT, UPDATE, DELETE ÇÏ´Â ch10_iud_dep_proc ¶õ ÀÌ¸§ÀÇ ÇÁ·Î½ÃÀú¸¦ ¸¸µé¾îº¸ÀÚ.
+ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…, ìž‘ì—… flag(I: insert, U:update, D:delete)ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ ch10_departments í…Œì´ë¸”ì— 
+ê°ê° INSERT, UPDATE, DELETE í•˜ëŠ” ch10_iud_dep_proc ëž€ ì´ë¦„ì˜ í”„ë¡œì‹œì €ë¥¼ ë§Œë“¤ì–´ë³´ìž.
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE ch10_iud_dep_proc (
                     p_department_id    ch10_departments.department_id%TYPE,
@@ -49,18 +49,18 @@ BEGIN
 END;                       
 
 
-2. ´ÙÀ½°ú °°ÀÌ ÇÁ·Î½ÃÀú¸¦ ½ÇÇàÇØ º¸°í °á°ú°¡ ¾î¶»°Ô ³ª¿Ô´ÂÁö ±× ÀÌÀ¯¸¦ ¼³¸íÇÏ¶ó. 
+2. ë‹¤ìŒê³¼ ê°™ì´ í”„ë¡œì‹œì €ë¥¼ ì‹¤í–‰í•´ ë³´ê³  ê²°ê³¼ê°€ ì–´ë–»ê²Œ ë‚˜ì™”ëŠ”ì§€ ê·¸ ì´ìœ ë¥¼ ì„¤ëª…í•˜ë¼. 
 
-   EXEC ch10_iud_dep_proc (10, 'ÃÑ¹«±âÈ¹ºÎ', 'I');
+   EXEC ch10_iud_dep_proc (10, 'ì´ë¬´ê¸°íšë¶€', 'I');
    
-<Á¤´ä>
-ch10_departments Å×ÀÌºíÀº department_id°¡ PRIMARY KEYÀÎµ¥ ÀÌ¹Ì Á¸ÀçÇÏ´Â 10¹ø ºÎ¼­¿¡ ´ëÇØ INSERT ÀÛ¾÷À» ÇÏ¹Ç·Î
-½Ã½ºÅÛ ¿À·ù(¹«°á¼º Á¦¾àÁ¶°Ç À§¹Ý)°¡ ¹ß»ýÇÑ´Ù. 
+<ì •ë‹µ>
+ch10_departments í…Œì´ë¸”ì€ department_idê°€ PRIMARY KEYì¸ë° ì´ë¯¸ ì¡´ìž¬í•˜ëŠ” 10ë²ˆ ë¶€ì„œì— ëŒ€í•´ INSERT ìž‘ì—…ì„ í•˜ë¯€ë¡œ
+ì‹œìŠ¤í…œ ì˜¤ë¥˜(ë¬´ê²°ì„± ì œì•½ì¡°ê±´ ìœ„ë°˜)ê°€ ë°œìƒí•œë‹¤. 
 
 
-3. ch10_iud_dep_proc ¿¡¼­ ½Ã½ºÅÛ ¿¹¿Ü Ã³¸® ·ÎÁ÷À» Ãß°¡ÇØ º¸ÀÚ. ¿¹¿Ü°¡ ¹ß»ýÇÒ °æ¿ì ROLLBACK ÇÏµµ·Ï ÇÑ´Ù. ±×¸®°í 2¹ø ¹®Á¦ÀÇ ÇÁ·Î½ÃÀú¸¦ ½ÇÇàÇØº¸°í °á°ú¸¦ È®ÀÎÇØº¸ÀÚ. 
+3. ch10_iud_dep_proc ì—ì„œ ì‹œìŠ¤í…œ ì˜ˆì™¸ ì²˜ë¦¬ ë¡œì§ì„ ì¶”ê°€í•´ ë³´ìž. ì˜ˆì™¸ê°€ ë°œìƒí•  ê²½ìš° ROLLBACK í•˜ë„ë¡ í•œë‹¤. ê·¸ë¦¬ê³  2ë²ˆ ë¬¸ì œì˜ í”„ë¡œì‹œì €ë¥¼ ì‹¤í–‰í•´ë³´ê³  ê²°ê³¼ë¥¼ í™•ì¸í•´ë³´ìž. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE ch10_iud_dep_proc (
                     p_department_id    ch10_departments.department_id%TYPE,
@@ -100,10 +100,10 @@ BEGIN
 END;   
 
 
-4. ch10_iud_dep_proc¿¡¼­ ºÎ¼­¸¦ »èÁ¦ ½Ã, »ç¿øÅ×ÀÌºíÀ» °Ë»öÇØ ÇØ´ç ºÎ¼­¿¡ ÇÒ´çµÈ »ç¿øÀÌ ÀÖ´Â °æ¿ì,
-   »èÁ¦ÇÒ ¼ö ¾ø´Ù´Â ¸Þ½ÃÁö¿Í ÇÔ²² ÀÌ¸¦ »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü·Î ±¸ÇöÇØº¸ÀÚ. 
+4. ch10_iud_dep_procì—ì„œ ë¶€ì„œë¥¼ ì‚­ì œ ì‹œ, ì‚¬ì›í…Œì´ë¸”ì„ ê²€ìƒ‰í•´ í•´ë‹¹ ë¶€ì„œì— í• ë‹¹ëœ ì‚¬ì›ì´ ìžˆëŠ” ê²½ìš°,
+   ì‚­ì œí•  ìˆ˜ ì—†ë‹¤ëŠ” ë©”ì‹œì§€ì™€ í•¨ê»˜ ì´ë¥¼ ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ë¡œ êµ¬í˜„í•´ë³´ìž. 
    
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE ch10_iud_dep_proc (
                     p_department_id    ch10_departments.department_id%TYPE,
@@ -147,7 +147,7 @@ BEGIN
   COMMIT;
   
   EXCEPTION WHEN dept_exception THEN
-                 DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­¿¡ ÇÒ´çµÈ »ç¿øÀÌ Á¸ÀçÇØ »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù!');
+                 DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œì— í• ë‹¹ëœ ì‚¬ì›ì´ ì¡´ìž¬í•´ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!');
                  ROLLBACK;
   
             WHEN OTHERS THEN
@@ -158,9 +158,9 @@ BEGIN
 END;      
 
 
-5. 4¹ø¿¡¼­ ÀÛ¼ºÇÑ ·ÎÁ÷À» µ¿ÀÏÇÑ »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü·Î Ã³¸®ÇÏ´Âµ¥, ÀÌ¹ø¿¡´Â »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü¸¦ ¿¹¿ÜÄÚµå -20000 ¹øÀ¸·Î ¸ÅÇÎÇØ¼­ Ã³¸®ÇØº¸ÀÚ. 
+5. 4ë²ˆì—ì„œ ìž‘ì„±í•œ ë¡œì§ì„ ë™ì¼í•œ ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ë¡œ ì²˜ë¦¬í•˜ëŠ”ë°, ì´ë²ˆì—ëŠ” ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ë¥¼ ì˜ˆì™¸ì½”ë“œ -20000 ë²ˆìœ¼ë¡œ ë§¤í•‘í•´ì„œ ì²˜ë¦¬í•´ë³´ìž. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE ch10_iud_dep_proc (
                     p_department_id    ch10_departments.department_id%TYPE,
@@ -208,7 +208,7 @@ BEGIN
                  DBMS_OUTPUT.PUT_LINE(SQLCODE);
                  DBMS_OUTPUT.PUT_LINE(SQLERRM);
 
-                 DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­¿¡ ÇÒ´çµÈ »ç¿øÀÌ Á¸ÀçÇØ »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù!');
+                 DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œì— í• ë‹¹ëœ ì‚¬ì›ì´ ì¡´ìž¬í•´ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!');
                  ROLLBACK;
   
             WHEN OTHERS THEN
@@ -219,9 +219,9 @@ BEGIN
 END;      
 
 
-6. 5¹ø ¹®Á¦¿Í µ¿ÀÏÇÑ ·ÎÁ÷À» ±¸ÇöÇÏ´Âµ¥, ÀÌ¹ø¿¡´Â RAISE_APPLICATION_ERROR ¸¦ »ç¿ëÇØ¼­ ±¸ÇöÇØº¸ÀÚ. 
+6. 5ë²ˆ ë¬¸ì œì™€ ë™ì¼í•œ ë¡œì§ì„ êµ¬í˜„í•˜ëŠ”ë°, ì´ë²ˆì—ëŠ” RAISE_APPLICATION_ERROR ë¥¼ ì‚¬ìš©í•´ì„œ êµ¬í˜„í•´ë³´ìž. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE ch10_iud_dep_proc (
                     p_department_id    ch10_departments.department_id%TYPE,
@@ -253,7 +253,7 @@ BEGIN
 	   WHERE department_id = p_department_id;
 	   
 	  IF vn_cnt > 0 THEN
-	     RAISE_APPLICATION_ERROR (-20000, 'ÇØ´ç ºÎ¼­¿¡ ÇÒ´çµÈ »ç¿øÀÌ Á¸ÀçÇØ »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù!');
+	     RAISE_APPLICATION_ERROR (-20000, 'í•´ë‹¹ ë¶€ì„œì— í• ë‹¹ëœ ì‚¬ì›ì´ ì¡´ìž¬í•´ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!');
 	  
 	  END IF;
 	

@@ -1,19 +1,19 @@
 
-1. ´ÙÀ½°ú °°Àº ±â´ÉÀ» ¼öÇàÇÏ´Â ÇÁ·Î½ÃÀú¸¦ ¸¸µé¾î º¸ÀÚ. 
+1. ë‹¤ìŒê³¼ ê°™ì€ ê¸°ëŠ¥ì„ ìˆ˜í–‰í•˜ëŠ” í”„ë¡œì‹œì €ë¥¼ ë§Œë“¤ì–´ ë³´ìž. 
 
-   (1) ÇÁ·Î½ÃÀú¸í : ch13_exam_crt_table_proc
-   (2) ¸Å°³º¯¼ö   : Å×ÀÌºí¸í (pv_src_table )
-   (3) ³»¿ë       : - ¸Å°³º¯¼ö·Î ³Ñ¾î¿Â Å×ÀÌºí°ú µ¿ÀÏÇÑ ±¸Á¶ÀÇ Å×ÀÌºíÀ» »ý¼ºÇÏ´Âµ¥, »õ·Î »ý¼ºÇÏ´Â Å×ÀÌºí¸íÀº ±âÁ¸ Å×ÀÌºí¸í¿¡ '_NEW'¸¦ ºÙ¿© »ý¼ºÇÑ´Ù. 
-                    - NDS ¹æ½ÄÀ¸·Î ¸¸µç´Ù. 
+   (1) í”„ë¡œì‹œì €ëª… : ch13_exam_crt_table_proc
+   (2) ë§¤ê°œë³€ìˆ˜   : í…Œì´ë¸”ëª… (pv_src_table )
+   (3) ë‚´ìš©       : - ë§¤ê°œë³€ìˆ˜ë¡œ ë„˜ì–´ì˜¨ í…Œì´ë¸”ê³¼ ë™ì¼í•œ êµ¬ì¡°ì˜ í…Œì´ë¸”ì„ ìƒì„±í•˜ëŠ”ë°, ìƒˆë¡œ ìƒì„±í•˜ëŠ” í…Œì´ë¸”ëª…ì€ ê¸°ì¡´ í…Œì´ë¸”ëª…ì— '_NEW'ë¥¼ ë¶™ì—¬ ìƒì„±í•œë‹¤. 
+                    - NDS ë°©ì‹ìœ¼ë¡œ ë§Œë“ ë‹¤. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE ch13_exam_crt_table_proc ( pv_src_table IN VARCHAR2 )
 IS
   vs_sql       VARCHAR2(1000);
   vs_new_table VARCHAR2(100) := pv_src_table || '_NEW';
 BEGIN
-	-- Å×ÀÌºí »ý¼º
+	-- í…Œì´ë¸” ìƒì„±
 	vs_sql := 'CREATE TABLE ' || vs_new_table || ' AS SELECT * FROM ' || pv_src_table;
 	
 	EXECUTE IMMEDIATE vs_sql;
@@ -22,10 +22,10 @@ END;
 
 
 
-2. ch13_exam_crt_table_proc ÇÁ·Î½ÃÀú¿¡¼­ »ý¼ºÇÒ Å×ÀÌºíÀÌ ÀÌ¹Ì ÀÖÀ¸¸é »ý¼ºÇÏÁö ¾Êµµ·Ï ¼öÁ¤ÇØ º¸ÀÚ. 
+2. ch13_exam_crt_table_proc í”„ë¡œì‹œì €ì—ì„œ ìƒì„±í•  í…Œì´ë¸”ì´ ì´ë¯¸ ìžˆìœ¼ë©´ ìƒì„±í•˜ì§€ ì•Šë„ë¡ ìˆ˜ì •í•´ ë³´ìž. 
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PROCEDURE ch13_exam_crt_table_proc ( pv_src_table IN VARCHAR2 )
 IS
@@ -33,7 +33,7 @@ IS
   vs_new_table VARCHAR2(100) := pv_src_table || '_NEW';
 BEGIN
 	
-	-- Å×ÀÌºí »ý¼º
+	-- í…Œì´ë¸” ìƒì„±
 	vs_sql := 'CREATE TABLE ' || vs_new_table || ' AS SELECT * FROM ' || pv_src_table;
 	
 	EXECUTE IMMEDIATE vs_sql;
@@ -43,17 +43,17 @@ EXCEPTION WHEN OTHERS THEN
 	
 END;
 
-3. ch13_physicist Å×ÀÌºí¿¡ ´ëÇÑ º¹»çº» Å×ÀÌºíÀ» ¸¸µé°í º¹»çº» µ¥ÀÌÅÍ¸¦ Áö¿î ´ÙÀ½, 
-   ´Ù½Ã ch13_physicist Å×ÀÌºíÀÇ µ¥ÀÌÅÍ¸¦ ¼±ÅÃÇØ º¯¼ö¿¡ ´ãÀº ´ÙÀ½ ÀÌ º¯¼ö¸¦ ÀÌ¿ëÇØ º¹»çº» Å×ÀÌºí¿¡ µ¥ÀÌÅÍ¸¦ ³Ö´Â ÀÍ¸íºí·ÏÀ» ¸¸µé¾î º¸ÀÚ. 
+3. ch13_physicist í…Œì´ë¸”ì— ëŒ€í•œ ë³µì‚¬ë³¸ í…Œì´ë¸”ì„ ë§Œë“¤ê³  ë³µì‚¬ë³¸ ë°ì´í„°ë¥¼ ì§€ìš´ ë‹¤ìŒ, 
+   ë‹¤ì‹œ ch13_physicist í…Œì´ë¸”ì˜ ë°ì´í„°ë¥¼ ì„ íƒí•´ ë³€ìˆ˜ì— ë‹´ì€ ë‹¤ìŒ ì´ ë³€ìˆ˜ë¥¼ ì´ìš©í•´ ë³µì‚¬ë³¸ í…Œì´ë¸”ì— ë°ì´í„°ë¥¼ ë„£ëŠ” ìµëª…ë¸”ë¡ì„ ë§Œë“¤ì–´ ë³´ìž. 
    
   
-<Á¤´ä>
+<ì •ë‹µ>
 DECLARE 
-  -- Ä¿¼­Å¸ÀÔ ¼±¾ð
+  -- ì»¤ì„œíƒ€ìž… ì„ ì–¸
   TYPE query_physicist  IS REF CURSOR;
-  -- Ä¿¼­ º¯¼ö ¼±¾ð
+  -- ì»¤ì„œ ë³€ìˆ˜ ì„ ì–¸
   myPhysicist  query_physicist;
-  -- ¹ÝÈ¯°ªÀ» ¹ÞÀ» ·¹ÄÚµå ¼±¾ð
+  -- ë°˜í™˜ê°’ì„ ë°›ì„ ë ˆì½”ë“œ ì„ ì–¸
   empPhysicist  ch13_physicist%ROWTYPE;
   
   vs_new_table  VARCHAR2(50) := 'ch13_physicist_new';
@@ -61,28 +61,28 @@ DECLARE
   vs_select_sql VARCHAR2(1000);
 
 BEGIN
-	-- ½Å±Ô Å×ÀÌºí »ý¼º
+	-- ì‹ ê·œ í…Œì´ë¸” ìƒì„±
 	ch13_exam_crt_table_proc ('ch13_physicist');
-	-- µ¥ÀÌÅÍ »èÁ¦
+	-- ë°ì´í„° ì‚­ì œ
 	EXECUTE IMMEDIATE  'TRUNCATE TABLE ' || vs_new_table;
 	
-	-- ¸ÕÀú ¿øÃµ Å×ÀÌºí µ¥ÀÌÅÍ¸¦ ¼±ÅÃÇÑ´Ù. 
+	-- ë¨¼ì € ì›ì²œ í…Œì´ë¸” ë°ì´í„°ë¥¼ ì„ íƒí•œë‹¤. 
   vs_select_sql := 'SELECT * FROM ch13_physicist';
   
   OPEN myPhysicist  FOR  vs_select_sql;
   
-  --·çÇÁ¸¦ µ¹¸ç Ä¿¼­º¯¼ö¿¡ ´ã±ä °ªÀ» Ãâ·ÂÇÑ´Ù.
+  --ë£¨í”„ë¥¼ ëŒë©° ì»¤ì„œë³€ìˆ˜ì— ë‹´ê¸´ ê°’ì„ ì¶œë ¥í•œë‹¤.
   LOOP
     FETCH myPhysicist  INTO  empPhysicist;
     EXIT WHEN myPhysicist%NOTFOUND;	
     
-    -- »õ·Î¿î Å×ÀÌºí¿¡ INSERT ÇÑ´Ù. 
+    -- ìƒˆë¡œìš´ í…Œì´ë¸”ì— INSERT í•œë‹¤. 
     vs_insert_sql := 'INSERT INTO ' || vs_new_table || ' VALUES ( ' || empPhysicist.ids || ',' || '''' || empPhysicist.names || '''' || ',' || 
                      'TO_DATE(' || '''' || empPhysicist.birth_dt || '''' ||  ' ))';
                      
     EXECUTE IMMEDIATE vs_insert_sql;                 
   END LOOP;
-  -- Ä¿¼­¸¦ ´Ý´Â´Ù
+  -- ì»¤ì„œë¥¼ ë‹«ëŠ”ë‹¤
   CLOSE myPhysicist;
   
   COMMIT;
@@ -90,9 +90,9 @@ BEGIN
 END;  
 
 	
-4. 3 ¹ø¿¡¼­ ÀÛ¼ºÇÑ ÀÍ¸íºí·ÏÀ» DBMS_SQL ÆÐÅ°Áö·Î º¯È¯ÇØ ÀÛ¼ºÇØº¸ÀÚ. 
+4. 3 ë²ˆì—ì„œ ìž‘ì„±í•œ ìµëª…ë¸”ë¡ì„ DBMS_SQL íŒ¨í‚¤ì§€ë¡œ ë³€í™˜í•´ ìž‘ì„±í•´ë³´ìž. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 DECLARE 
   vn_ids        ch13_physicist.ids%TYPE;
@@ -110,12 +110,12 @@ DECLARE
   vn_ins_return NUMBER;
 
 BEGIN
-	-- ½Å±Ô Å×ÀÌºí »ý¼º
+	-- ì‹ ê·œ í…Œì´ë¸” ìƒì„±
 	ch13_exam_crt_table_proc ('ch13_physicist');
-	-- µ¥ÀÌÅÍ »èÁ¦
+	-- ë°ì´í„° ì‚­ì œ
 	EXECUTE IMMEDIATE  'TRUNCATE TABLE ' || vs_new_table;
 	
-	-- ¸ÕÀú ¿øÃµ Å×ÀÌºí µ¥ÀÌÅÍ¸¦ ¼±ÅÃÇÑ´Ù. 
+	-- ë¨¼ì € ì›ì²œ í…Œì´ë¸” ë°ì´í„°ë¥¼ ì„ íƒí•œë‹¤. 
   vs_select_sql := 'SELECT * FROM ch13_physicist';
   
   DBMS_SQL.PARSE (vn_sel_cur_id, vs_select_sql, DBMS_SQL.NATIVE);  
@@ -126,45 +126,45 @@ BEGIN
   
   vn_sel_return := DBMS_SQL.EXECUTE (vn_sel_cur_id);
   
-  -- INSERT¹® Ã³¸®
+  -- INSERTë¬¸ ì²˜ë¦¬
   vs_insert_sql := 'INSERT INTO ' || vs_new_table || ' VALUES (:a, :b, :c)';
   DBMS_SQL.PARSE (vn_ins_cur_id, vs_insert_sql, DBMS_SQL.NATIVE);
   
   LOOP
-    -- °á°ú°Ç¼ö°¡ ¾øÀ¸¸é ·çÇÁ¸¦ ºüÁ®³ª°£´Ù. 
+    -- ê²°ê³¼ê±´ìˆ˜ê°€ ì—†ìœ¼ë©´ ë£¨í”„ë¥¼ ë¹ ì ¸ë‚˜ê°„ë‹¤. 
     IF DBMS_SQL.FETCH_ROWS (vn_sel_cur_id) = 0 THEN
        EXIT;
     END IF;
     
-    --  ÆÐÄ¡µÈ °á°ú°ª ¹Þ¾Æ¿À±â 
+    --  íŒ¨ì¹˜ëœ ê²°ê³¼ê°’ ë°›ì•„ì˜¤ê¸° 
     DBMS_SQL.COLUMN_VALUE ( vn_sel_cur_id, 1, vn_ids);
     DBMS_SQL.COLUMN_VALUE ( vn_sel_cur_id, 2, vs_names);
     DBMS_SQL.COLUMN_VALUE ( vn_sel_cur_id, 3, vd_birth_dt);
     
-    -- INSERT¹® ¹ÙÀÎµå º¯¼ö Ã³¸® 
+    -- INSERTë¬¸ ë°”ì¸ë“œ ë³€ìˆ˜ ì²˜ë¦¬ 
     DBMS_SQL.BIND_VARIABLE ( vn_ins_cur_id, ':a', vn_ids);
     DBMS_SQL.BIND_VARIABLE ( vn_ins_cur_id, ':b', vs_names);
     DBMS_SQL.BIND_VARIABLE ( vn_ins_cur_id, ':c', vd_birth_dt);
     
-    -- INSERT¹® ½ÇÇà
+    -- INSERTë¬¸ ì‹¤í–‰
     vn_ins_return := DBMS_SQL.EXECUTE (vn_ins_cur_id);
     
   END LOOP;
   
-  -- Ä¿¼­ ´Ý±â
-  DBMS_SQL.CLOSE_CURSOR (vn_sel_cur_id);  -- select ¹® Ä¿¼­  
-  DBMS_SQL.CLOSE_CURSOR (vn_ins_cur_id);  -- insert ¹® Ä¿¼­ 
+  -- ì»¤ì„œ ë‹«ê¸°
+  DBMS_SQL.CLOSE_CURSOR (vn_sel_cur_id);  -- select ë¬¸ ì»¤ì„œ  
+  DBMS_SQL.CLOSE_CURSOR (vn_ins_cur_id);  -- insert ë¬¸ ì»¤ì„œ 
   
   
 END;  
   
 
-5. 4 ¹ø¿¡¼­ ÀÛ¼ºÇÑ ÀÍ¸íºí·ÏÀÇ ÄÚµå¸¦ Á» ´õ °£ÆíÇÏ°Ô ÁÙ¿©º¸ÀÚ. (ÈùÆ®: BULK DML ÇüÅÂ·Î ÀÛ¼ºÇÒ °Í)
+5. 4 ë²ˆì—ì„œ ìž‘ì„±í•œ ìµëª…ë¸”ë¡ì˜ ì½”ë“œë¥¼ ì¢€ ë” ê°„íŽ¸í•˜ê²Œ ì¤„ì—¬ë³´ìž. (ížŒíŠ¸: BULK DML í˜•íƒœë¡œ ìž‘ì„±í•  ê²ƒ)
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 DECLARE 
-  vc_cur          SYS_REFCURSOR;  -- Ä¿¼­º¯¼ö
+  vc_cur          SYS_REFCURSOR;  -- ì»¤ì„œë³€ìˆ˜
   vn_ids_array    DBMS_SQL.NUMBER_TABLE;
   vs_name_array   DBMS_SQL.VARCHAR2_TABLE;
   vd_dt_array     DBMS_SQL.DATE_TABLE;
@@ -180,40 +180,40 @@ DECLARE
   vn_ins_return NUMBER;
 
 BEGIN
-	-- ½Å±Ô Å×ÀÌºí »ý¼º
+	-- ì‹ ê·œ í…Œì´ë¸” ìƒì„±
 	ch13_exam_crt_table_proc ('ch13_physicist');
-	-- µ¥ÀÌÅÍ »èÁ¦
+	-- ë°ì´í„° ì‚­ì œ
 	EXECUTE IMMEDIATE  'TRUNCATE TABLE ' || vs_new_table;
 	
-	-- ¸ÕÀú ¿øÃµ Å×ÀÌºí µ¥ÀÌÅÍ¸¦ ¼±ÅÃÇÑ´Ù. 
+	-- ë¨¼ì € ì›ì²œ í…Œì´ë¸” ë°ì´í„°ë¥¼ ì„ íƒí•œë‹¤. 
   vs_select_sql := 'SELECT * FROM ch13_physicist';
   
   DBMS_SQL.PARSE (vn_sel_cur_id, vs_select_sql, DBMS_SQL.NATIVE);  
   
   vn_sel_return := DBMS_SQL.EXECUTE (vn_sel_cur_id);
   
-  -- DBMS_SQL.TO_REFCURSOR¸¦ »ç¿ëÇØ Ä¿¼­·Î º¯È¯ 
+  -- DBMS_SQL.TO_REFCURSORë¥¼ ì‚¬ìš©í•´ ì»¤ì„œë¡œ ë³€í™˜ 
   vc_cur := DBMS_SQL.TO_REFCURSOR ( vn_sel_cur_id );
   
-  -- º¯È¯ÇÑ Ä¿¼­¸¦ »ç¿ëÇØ °á°ú¸¦ ÆÐÄ¡ÇÏ°í °á°ú Ãâ·Â
+  -- ë³€í™˜í•œ ì»¤ì„œë¥¼ ì‚¬ìš©í•´ ê²°ê³¼ë¥¼ íŒ¨ì¹˜í•˜ê³  ê²°ê³¼ ì¶œë ¥
   FETCH vc_cur  BULK COLLECT INTO vn_ids_array, vs_name_array, vd_dt_array;
   
-  -- INSERT¹® Ã³¸®
+  -- INSERTë¬¸ ì²˜ë¦¬
   vs_insert_sql := 'INSERT INTO ' || vs_new_table || ' VALUES (:a, :b, :c)';
   DBMS_SQL.PARSE (vn_ins_cur_id, vs_insert_sql, DBMS_SQL.NATIVE);
   
-  -- ¹ÙÀÎµå ¹è¿­ ¿¬°á 
+  -- ë°”ì¸ë“œ ë°°ì—´ ì—°ê²° 
   DBMS_SQL.BIND_ARRAY ( vn_ins_cur_id, ':a', vn_ids_array);
   DBMS_SQL.BIND_ARRAY ( vn_ins_cur_id, ':b', vs_name_array);
   DBMS_SQL.BIND_ARRAY ( vn_ins_cur_id, ':c', vd_dt_array);
   
-  -- INSERT¹® ½ÇÇà
+  -- INSERTë¬¸ ì‹¤í–‰
   vn_ins_return := DBMS_SQL.EXECUTE (vn_ins_cur_id);
   
-  -- Ä¿¼­ ´Ý±â
+  -- ì»¤ì„œ ë‹«ê¸°
   
-  CLOSE vc_cur; -- SELECT¹® Ä¿¼­   
-  DBMS_SQL.CLOSE_CURSOR (vn_ins_cur_id);  -- insert ¹® Ä¿¼­
+  CLOSE vc_cur; -- SELECTë¬¸ ì»¤ì„œ   
+  DBMS_SQL.CLOSE_CURSOR (vn_ins_cur_id);  -- insert ë¬¸ ì»¤ì„œ
   
   COMMIT;  
   

@@ -1,101 +1,101 @@
--- 19Àå. ÇÁ·Î½ÃÀú·Î ÀÌ¸ÞÀÏÀ» º¸³»ÀÚ
--- 01. µ¥ÀÌÅÍ ¾ÏÈ£È­
--- (2) DBMS_CRYPTO ÆÐÅ°Áö
+-- 19ìž¥. í”„ë¡œì‹œì €ë¡œ ì´ë©”ì¼ì„ ë³´ë‚´ìž
+-- 01. ë°ì´í„° ì•”í˜¸í™”
+-- (2) DBMS_CRYPTO íŒ¨í‚¤ì§€
 
 conn SYS/hong AS SYSDBA;
 
 grant execute on DBMS_CRYPTO to public;
 
--- (4) ¾ÏÈ£È­ ½Ç½À
+-- (4) ì•”í˜¸í™” ì‹¤ìŠµ
 
 DECLARE
-  input_string  VARCHAR2 (200) := 'The Oracle';  -- ¾ÏÈ£È­ÇÒ VARCHAR2 µ¥ÀÌÅÍ
-  output_string VARCHAR2 (200); -- º¹È£È­µÈ VARCHAR2 µ¥ÀÌÅÍ 
+  input_string  VARCHAR2 (200) := 'The Oracle';  -- ì•”í˜¸í™”í•  VARCHAR2 ë°ì´í„°
+  output_string VARCHAR2 (200); -- ë³µí˜¸í™”ëœ VARCHAR2 ë°ì´í„° 
 
-  encrypted_raw RAW (2000); -- ¾ÏÈ£È­µÈ µ¥ÀÌÅÍ 
-  decrypted_raw RAW (2000); -- º¹È£È­ÇÒ µ¥ÀÌÅÍ 
+  encrypted_raw RAW (2000); -- ì•”í˜¸í™”ëœ ë°ì´í„° 
+  decrypted_raw RAW (2000); -- ë³µí˜¸í™”í•  ë°ì´í„° 
 
-  num_key_bytes NUMBER := 256/8; -- ¾ÏÈ£È­ Å°¸¦ ¸¸µé ±æÀÌ (256 ºñÆ®, 32 ¹ÙÀÌÆ®)
-  key_bytes_raw RAW (32);        -- ¾ÏÈ£È­ Å° 
+  num_key_bytes NUMBER := 256/8; -- ì•”í˜¸í™” í‚¤ë¥¼ ë§Œë“¤ ê¸¸ì´ (256 ë¹„íŠ¸, 32 ë°”ì´íŠ¸)
+  key_bytes_raw RAW (32);        -- ì•”í˜¸í™” í‚¤ 
 
-  -- ¾ÏÈ£È­ ½´Æ® 
+  -- ì•”í˜¸í™” ìŠˆíŠ¸ 
   encryption_type PLS_INTEGER; 
   
 BEGIN
-	 -- ¾ÏÈ£È­ ½´Æ® ¼³Á¤
-	 encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ºñÆ® Å°¸¦ »ç¿ëÇÑ AES ¾ÏÈ£È­ 
-	                    DBMS_CRYPTO.CHAIN_CBC +      -- CBC ¸ðµå 
-	                    DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5·Î ÀÌ·ç¾îÁø ÆÐµù
+	 -- ì•”í˜¸í™” ìŠˆíŠ¸ ì„¤ì •
+	 encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ë¹„íŠ¸ í‚¤ë¥¼ ì‚¬ìš©í•œ AES ì•”í˜¸í™” 
+	                    DBMS_CRYPTO.CHAIN_CBC +      -- CBC ëª¨ë“œ 
+	                    DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5ë¡œ ì´ë£¨ì–´ì§„ íŒ¨ë”©
 	
-   DBMS_OUTPUT.PUT_LINE ('¿øº» ¹®ÀÚ¿­: ' || input_string);
+   DBMS_OUTPUT.PUT_LINE ('ì›ë³¸ ë¬¸ìžì—´: ' || input_string);
 
-   -- RANDOMBYTES ÇÔ¼ö¸¦ »ç¿ëÇØ ¾ÏÈ£È­ Å° »ý¼º 
+   -- RANDOMBYTES í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ ì•”í˜¸í™” í‚¤ ìƒì„± 
    key_bytes_raw := DBMS_CRYPTO.RANDOMBYTES (num_key_bytes);
    
-   -- ENCRYPT ÇÔ¼ö·Î ¾ÏÈ£È­¸¦ ÇÑ´Ù. ¿øº» ¹®ÀÚ¿­À» UTL_I18N.STRING_TO_RAW¸¦ »ç¿ëÇØ RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+   -- ENCRYPT í•¨ìˆ˜ë¡œ ì•”í˜¸í™”ë¥¼ í•œë‹¤. ì›ë³¸ ë¬¸ìžì—´ì„ UTL_I18N.STRING_TO_RAWë¥¼ ì‚¬ìš©í•´ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
    encrypted_raw := DBMS_CRYPTO.ENCRYPT ( src => UTL_I18N.STRING_TO_RAW (input_string, 'AL32UTF8'),   
                                           typ => encryption_type,
                                           key => key_bytes_raw
                                         );
                                         
-   -- ¾ÏÈ£È­µÈ RAW µ¥ÀÌÅÍ¸¦ ÇÑ¹ø Ãâ·ÂÇØº¸ÀÚ
-   DBMS_OUTPUT.PUT_LINE('¾ÏÈ£È­µÈ RAW µ¥ÀÌÅÍ: ' || encrypted_raw);                                     
-   -- ¾ÏÈ£È­ ÇÑ µ¥ÀÌÅÍ¸¦ ´Ù½Ã º¹È£È­ ( ¾ÏÈ£È­Çß´ø Å°¿Í ¾ÏÈ£È­ ½´Æ®´Â µ¿ÀÏÇÏ°Ô »ç¿ëÇØ¾ß ÇÑ´Ù. )
+   -- ì•”í˜¸í™”ëœ RAW ë°ì´í„°ë¥¼ í•œë²ˆ ì¶œë ¥í•´ë³´ìž
+   DBMS_OUTPUT.PUT_LINE('ì•”í˜¸í™”ëœ RAW ë°ì´í„°: ' || encrypted_raw);                                     
+   -- ì•”í˜¸í™” í•œ ë°ì´í„°ë¥¼ ë‹¤ì‹œ ë³µí˜¸í™” ( ì•”í˜¸í™”í–ˆë˜ í‚¤ì™€ ì•”í˜¸í™” ìŠˆíŠ¸ëŠ” ë™ì¼í•˜ê²Œ ì‚¬ìš©í•´ì•¼ í•œë‹¤. )
    decrypted_raw := DBMS_CRYPTO.DECRYPT ( src => encrypted_raw,
                                           typ => encryption_type,
                                           key => key_bytes_raw
                                         );
    
-   -- º¹È£È­µÈ RAW Å¸ÀÔ µ¥ÀÌÅÍ¸¦ UTL_I18N.RAW_TO_CHAR¸¦ »ç¿ëÇØ ´Ù½Ã VARCHAR2·Î º¯È¯ 
+   -- ë³µí˜¸í™”ëœ RAW íƒ€ìž… ë°ì´í„°ë¥¼ UTL_I18N.RAW_TO_CHARë¥¼ ì‚¬ìš©í•´ ë‹¤ì‹œ VARCHAR2ë¡œ ë³€í™˜ 
    output_string := UTL_I18N.RAW_TO_CHAR (decrypted_raw, 'AL32UTF8');
-   -- º¹È£È­µÈ ¹®ÀÚ¿­ Ãâ·Â 
-   DBMS_OUTPUT.PUT_LINE ('º¹È£È­µÈ ¹®ÀÚ¿­: ' || output_string);
+   -- ë³µí˜¸í™”ëœ ë¬¸ìžì—´ ì¶œë ¥ 
+   DBMS_OUTPUT.PUT_LINE ('ë³µí˜¸í™”ëœ ë¬¸ìžì—´: ' || output_string);
 END;
 
 
--- HASH, MAC ÇÔ¼ö
+-- HASH, MAC í•¨ìˆ˜
 DECLARE
 
-  input_string  VARCHAR2 (200) := 'The Oracle';  -- ÀÔ·Â VARCHAR2 µ¥ÀÌÅÍ
-  input_raw     RAW(128);                        -- ÀÔ·Â RAW µ¥ÀÌÅÍ 
+  input_string  VARCHAR2 (200) := 'The Oracle';  -- ìž…ë ¥ VARCHAR2 ë°ì´í„°
+  input_raw     RAW(128);                        -- ìž…ë ¥ RAW ë°ì´í„° 
 
-  encrypted_raw RAW (2000); -- ¾ÏÈ£È­ µ¥ÀÌÅÍ 
+  encrypted_raw RAW (2000); -- ì•”í˜¸í™” ë°ì´í„° 
   
-  key_string VARCHAR2(8) := 'secret';  -- MAC ÇÔ¼ö¿¡¼­ »ç¿ëÇÒ ºñ¹Ð Å°
-  raw_key RAW(128) := UTL_RAW.CAST_TO_RAW(CONVERT(key_string,'AL32UTF8','US7ASCII')); -- ºñ¹ÐÅ°¸¦ RAW Å¸ÀÔÀ¸·Î º¯È¯
+  key_string VARCHAR2(8) := 'secret';  -- MAC í•¨ìˆ˜ì—ì„œ ì‚¬ìš©í•  ë¹„ë°€ í‚¤
+  raw_key RAW(128) := UTL_RAW.CAST_TO_RAW(CONVERT(key_string,'AL32UTF8','US7ASCII')); -- ë¹„ë°€í‚¤ë¥¼ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜
   
 BEGIN
-	-- VARCHAR2¸¦ RAW Å¸ÀÔÀ¸·Î º¯È¯
+	-- VARCHAR2ë¥¼ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜
 	input_raw := UTL_I18N.STRING_TO_RAW (input_string, 'AL32UTF8');
 	
 	
-	DBMS_OUTPUT.PUT_LINE('----------- HASH ÇÔ¼ö -------------');
+	DBMS_OUTPUT.PUT_LINE('----------- HASH í•¨ìˆ˜ -------------');
 	encrypted_raw := DBMS_CRYPTO.HASH( src => input_raw,
                                      typ => DBMS_CRYPTO.HASH_SH1);
                                      
-  DBMS_OUTPUT.PUT_LINE('ÀÔ·Â ¹®ÀÚ¿­ÀÇ ÇØ½Ã°ª : ' || RAWTOHEX(encrypted_raw));   
+  DBMS_OUTPUT.PUT_LINE('ìž…ë ¥ ë¬¸ìžì—´ì˜ í•´ì‹œê°’ : ' || RAWTOHEX(encrypted_raw));   
     
   
-  DBMS_OUTPUT.PUT_LINE('----------- MAC ÇÔ¼ö -------------'); 
+  DBMS_OUTPUT.PUT_LINE('----------- MAC í•¨ìˆ˜ -------------'); 
   encrypted_raw := DBMS_CRYPTO.MAC( src => input_raw,
                                     typ => DBMS_CRYPTO.HMAC_MD5,
                                     key => raw_key);   
                                     
-  DBMS_OUTPUT.PUT_LINE('MAC °ª : ' || RAWTOHEX(encrypted_raw));
+  DBMS_OUTPUT.PUT_LINE('MAC ê°’ : ' || RAWTOHEX(encrypted_raw));
 END;
 
 
--- ÇöÀå ³ëÇÏ¿ì
+-- í˜„ìž¥ ë…¸í•˜ìš°
 DECLARE
-  vv_ddl VARCHAR2(1000); -- ÆÐÅ°Áö ¼Ò½º¸¦ ÀúÀåÇÏ´Â º¯¼ö
+  vv_ddl VARCHAR2(1000); -- íŒ¨í‚¤ì§€ ì†ŒìŠ¤ë¥¼ ì €ìž¥í•˜ëŠ” ë³€ìˆ˜
 BEGIN
-	-- ÆÐÅ°Áö ¼Ò½º¸¦ vv_ddl¿¡ ¼³Á¤
+	-- íŒ¨í‚¤ì§€ ì†ŒìŠ¤ë¥¼ vv_ddlì— ì„¤ì •
   vv_ddl := 'CREATE OR REPLACE PACKAGE ch19_wrap_pkg IS
                 pv_key_string VARCHAR2(30) := ''OracleKey'';
              END ch19_wrap_pkg;';
              
         
-  -- CREATE_WRAPPED ÇÁ·Î½ÃÀú¸¦ »ç¿ëÇÏ¸é ÆÐÅ°Áö ¼Ò½º¸¦ ¼û±â´Â °Í°ú µ¿½Ã¿¡ ÄÄÆÄÀÏµµ ¼öÇàÇÑ´Ù. 
+  -- CREATE_WRAPPED í”„ë¡œì‹œì €ë¥¼ ì‚¬ìš©í•˜ë©´ íŒ¨í‚¤ì§€ ì†ŒìŠ¤ë¥¼ ìˆ¨ê¸°ëŠ” ê²ƒê³¼ ë™ì‹œì— ì»´íŒŒì¼ë„ ìˆ˜í–‰í•œë‹¤. 
   DBMS_DDL.CREATE_WRAPPED ( vv_ddl );
       
 EXCEPTION WHEN OTHERS THEN
@@ -107,28 +107,28 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE(ch19_wrap_pkg.pv_key_string);
 END;
 
--- 02. ³ª¸¸ÀÇ À¯Æ¿¸®Æ¼ ÇÁ·Î±×·¥ ¸¸µé±â
--- (1) ¼Ò½º °Ë»ö
+-- 02. ë‚˜ë§Œì˜ ìœ í‹¸ë¦¬í‹° í”„ë¡œê·¸ëž¨ ë§Œë“¤ê¸°
+-- (1) ì†ŒìŠ¤ ê²€ìƒ‰
 
 CREATE OR REPLACE PACKAGE my_util_pkg IS
-    -- ÇÁ·Î±×·¥ ¼Ò½º °Ë»ö ÇÁ·Î½ÃÀú 
+    -- í”„ë¡œê·¸ëž¨ ì†ŒìŠ¤ ê²€ìƒ‰ í”„ë¡œì‹œì € 
     PROCEDURE program_search_prc (ps_src_text IN VARCHAR2);
 END my_util_pkg;
 
 
 CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
 
-  -- ÇÁ·Î±×·¥ ¼Ò½º °Ë»ö ÇÁ·Î½ÃÀú
+  -- í”„ë¡œê·¸ëž¨ ì†ŒìŠ¤ ê²€ìƒ‰ í”„ë¡œì‹œì €
   PROCEDURE program_search_prc (ps_src_text IN VARCHAR2)
   IS
     vs_search VARCHAR2(100);
     vs_name   VARCHAR2(1000);
   BEGIN
-    -- Ã£À» Å°¿öµå ¾ÕµÚ¿¡ '%'¸¦ ºÙÀÎ´Ù. 
+    -- ì°¾ì„ í‚¤ì›Œë“œ ì•žë’¤ì— '%'ë¥¼ ë¶™ì¸ë‹¤. 
     vs_search := '%' || NVL(ps_src_text, '%') || '%';
     
-    -- dba_source¿¡¼­ ÀÔ·ÂµÈ Å°¿öµå·Î ¼Ò½º¸¦ °Ë»öÇÑ´Ù. 
-    -- ÀÔ·Â Å°¿öµå°¡ ´ë¹®ÀÚ È¤Àº ¼Ò¹®ÀÚ°¡ µÉ ¼ö ÀÖÀ¸¹Ç·Î UPPER, LOWER ÇÔ¼ö¸¦ ÀÌ¿ëÇØ °Ë»öÇÑ´Ù. 
+    -- dba_sourceì—ì„œ ìž…ë ¥ëœ í‚¤ì›Œë“œë¡œ ì†ŒìŠ¤ë¥¼ ê²€ìƒ‰í•œë‹¤. 
+    -- ìž…ë ¥ í‚¤ì›Œë“œê°€ ëŒ€ë¬¸ìž í˜¹ì€ ì†Œë¬¸ìžê°€ ë  ìˆ˜ ìžˆìœ¼ë¯€ë¡œ UPPER, LOWER í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ê²€ìƒ‰í•œë‹¤. 
     FOR C_CUR IN ( SELECT name, type, line, text
                      FROM user_source
                     WHERE text like UPPER(vs_search) 
@@ -136,7 +136,7 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
                     ORDER BY name, type, line
                   )
     LOOP
-       -- ÇÁ·Î±×·¥ ÀÌ¸§°ú ÁÙ¹øÈ£¸¦ °¡Á®¿Í Ãâ·ÂÇÑ´Ù. 
+       -- í”„ë¡œê·¸ëž¨ ì´ë¦„ê³¼ ì¤„ë²ˆí˜¸ë¥¼ ê°€ì ¸ì™€ ì¶œë ¥í•œë‹¤. 
        vs_name := C_CUR.name || ' - ' || C_CUR.type || ' - ' || C_Cur.line || ' : ' || REPLACE(C_CUR.text, CHR(10), '');
        DBMS_OUTPUT.PUT_LINE( vs_name);
     END LOOP;
@@ -144,16 +144,16 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
   END program_search_prc;
 END my_util_pkg;
 
--- ºÎ¼­Å×ÀÌºí °Ë»ö
+-- ë¶€ì„œí…Œì´ë¸” ê²€ìƒ‰
 BEGIN
   my_util_pkg.program_search_prc ('departments');
 END;
 
--- (2) °´Ã¼ °Ë»ö
--- ÆÐÅ°Áö º»¹® 
+-- (2) ê°ì²´ ê²€ìƒ‰
+-- íŒ¨í‚¤ì§€ ë³¸ë¬¸ 
 CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
 
-  -- ÇÁ·Î±×·¥ ¼Ò½º °Ë»ö ÇÁ·Î½ÃÀú
+  -- í”„ë¡œê·¸ëž¨ ì†ŒìŠ¤ ê²€ìƒ‰ í”„ë¡œì‹œì €
   PROCEDURE program_search_prc (ps_src_text IN VARCHAR2)
   IS
     vs_search VARCHAR2(100);
@@ -161,24 +161,24 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
   BEGIN
     ...  
 
-  -- °´Ã¼°Ë»ö ÇÁ·Î½ÃÀú 
+  -- ê°ì²´ê²€ìƒ‰ í”„ë¡œì‹œì € 
   PROCEDURE object_search_prc (ps_obj_name IN VARCHAR2)
   IS
     vs_search VARCHAR2(100);
     vs_name   VARCHAR2(1000);
   BEGIN
-    -- Ã£À» Å°¿öµå ¾ÕµÚ¿¡ '%'¸¦ ºÙÀÎ´Ù. 
+    -- ì°¾ì„ í‚¤ì›Œë“œ ì•žë’¤ì— '%'ë¥¼ ë¶™ì¸ë‹¤. 
     vs_search := '%' || NVL(ps_obj_name, '%') || '%';
     
-    -- referenced_name ÀÔ·ÂµÈ Å°¿öµå·Î ÂüÁ¶°´Ã¼¸¦ °Ë»öÇÑ´Ù.  
-    -- user_dependencies¿¡´Â ¸ðµÎ ´ë¹®ÀÚ·Î µ¥ÀÌÅÍ°¡ µé¾î°¡ ÀÖÀ¸¹Ç·Î UPPER ÇÔ¼ö¸¦ ÀÌ¿ëÇØ °Ë»öÇÑ´Ù. 
+    -- referenced_name ìž…ë ¥ëœ í‚¤ì›Œë“œë¡œ ì°¸ì¡°ê°ì²´ë¥¼ ê²€ìƒ‰í•œë‹¤.  
+    -- user_dependenciesì—ëŠ” ëª¨ë‘ ëŒ€ë¬¸ìžë¡œ ë°ì´í„°ê°€ ë“¤ì–´ê°€ ìžˆìœ¼ë¯€ë¡œ UPPER í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ê²€ìƒ‰í•œë‹¤. 
     FOR C_CUR IN ( SELECT name, type
                      FROM user_dependencies
                     WHERE referenced_name LIKE UPPER(vs_search) 
                     ORDER BY name, type
                   )
     LOOP
-       -- ÇÁ·Î±×·¥ ÀÌ¸§°ú ÁÙ¹øÈ£¸¦ °¡Á®¿Í Ãâ·ÂÇÑ´Ù. 
+       -- í”„ë¡œê·¸ëž¨ ì´ë¦„ê³¼ ì¤„ë²ˆí˜¸ë¥¼ ê°€ì ¸ì™€ ì¶œë ¥í•œë‹¤. 
        vs_name := C_CUR.name || ' - ' || C_CUR.type ;
        DBMS_OUTPUT.PUT_LINE( vs_name);
     END LOOP;
@@ -186,15 +186,15 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
   END object_search_prc;  
 END my_util_pkg;
 
--- ºÎ¼­Å×ÀÌºíÀ» ÂüÁ¶ÇÏ´Â °´Ã¼ °Ë»ö
+-- ë¶€ì„œí…Œì´ë¸”ì„ ì°¸ì¡°í•˜ëŠ” ê°ì²´ ê²€ìƒ‰
 BEGIN
   my_util_pkg.object_search_prc ('departments');
 END;
 
 
--- (3) Å×ÀÌºí ·¹ÀÌ¾Æ¿ô Ãâ·Â
+-- (3) í…Œì´ë¸” ë ˆì´ì•„ì›ƒ ì¶œë ¥
 
-  -- Å×ÀÌºí Layout Ãâ·Â
+  -- í…Œì´ë¸” Layout ì¶œë ¥
   PROCEDURE table_layout_prc ( ps_table_name IN VARCHAR2)
   IS
     vs_table_name VARCHAR2(50) := UPPER(ps_table_name);
@@ -202,44 +202,44 @@ END;
     vs_columns    VARCHAR2(300);
   BEGIN
   	BEGIN
-  	  -- TABLEÀÌ ÀÖ´ÂÁö °Ë»ö 
+  	  -- TABLEì´ ìžˆëŠ”ì§€ ê²€ìƒ‰ 
   	  SELECT OWNER
   	    INTO vs_owner
   	    FROM ALL_TABLES
     	 WHERE TABLE_NAME = vs_table_name;
   	
   	EXCEPTION WHEN NO_DATA_FOUND THEN
-  	     DBMS_OUTPUT.PUT_LINE(vs_table_name || '¶ó´Â Å×ÀÌºíÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù');
+  	     DBMS_OUTPUT.PUT_LINE(vs_table_name || 'ë¼ëŠ” í…Œì´ë¸”ì´ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤');
   	     RETURN;
     END;
     
     DBMS_OUTPUT.PUT_LINE('-------------------------------------------------------');
-    DBMS_OUTPUT.PUT_LINE('Å×ÀÌºí: ' || vs_table_name || ' , ¼ÒÀ¯ÀÚ : ' || vs_owner);
+    DBMS_OUTPUT.PUT_LINE('í…Œì´ë¸”: ' || vs_table_name || ' , ì†Œìœ ìž : ' || vs_owner);
     DBMS_OUTPUT.PUT_LINE('-------------------------------------------------------');
   	
-  	-- ÄÃ·³Á¤º¸ °Ë»ö ¹× Ãâ·Â 
+  	-- ì»¬ëŸ¼ì •ë³´ ê²€ìƒ‰ ë° ì¶œë ¥ 
     FOR C_CUR IN ( SELECT column_name, data_type, data_length, nullable, data_default 
                      FROM ALL_TAB_COLS
                     WHERE table_name = vs_table_name
                     ORDER BY column_id;
                   )
     LOOP
-       -- ÄÃ·³ Á¤º¸¸¦ Ãâ·ÂÇÑ´Ù. ÁÙÀ» ¸ÂÃç Ãâ·ÂµÇµµ·Ï RPAD ÇÔ¼ö¸¦ »ç¿ëÇÑ´Ù.  
+       -- ì»¬ëŸ¼ ì •ë³´ë¥¼ ì¶œë ¥í•œë‹¤. ì¤„ì„ ë§žì¶° ì¶œë ¥ë˜ë„ë¡ RPAD í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•œë‹¤.  
        vs_columns := RPAD(C_CUR.column_name, 20) || RPAD(C_CUR.data_type, 15) || RPAD(C_CUR.data_length, 5) || RPAD(C_CUR.nullable, 2) || RPAD(C_CUR.data_default, 10);
        DBMS_OUTPUT.PUT_LINE( vs_columns);
     END LOOP;  	
   	
   END table_layout_prc;
   
--- table_layout_prc ÇÁ·Î½ÃÀú ½ÇÇà
+-- table_layout_prc í”„ë¡œì‹œì € ì‹¤í–‰
 BEGIN
-  -- ºÎ¼­ Å×ÀÌºí¸í ÀÔ·Â 
+  -- ë¶€ì„œ í…Œì´ë¸”ëª… ìž…ë ¥ 
   my_util_pkg.table_layout_prc ('departments');  
 END;
 
 
 
--- (4) ÄÃ·³°ªÀ» ¼¼·Î·Î Ãâ·Â
+-- (4) ì»¬ëŸ¼ê°’ì„ ì„¸ë¡œë¡œ ì¶œë ¥
 
   PROCEDURE print_col_value_prc ( ps_query IN VARCHAR2 )
   IS
@@ -249,26 +249,26 @@ END;
       l_descTbl       DBMS_SQL.DESC_TAB;
       l_colCnt        NUMBER;
   BEGIN
-      -- Äõ¸®±¸¹®ÀÌ p_query ¸Å°³º¯¼ö¿¡ µé¾î¿À¹Ç·Î ÀÌ¸¦ ÆÄ½ÌÇÑ´Ù. 
+      -- ì¿¼ë¦¬êµ¬ë¬¸ì´ p_query ë§¤ê°œë³€ìˆ˜ì— ë“¤ì–´ì˜¤ë¯€ë¡œ ì´ë¥¼ íŒŒì‹±í•œë‹¤. 
       DBMS_SQL.PARSE(  l_theCursor,  ps_query, DBMS_SQL.NATIVE );
       
-      -- DESCRIBE_COLUMN ÇÁ·Î½ÃÀú : Ä¿¼­¿¡ ´ëÇÑ ÄÃ·³Á¤º¸¸¦ DBMS_SQL.DESC_TAB Çü º¯¼ö¿¡ ³Ö´Â´Ù. 
+      -- DESCRIBE_COLUMN í”„ë¡œì‹œì € : ì»¤ì„œì— ëŒ€í•œ ì»¬ëŸ¼ì •ë³´ë¥¼ DBMS_SQL.DESC_TAB í˜• ë³€ìˆ˜ì— ë„£ëŠ”ë‹¤. 
       DBMS_SQL.DESCRIBE_COLUMNS  ( l_theCursor, l_colCnt, l_descTbl );
   
-      -- ¼±ÅÃµÈ ÄÃ·³ °³¼ö¸¸Å­ ·çÇÁ¸¦ µ¹¸ç DEFINE_COLUMN ÇÁ·Î½ÃÀú¸¦ È£ÃâÇØ ÄÃ·³À» Á¤ÀÇÇÑ´Ù. 
+      -- ì„ íƒëœ ì»¬ëŸ¼ ê°œìˆ˜ë§Œí¼ ë£¨í”„ë¥¼ ëŒë©° DEFINE_COLUMN í”„ë¡œì‹œì €ë¥¼ í˜¸ì¶œí•´ ì»¬ëŸ¼ì„ ì •ì˜í•œë‹¤. 
       FOR i IN 1..l_colCnt 
       LOOP
           DBMS_SQL.DEFINE_COLUMN (l_theCursor, i, l_columnValue, 4000);
       END LOOP;
   
-      -- ½ÇÇà 
+      -- ì‹¤í–‰ 
       l_status := DBMS_SQL.EXECUTE(l_theCursor);
   
       WHILE ( DBMS_SQL.FETCH_ROWS (l_theCursor) > 0 ) 
       LOOP
-          -- ÄÃ·³ °³¼ö¸¸Å­ ´Ù½Ã ·çÇÁ¸¦ µ¹¸é¼­ ÄÃ·³ °ªÀ» l_columnValue º¯¼ö¿¡ ´ã´Â´Ù.
-          -- DBMS_SQL.DESC_TAB Çü º¯¼öÀÎ l_descTbl.COL_NAMEÀº ÄÃ·³ ¸íÄªÀÌ ÀÖ°í 
-          -- l_columnValue¿¡´Â ÄÃ·³ °ªÀÌ µé¾îÀÖ´Ù. 
+          -- ì»¬ëŸ¼ ê°œìˆ˜ë§Œí¼ ë‹¤ì‹œ ë£¨í”„ë¥¼ ëŒë©´ì„œ ì»¬ëŸ¼ ê°’ì„ l_columnValue ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤.
+          -- DBMS_SQL.DESC_TAB í˜• ë³€ìˆ˜ì¸ l_descTbl.COL_NAMEì€ ì»¬ëŸ¼ ëª…ì¹­ì´ ìžˆê³  
+          -- l_columnValueì—ëŠ” ì»¬ëŸ¼ ê°’ì´ ë“¤ì–´ìžˆë‹¤. 
           FOR i IN 1..l_colCnt 
           LOOP
             DBMS_SQL.COLUMN_VALUE ( l_theCursor, i, l_columnValue );
@@ -282,77 +282,77 @@ END;
   END print_col_value_prc;
 
 
--- print_col_value_prc ÇÁ·Î½ÃÀú ½ÇÇà
+-- print_col_value_prc í”„ë¡œì‹œì € ì‹¤í–‰
 BEGIN
-  -- ºÎ¼­ Å×ÀÌºí Á¶È¸  
+  -- ë¶€ì„œ í…Œì´ë¸” ì¡°íšŒ  
   my_util_pkg.print_col_value_prc ('select * from departments where rownum < 3');  
 END;
 
--- (5) ÀÌ¸ÞÀÏ Àü¼Û
+-- (5) ì´ë©”ì¼ ì „ì†¡
 
 CREATE OR REPLACE PACKAGE my_util_pkg IS
-    -- 1. ÇÁ·Î±×·¥ ¼Ò½º °Ë»ö ÇÁ·Î½ÃÀú 
+    -- 1. í”„ë¡œê·¸ëž¨ ì†ŒìŠ¤ ê²€ìƒ‰ í”„ë¡œì‹œì € 
     PROCEDURE program_search_prc (ps_src_text IN VARCHAR2);
     
-    -- 2. °´Ã¼°Ë»ö ÇÁ·Î½ÃÀú 
+    -- 2. ê°ì²´ê²€ìƒ‰ í”„ë¡œì‹œì € 
     PROCEDURE object_search_prc (ps_obj_name IN VARCHAR2);    
     
-    -- 3. Å×ÀÌºí Layout Ãâ·Â
+    -- 3. í…Œì´ë¸” Layout ì¶œë ¥
     PROCEDURE table_layout_prc ( ps_table_name IN VARCHAR2);
     
-    -- 4. ÄÃ·³ °ªÀ» ¼¼·Î·Î Ãâ·Â 
+    -- 4. ì»¬ëŸ¼ ê°’ì„ ì„¸ë¡œë¡œ ì¶œë ¥ 
     PROCEDURE print_col_value_prc ( ps_query IN VARCHAR2 );
     
-    -- ÀÌ¸ÞÀÏ Àü¼Û°ú °ü·ÃµÈ ÆÐÅ°Áö »ó¼ö
-    pv_host   VARCHAR2(10)  := 'localhost';  -- SMTP ¼­¹ö¸í
-    pn_port   NUMBER        := 25;           -- Æ÷Æ®¹øÈ£
-    pv_domain VARCHAR2(30) := 'hong.com';   -- µµ¸ÞÀÎ¸í
+    -- ì´ë©”ì¼ ì „ì†¡ê³¼ ê´€ë ¨ëœ íŒ¨í‚¤ì§€ ìƒìˆ˜
+    pv_host   VARCHAR2(10)  := 'localhost';  -- SMTP ì„œë²„ëª…
+    pn_port   NUMBER        := 25;           -- í¬íŠ¸ë²ˆí˜¸
+    pv_domain VARCHAR2(30) := 'hong.com';   -- ë„ë©”ì¸ëª…
     
     pv_boundary VARCHAR2(50) := 'DIFOJSLKDWFEFO.WEFOWJFOWE';  -- boundary text
-    pv_directory VARCHAR2(50) := 'SMTP_FILE'; --ÆÄÀÏÀÌ ÀÖ´Â µð·ºÅä¸®¸í     
+    pv_directory VARCHAR2(50) := 'SMTP_FILE'; --íŒŒì¼ì´ ìžˆëŠ” ë””ë ‰í† ë¦¬ëª…     
     
-    -- 5. ÀÌ¸ÞÀÏ Àü¼Û  
+    -- 5. ì´ë©”ì¼ ì „ì†¡  
     PROCEDURE email_send_prc ( ps_query IN VARCHAR2 );
     
 END my_util_pkg;
 
-PROCEDURE email_send_prc ( ps_from    IN VARCHAR2,  -- º¸³»´Â »ç¶÷
-                             ps_to      IN VARCHAR2,  -- ¹Þ´Â »ç¶÷
-                             ps_subject IN VARCHAR2,  -- Á¦¸ñ
-                             ps_body    IN VARCHAR2,  -- º»¹® 
+PROCEDURE email_send_prc ( ps_from    IN VARCHAR2,  -- ë³´ë‚´ëŠ” ì‚¬ëžŒ
+                             ps_to      IN VARCHAR2,  -- ë°›ëŠ” ì‚¬ëžŒ
+                             ps_subject IN VARCHAR2,  -- ì œëª©
+                             ps_body    IN VARCHAR2,  -- ë³¸ë¬¸ 
                              ps_content IN VARCHAR2  DEFAULT 'text/plain;', -- Content-Type
-                             ps_file_nm IN VARCHAR2   -- Ã·ºÎÆÄÀÏ 
+                             ps_file_nm IN VARCHAR2   -- ì²¨ë¶€íŒŒì¼ 
                            )
   IS
     vc_con utl_smtp.connection;
     
-    v_bfile        BFILE;       -- ÆÄÀÏÀ» ´ãÀ» º¯¼ö 
-    vn_bfile_size  NUMBER := 0; -- ÆÄÀÏÅ©±â 
+    v_bfile        BFILE;       -- íŒŒì¼ì„ ë‹´ì„ ë³€ìˆ˜ 
+    vn_bfile_size  NUMBER := 0; -- íŒŒì¼í¬ê¸° 
     
-    v_temp_blob    BLOB := EMPTY_BLOB; -- ÆÄÀÏÀ» ¿Å°Ü´ãÀ» BLOB Å¸ÀÔ º¯¼ö
-    vn_blob_size   NUMBER := 0;        -- BLOB º¯¼ö Å©±â 
-    vn_amount      NUMBER := 54;       -- 54 ´ÜÀ§·Î ÆÄÀÏÀ» Àß¶ó ¸ÞÀÏ¿¡ ºÙÀÌ±â À§ÇÔ
-    v_tmp_raw      RAW(54);            -- 54 ´ÜÀ§·Î ÀÚ¸¥ ÆÄÀÏ³»¿ëÀÌ ´ã±ä RAW Å¸ÀÔº¯¼ö 
-    vn_pos         NUMBER := 1; --ÆÄÀÏ À§Ä¡¸¦ ´ã´Â º¯¼ö 
+    v_temp_blob    BLOB := EMPTY_BLOB; -- íŒŒì¼ì„ ì˜®ê²¨ë‹´ì„ BLOB íƒ€ìž… ë³€ìˆ˜
+    vn_blob_size   NUMBER := 0;        -- BLOB ë³€ìˆ˜ í¬ê¸° 
+    vn_amount      NUMBER := 54;       -- 54 ë‹¨ìœ„ë¡œ íŒŒì¼ì„ ìž˜ë¼ ë©”ì¼ì— ë¶™ì´ê¸° ìœ„í•¨
+    v_tmp_raw      RAW(54);            -- 54 ë‹¨ìœ„ë¡œ ìžë¥¸ íŒŒì¼ë‚´ìš©ì´ ë‹´ê¸´ RAW íƒ€ìž…ë³€ìˆ˜ 
+    vn_pos         NUMBER := 1; --íŒŒì¼ ìœ„ì¹˜ë¥¼ ë‹´ëŠ” ë³€ìˆ˜ 
     
   BEGIN
   	
     vc_con := UTL_SMTP.OPEN_CONNECTION(pv_host, pn_port);
 
     UTL_SMTP.HELO(vc_con, pv_domain); -- HELO  
-    UTL_SMTP.MAIL(vc_con, ps_from);   -- º¸³»´Â»ç¶÷
-    UTL_SMTP.RCPT(vc_con, ps_to);     -- ¹Þ´Â»ç¶÷  	
+    UTL_SMTP.MAIL(vc_con, ps_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+    UTL_SMTP.RCPT(vc_con, ps_to);     -- ë°›ëŠ”ì‚¬ëžŒ  	
     
-    UTL_SMTP.OPEN_DATA(vc_con); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
-    UTL_SMTP.WRITE_DATA(vc_con,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ¹öÀü  
+    UTL_SMTP.OPEN_DATA(vc_con); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
+    UTL_SMTP.WRITE_DATA(vc_con,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ë²„ì „  
     
     UTL_SMTP.WRITE_DATA(vc_con,'Content-Type: multipart/mixed; boundary="' || pv_boundary || '"' || UTL_TCP.CRLF); 
-    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('From: ' || ps_from || UTL_TCP.CRLF) ); -- º¸³»´Â»ç¶÷
-    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('To: ' || ps_to || UTL_TCP.CRLF) );   -- ¹Þ´Â»ç¶÷
-    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('Subject: ' || ps_subject || UTL_TCP.CRLF) ); -- Á¦¸ñ
-    UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF );  -- ÇÑ ÁÙ ¶ç¿ì±â  
+    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('From: ' || ps_from || UTL_TCP.CRLF) ); -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('To: ' || ps_to || UTL_TCP.CRLF) );   -- ë°›ëŠ”ì‚¬ëžŒ
+    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('Subject: ' || ps_subject || UTL_TCP.CRLF) ); -- ì œëª©
+    UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF );  -- í•œ ì¤„ ë„ìš°ê¸°  
   	
-    -- ¸ÞÀÏ º»¹® 
+    -- ë©”ì¼ ë³¸ë¬¸ 
     UTL_SMTP.WRITE_DATA(vc_con, '--' || pv_boundary || UTL_TCP.CRLF );
     UTL_SMTP.WRITE_DATA(vc_con, 'Content-Type: ' || ps_content || UTL_TCP.CRLF );
     UTL_SMTP.WRITE_DATA(vc_con, 'charset=euc-kr' || UTL_TCP.CRLF );
@@ -360,38 +360,38 @@ PROCEDURE email_send_prc ( ps_from    IN VARCHAR2,  -- º¸³»´Â »ç¶÷
     UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW(ps_body || UTL_TCP.CRLF)  );
     UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF );
 
-    -- Ã·ºÎÆÄÀÏÀÌ ÀÖ´Ù¸é ...
+    -- ì²¨ë¶€íŒŒì¼ì´ ìžˆë‹¤ë©´ ...
     IF ps_file_nm IS NOT NULL THEN  
     
         UTL_SMTP.WRITE_DATA(vc_con, '--' || pv_boundary || UTL_TCP.CRLF ); 
-        -- ÆÄÀÏÀÇ Content-TypeÀº application/octet-stream
+        -- íŒŒì¼ì˜ Content-Typeì€ application/octet-stream
         UTL_SMTP.WRITE_DATA(vc_con,'Content-Type: application/octet-stream; name="' || ps_file_nm || '"' || UTL_TCP.CRLF);
         UTL_SMTP.WRITE_DATA(vc_con,'Content-Transfer-Encoding: base64' || UTL_TCP.CRLF);
         UTL_SMTP.WRITE_DATA(vc_con,'Content-Disposition: attachment; filename="' || ps_file_nm || '"' || UTL_TCP.CRLF);
 
         UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF);
         
-        -- ÆÄÀÏÃ³¸® ½ÃÀÛ
-        -- ÆÄÀÏÀ» ÀÐ¾î BFILE º¯¼öÀÎ v_bfile¿¡ ´ã´Â´Ù. 
+        -- íŒŒì¼ì²˜ë¦¬ ì‹œìž‘
+        -- íŒŒì¼ì„ ì½ì–´ BFILE ë³€ìˆ˜ì¸ v_bfileì— ë‹´ëŠ”ë‹¤. 
         v_bfile := BFILENAME(pv_directory, ps_file_nm); 
-        -- v_bfile ´ãÀº ÆÄÀÏÀ» ÀÐ±âÀü¿ëÀ¸·Î ¿¬´Ù. 
+        -- v_bfile ë‹´ì€ íŒŒì¼ì„ ì½ê¸°ì „ìš©ìœ¼ë¡œ ì—°ë‹¤. 
         DBMS_LOB.OPEN(v_bfile, DBMS_LOB.LOB_READONLY); 
-        -- v_bfile¿¡ ´ã±ä ÆÄÀÏÀÇ Å©±â¸¦ °¡Á®¿Â´Ù. 
+        -- v_bfileì— ë‹´ê¸´ íŒŒì¼ì˜ í¬ê¸°ë¥¼ ê°€ì ¸ì˜¨ë‹¤. 
         vn_bfile_size := DBMS_LOB.GETLENGTH(v_bfile);
         
-        -- v_bfile¸¦ BLOB º¯¼öÀÎ v_temp_blob¿¡ ´ã±â À§ÇØ ÃÊ±âÈ­ 
+        -- v_bfileë¥¼ BLOB ë³€ìˆ˜ì¸ v_temp_blobì— ë‹´ê¸° ìœ„í•´ ì´ˆê¸°í™” 
         DBMS_LOB.CREATETEMPORARY(v_temp_blob, TRUE);
-        -- v_bfile¿¡ ´ã±ä ÆÄÀÏÀ» v_temp_blob ·Î ¿Å±ä´Ù. 
+        -- v_bfileì— ë‹´ê¸´ íŒŒì¼ì„ v_temp_blob ë¡œ ì˜®ê¸´ë‹¤. 
         DBMS_LOB.LOADFROMFILE(v_temp_blob, v_bfile, vn_bfile_size);
-        -- v_temp_blobÀÇ Å©±â¸¦ ±¸ÇÑ´Ù. 
+        -- v_temp_blobì˜ í¬ê¸°ë¥¼ êµ¬í•œë‹¤. 
         vn_blob_size := DBMS_LOB.GETLENGTH(v_temp_blob);    
         
-        -- vn_pos ÃÊ±â°ªÀº 1, v_temp_blob Å©±âº¸´Ù ÀÛÀº °æ¿ì ·çÇÁ 
+        -- vn_pos ì´ˆê¸°ê°’ì€ 1, v_temp_blob í¬ê¸°ë³´ë‹¤ ìž‘ì€ ê²½ìš° ë£¨í”„ 
         WHILE vn_pos < vn_blob_size 
         LOOP
-            -- v_temp_blob¿¡ ´ã±ä ÆÄÀÏÀ» vn_amount(54)¾¿ Àß¶ó  v_tmp_raw¿¡ ´ã´Â´Ù. 
+            -- v_temp_blobì— ë‹´ê¸´ íŒŒì¼ì„ vn_amount(54)ì”© ìž˜ë¼  v_tmp_rawì— ë‹´ëŠ”ë‹¤. 
             DBMS_LOB.READ(v_temp_blob, vn_amount, vn_pos, v_tmp_raw);
-            -- Àß¶ó³½ v_tmp_raw¸¦ ¸ÞÀÏ¿¡ Ã·ºÎÇÑ´Ù. 
+            -- ìž˜ë¼ë‚¸ v_tmp_rawë¥¼ ë©”ì¼ì— ì²¨ë¶€í•œë‹¤. 
             UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_ENCODE.BASE64_ENCODE ( v_tmp_raw));
             UTL_SMTP.WRITE_DATA(vc_con,  UTL_TCP.CRLF );            
 
@@ -399,16 +399,16 @@ PROCEDURE email_send_prc ( ps_from    IN VARCHAR2,  -- º¸³»´Â »ç¶÷
             vn_pos := vn_pos + vn_amount;
         END LOOP;
         
-        DBMS_LOB.FREETEMPORARY(v_temp_blob); -- v_temp_blob ¸Þ¸ð¸® ÇØÁ¦
-        DBMS_LOB.FILECLOSE(v_bfile); -- v_bfile ´Ý±â         
+        DBMS_LOB.FREETEMPORARY(v_temp_blob); -- v_temp_blob ë©”ëª¨ë¦¬ í•´ì œ
+        DBMS_LOB.FILECLOSE(v_bfile); -- v_bfile ë‹«ê¸°         
 
-    END IF; -- Ã·ºÎÆÄÀÏ Ã³¸® Á¾·á 
+    END IF; -- ì²¨ë¶€íŒŒì¼ ì²˜ë¦¬ ì¢…ë£Œ 
     
-    -- ¸Ç ¸¶Áö¸· boundary¿¡´Â ¾Õ°ú µÚ¿¡ '--'¸¦ ¹Ýµå½Ã ºÙ¿©¾ß ÇÑ´Ù.
+    -- ë§¨ ë§ˆì§€ë§‰ boundaryì—ëŠ” ì•žê³¼ ë’¤ì— '--'ë¥¼ ë°˜ë“œì‹œ ë¶™ì—¬ì•¼ í•œë‹¤.
     UTL_SMTP.WRITE_DATA(vc_con, '--' ||  pv_boundary || '--' || UTL_TCP.CRLF );   
     
-    UTL_SMTP.CLOSE_DATA(vc_con); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á  
-    UTL_SMTP.QUIT(vc_con);       -- ¸ÞÀÏ ¼¼¼Ç Á¾·á
+    UTL_SMTP.CLOSE_DATA(vc_con); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ  
+    UTL_SMTP.QUIT(vc_con);       -- ë©”ì¼ ì„¸ì…˜ ì¢…ë£Œ
     
 
   
@@ -435,18 +435,18 @@ DECLARE
   vv_html VARCHAR2(1000);
 BEGIN
   vv_html := '<HTML> <HEAD>
-   <TITLE>HTML Å×½ºÆ®</TITLE>
+   <TITLE>HTML í…ŒìŠ¤íŠ¸</TITLE>
  </HEAD>
  <BDOY>
-    <p>ÀÌ ¸ÞÀÏÀº <b>HTML</b> <i>¹öÀü</i> À¸·Î </p>
-    <p> <strong>my_util_pkg</strong> ÆÐÅ°ÁöÀÇ email_send_prc ÇÁ·Î½ÃÀú¸¦ »ç¿ëÇØ º¸³½ ¸ÞÀÏÀÔ´Ï´Ù. </p>
+    <p>ì´ ë©”ì¼ì€ <b>HTML</b> <i>ë²„ì „</i> ìœ¼ë¡œ </p>
+    <p> <strong>my_util_pkg</strong> íŒ¨í‚¤ì§€ì˜ email_send_prc í”„ë¡œì‹œì €ë¥¼ ì‚¬ìš©í•´ ë³´ë‚¸ ë©”ì¼ìž…ë‹ˆë‹¤. </p>
  </BODY>
 </HTML>';
 
-  -- ÀÌ¸ÞÀÏÀü¼Û 
+  -- ì´ë©”ì¼ì „ì†¡ 
   my_util_pkg.email_send_prc ( ps_from => 'charieh@hong.com'
                                ,ps_to => 'charieh@hong.com'
-                               ,ps_subject =>  'Å×½ºÆ® ¸ÞÀÏ'
+                               ,ps_subject =>  'í…ŒìŠ¤íŠ¸ ë©”ì¼'
                                ,ps_body => vv_html
                                ,ps_content => 'text/html;'
                                ,ps_file_nm => 'hong1.txt'
@@ -455,8 +455,8 @@ END;
 
 
 
--- (6) ºñ¹Ð¹øÈ£ °ü¸®
--- ºñ¹Ð¹øÈ£ »ý¼º
+-- (6) ë¹„ë°€ë²ˆí˜¸ ê´€ë¦¬
+-- ë¹„ë°€ë²ˆí˜¸ ìƒì„±
   FUNCTION fn_create_pass ( ps_input IN VARCHAR2,
                             ps_add   IN VARCHAR2 )
            RETURN RAW
@@ -465,14 +465,14 @@ END;
     v_key_raw RAW(32747);
     v_input_string VARCHAR2(100);
   BEGIN
-    -- Å° °ªÀ» °¡Áø ch19_wrap_pkg ÆÐÅ°ÁöÀÇ pv_key_string »ó¼ö¸¦ °¡Á®¿Í RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- í‚¤ ê°’ì„ ê°€ì§„ ch19_wrap_pkg íŒ¨í‚¤ì§€ì˜ pv_key_string ìƒìˆ˜ë¥¼ ê°€ì ¸ì™€ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_key_raw := UTL_RAW.CAST_TO_RAW(ch19_wrap_pkg.pv_key_string );
     
-    -- Á» ´õ º¸¾ÈÀ» °­È­ÇÏ±â À§ÇØ µÎ °³ÀÇ ÀÔ·Â ¸Å°³º¯¼ö¿Í Æ¯¼ö¹®ÀÚÀÎ $%¸¦ Á¶ÇÕÇØ 
-    -- MAC ÇÔ¼öÀÇ Ã¹ ¹øÂ° ¸Å°³º¯¼ö·Î ³Ñ±ä´Ù.  
+    -- ì¢€ ë” ë³´ì•ˆì„ ê°•í™”í•˜ê¸° ìœ„í•´ ë‘ ê°œì˜ ìž…ë ¥ ë§¤ê°œë³€ìˆ˜ì™€ íŠ¹ìˆ˜ë¬¸ìžì¸ $%ë¥¼ ì¡°í•©í•´ 
+    -- MAC í•¨ìˆ˜ì˜ ì²« ë²ˆì§¸ ë§¤ê°œë³€ìˆ˜ë¡œ ë„˜ê¸´ë‹¤.  
     v_input_string := ps_input || '$%' || ps_add;
     
-    -- MAC ÇÔ¼ö¸¦ »ç¿ëÇØ ÀÔ·Â ¹®ÀÚ¿­À» RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- MAC í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ ìž…ë ¥ ë¬¸ìžì—´ì„ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_raw := DBMS_CRYPTO.MAC (src => UTL_RAW.CAST_TO_RAW(v_input_string)
                              ,typ => DBMS_CRYPTO.HMAC_SH1
                              ,key => v_key_raw);
@@ -480,7 +480,7 @@ END;
     RETURN v_raw;
   END fn_create_pass;
   
--- ºñ¹Ð¹øÈ£ Ã¼Å©
+-- ë¹„ë°€ë²ˆí˜¸ ì²´í¬
   FUNCTION fn_check_pass ( ps_input IN VARCHAR2,
                            ps_add   IN VARCHAR2,
                            p_raw    IN RAW ) 
@@ -492,14 +492,14 @@ END;
     
     v_rtn VARCHAR2(10) := 'N';
   BEGIN  
-    -- Å° °ªÀ» °¡Áø ch19_wrap_pkg ÆÐÅ°ÁöÀÇ pv_key_string »ó¼ö¸¦ °¡Á®¿Í RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- í‚¤ ê°’ì„ ê°€ì§„ ch19_wrap_pkg íŒ¨í‚¤ì§€ì˜ pv_key_string ìƒìˆ˜ë¥¼ ê°€ì ¸ì™€ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_key_raw := UTL_RAW.CAST_TO_RAW(ch19_wrap_pkg.pv_key_string );
     
-    -- Á» ´õ º¸¾ÈÀ» °­È­ÇÏ±â À§ÇØ µÎ °³ÀÇ ÀÔ·Â ¸Å°³º¯¼ö¿Í Æ¯¼ö¹®ÀÚÀÎ $%¸¦ Á¶ÇÕÇØ 
-    -- MAC ÇÔ¼öÀÇ Ã¹ ¹øÂ° ¸Å°³º¯¼ö·Î ³Ñ±ä´Ù.  
+    -- ì¢€ ë” ë³´ì•ˆì„ ê°•í™”í•˜ê¸° ìœ„í•´ ë‘ ê°œì˜ ìž…ë ¥ ë§¤ê°œë³€ìˆ˜ì™€ íŠ¹ìˆ˜ë¬¸ìžì¸ $%ë¥¼ ì¡°í•©í•´ 
+    -- MAC í•¨ìˆ˜ì˜ ì²« ë²ˆì§¸ ë§¤ê°œë³€ìˆ˜ë¡œ ë„˜ê¸´ë‹¤.  
     v_input_string := ps_input || '$%' || ps_add;
     
-    -- MAC ÇÔ¼ö¸¦ »ç¿ëÇØ ÀÔ·Â ¹®ÀÚ¿­À» RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- MAC í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ ìž…ë ¥ ë¬¸ìžì—´ì„ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_raw := DBMS_CRYPTO.MAC (src => UTL_RAW.CAST_TO_RAW(v_input_string)
                              ,typ => DBMS_CRYPTO.HMAC_SH1
                              ,key => v_key_raw);
@@ -513,20 +513,20 @@ END;
     RETURN v_rtn;
   END fn_check_pass;  
   
--- Å×ÀÌºí »ý¼º
-CREATE TABLE ch19_user ( user_id   VARCHAR2(50),   -- »ç¿ëÀÚ¾ÆÀÌµð
-                         user_name VARCHAR2(100),  -- »ç¿ëÀÚ¸í
-                         pass      RAW(2000));     -- ºñ¹Ð¹øÈ£ 
+-- í…Œì´ë¸” ìƒì„±
+CREATE TABLE ch19_user ( user_id   VARCHAR2(50),   -- ì‚¬ìš©ìžì•„ì´ë””
+                         user_name VARCHAR2(100),  -- ì‚¬ìš©ìžëª…
+                         pass      RAW(2000));     -- ë¹„ë°€ë²ˆí˜¸ 
   
--- ºñ¹Ð¹øÈ£ »ý¼º Å×½ºÆ® 
+-- ë¹„ë°€ë²ˆí˜¸ ìƒì„± í…ŒìŠ¤íŠ¸ 
 DECLARE
   vs_pass VARCHAR2(20);
 BEGIN
-  -- È«±æµ¿ÀÌ¶ó´Â »ç¶÷ÀÌ ÆÐ½º¿öµå¸¦ HONG ÀÌ¶ó°í ÀÔ·ÂÇß´Ù°í °¡Á¤ÇÑ´Ù. 
+  -- í™ê¸¸ë™ì´ë¼ëŠ” ì‚¬ëžŒì´ íŒ¨ìŠ¤ì›Œë“œë¥¼ HONG ì´ë¼ê³  ìž…ë ¥í–ˆë‹¤ê³  ê°€ì •í•œë‹¤. 
   vs_pass := 'HONG';
   
-  -- ch19_user Å×ÀÌºí¿¡¼­ È«±æµ¿À» Ã£¾Æ³» ÀÔ·ÂµÈ ÆÐ½º¿öµå¿Í ÀÌ »ç¿ëÀÚÀÇ ¾ÆÀÌµð¸¦ 
-  -- fn_create_pass ¸Å°³º¯¼ö·Î ³Ñ°Ü °á°ú°ªÀ» ¹Þ¾Æ pass ÄÃ·³¿¡ ÀúÀåÇÑ´Ù. 
+  -- ch19_user í…Œì´ë¸”ì—ì„œ í™ê¸¸ë™ì„ ì°¾ì•„ë‚´ ìž…ë ¥ëœ íŒ¨ìŠ¤ì›Œë“œì™€ ì´ ì‚¬ìš©ìžì˜ ì•„ì´ë””ë¥¼ 
+  -- fn_create_pass ë§¤ê°œë³€ìˆ˜ë¡œ ë„˜ê²¨ ê²°ê³¼ê°’ì„ ë°›ì•„ pass ì»¬ëŸ¼ì— ì €ìž¥í•œë‹¤. 
   UPDATE ch19_user
      SET pass = my_util_pkg.fn_create_pass (vs_pass , user_id)
   WHERE user_id = 'gdhong';
@@ -540,41 +540,41 @@ END ;
 SELECT *
 FROM ch19_user;
 
--- ºñ¹Ð¹øÈ£ Ã¼Å©
+-- ë¹„ë°€ë²ˆí˜¸ ì²´í¬
 DECLARE
   vs_pass VARCHAR2(20);
   v_raw raw(32747);
   
 BEGIN
-  -- È«±æµ¿ÀÌ¶ó´Â »ç¶÷ÀÌ ÆÐ½º¿öµå¸¦ HONG ÀÌ¶ó°í ÀÔ·ÂÇß´Ù°í °¡Á¤ÇÑ´Ù. 
+  -- í™ê¸¸ë™ì´ë¼ëŠ” ì‚¬ëžŒì´ íŒ¨ìŠ¤ì›Œë“œë¥¼ HONG ì´ë¼ê³  ìž…ë ¥í–ˆë‹¤ê³  ê°€ì •í•œë‹¤. 
   vs_pass := 'HONG';
-  -- Å×ÀÌºí¿¡¼­ È«±æµ¿ÀÇ ÆÐ½º¿öµå¸¦ °¡Á®¿Í v_raw º¯¼ö¿¡ ´ã´Â´Ù. 
+  -- í…Œì´ë¸”ì—ì„œ í™ê¸¸ë™ì˜ íŒ¨ìŠ¤ì›Œë“œë¥¼ ê°€ì ¸ì™€ v_raw ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤. 
   SELECT pass
     INTO v_raw
     FROM ch19_user
    WHERE user_id = 'gdhong';
   
-  -- ÀÔ·ÂÇÑ ÆÐ½º¿öµå¿Í ¾ÆÀÌµð¸¦ ÅëÇØ ºñ¹Ð¹øÈ£¸¦ Ã¼Å©ÇÑ´Ù. 
+  -- ìž…ë ¥í•œ íŒ¨ìŠ¤ì›Œë“œì™€ ì•„ì´ë””ë¥¼ í†µí•´ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì²´í¬í•œë‹¤. 
   IF my_util_pkg.fn_check_pass(vs_pass, 'gdhong', v_raw) = 'Y' THEN
-     DBMS_OUTPUT.PUT_LINE('¾ÆÀÌµð¿Í ºñ¹Ð¹øÈ£°¡ ¸Â¾Æ¿ä');
+     DBMS_OUTPUT.PUT_LINE('ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ê°€ ë§žì•„ìš”');
   ELSE
-     DBMS_OUTPUT.PUT_LINE('¾ÆÀÌµð¿Í ºñ¹Ð¹øÈ£°¡ ´Þ¶ó¿ä');
+     DBMS_OUTPUT.PUT_LINE('ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ê°€ ë‹¬ë¼ìš”');
   END IF;
 END ;
 
   
- -- (7) µ¥ÀÌÅÍ ¾ÏÈ£È­
- -- ¾ÏÈ£È­Å° Àç»ý¼º
+ -- (7) ë°ì´í„° ì•”í˜¸í™”
+ -- ì•”í˜¸í™”í‚¤ ìž¬ìƒì„±
 DECLARE
-  vv_ddl VARCHAR2(1000); -- ÆÐÅ°Áö ¼Ò½º¸¦ ÀúÀåÇÏ´Â º¯¼ö
+  vv_ddl VARCHAR2(1000); -- íŒ¨í‚¤ì§€ ì†ŒìŠ¤ë¥¼ ì €ìž¥í•˜ëŠ” ë³€ìˆ˜
 BEGIN
--- ÆÐÅ°Áö ¼Ò½º¸¦ vv_ddl¿¡ ¼³Á¤
+-- íŒ¨í‚¤ì§€ ì†ŒìŠ¤ë¥¼ vv_ddlì— ì„¤ì •
     vv_ddl := 'CREATE OR REPLACE PACKAGE ch19_wrap_pkg IS
                 pv_key_string  CONSTANT VARCHAR2(30) := ''OracleKey'';
                 key_bytes_raw  CONSTANT RAW(32) := ''1181C249F0F9C3343E8FF2BCCF370D3C9F70E973531DEC1C5066B54F27A507DB'';  
              END ch19_wrap_pkg;';             
         
-  -- CREATE_WRAPPED ÇÁ·Î½ÃÀú¸¦ »ç¿ëÇÏ¸é ÆÐÅ°Áö ¼Ò½º¸¦ ¼û±â´Â °Í°ú µ¿½Ã¿¡ ÄÄÆÄÀÏµµ ¼öÇàÇÑ´Ù. 
+  -- CREATE_WRAPPED í”„ë¡œì‹œì €ë¥¼ ì‚¬ìš©í•˜ë©´ íŒ¨í‚¤ì§€ ì†ŒìŠ¤ë¥¼ ìˆ¨ê¸°ëŠ” ê²ƒê³¼ ë™ì‹œì— ì»´íŒŒì¼ë„ ìˆ˜í–‰í•œë‹¤. 
   DBMS_DDL.CREATE_WRAPPED ( vv_ddl );
       
 EXCEPTION WHEN OTHERS THEN
@@ -582,23 +582,23 @@ EXCEPTION WHEN OTHERS THEN
 END ;
 
 
-  /* 8. ¾ÏÈ£È­ ÇÔ¼ö **************************************************************************************************************************/    
+  /* 8. ì•”í˜¸í™” í•¨ìˆ˜ **************************************************************************************************************************/    
   FUNCTION fn_encrypt ( ps_input_string IN VARCHAR2 )
            RETURN RAW
   IS 
     encrypted_raw RAW(32747);
-    v_key_raw RAW(32747);         -- ¾ÏÈ£È­ Å°    
-    encryption_type PLS_INTEGER;  -- ¾ÏÈ£È­ ½´Æ®    
+    v_key_raw RAW(32747);         -- ì•”í˜¸í™” í‚¤    
+    encryption_type PLS_INTEGER;  -- ì•”í˜¸í™” ìŠˆíŠ¸    
   BEGIN
-    -- ¾ÏÈ£È­ Å° °ªÀ» °¡Á®¿Â´Ù. 
+    -- ì•”í˜¸í™” í‚¤ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤. 
     v_key_raw := ch19_wrap_pkg.key_bytes_raw;  
     
-	  -- ¾ÏÈ£È­ ½´Æ® ¼³Á¤
-	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ºñÆ® Å°¸¦ »ç¿ëÇÑ AES ¾ÏÈ£È­ 
-	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ¸ðµå 
-	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5·Î ÀÌ·ç¾îÁø ÆÐµù 
+	  -- ì•”í˜¸í™” ìŠˆíŠ¸ ì„¤ì •
+	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ë¹„íŠ¸ í‚¤ë¥¼ ì‚¬ìš©í•œ AES ì•”í˜¸í™” 
+	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ëª¨ë“œ 
+	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5ë¡œ ì´ë£¨ì–´ì§„ íŒ¨ë”© 
          
-    -- ENCRYPT ÇÔ¼ö·Î ¾ÏÈ£È­¸¦ ÇÑ´Ù. ¸Å°³º¯¼ö·Î µé¾î¿Â ¹®ÀÚ¿­À» UTL_I18N.STRING_TO_RAW¸¦ »ç¿ëÇØ RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù.               
+    -- ENCRYPT í•¨ìˆ˜ë¡œ ì•”í˜¸í™”ë¥¼ í•œë‹¤. ë§¤ê°œë³€ìˆ˜ë¡œ ë“¤ì–´ì˜¨ ë¬¸ìžì—´ì„ UTL_I18N.STRING_TO_RAWë¥¼ ì‚¬ìš©í•´ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤.               
     encrypted_raw := DBMS_CRYPTO.ENCRYPT ( src => UTL_I18N.STRING_TO_RAW (ps_input_string, 'AL32UTF8'),   
                                            typ => encryption_type,
                                            key => v_key_raw
@@ -608,37 +608,37 @@ END ;
   END fn_encrypt;
   
   
-  /* 9. º¹È£È­ ÇÔ¼ö **************************************************************************************************************************/      
+  /* 9. ë³µí˜¸í™” í•¨ìˆ˜ **************************************************************************************************************************/      
   FUNCTION fn_decrypt ( prw_encrypt IN RAW )
            RETURN VARCHAR2
   IS
     vs_return VARCHAR2(100);
-    v_key_raw RAW(32747);         -- ¾ÏÈ£È­ Å°    
-    encryption_type PLS_INTEGER;  -- ¾ÏÈ£È­ ½´Æ®  
-    decrypted_raw   RAW (2000);   -- º¹È£È­ µ¥ÀÌÅÍ 
+    v_key_raw RAW(32747);         -- ì•”í˜¸í™” í‚¤    
+    encryption_type PLS_INTEGER;  -- ì•”í˜¸í™” ìŠˆíŠ¸  
+    decrypted_raw   RAW (2000);   -- ë³µí˜¸í™” ë°ì´í„° 
   BEGIN
-    -- ¾ÏÈ£È­ Å° °ªÀ» °¡Á®¿Â´Ù. 
+    -- ì•”í˜¸í™” í‚¤ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤. 
     v_key_raw := ch19_wrap_pkg.key_bytes_raw;    
     
-	  -- ¾ÏÈ£È­ ½´Æ® ¼³Á¤
-	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ºñÆ® Å°¸¦ »ç¿ëÇÑ AES ¾ÏÈ£È­ 
-	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ¸ðµå 
-	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5·Î ÀÌ·ç¾îÁø ÆÐµù  
+	  -- ì•”í˜¸í™” ìŠˆíŠ¸ ì„¤ì •
+	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ë¹„íŠ¸ í‚¤ë¥¼ ì‚¬ìš©í•œ AES ì•”í˜¸í™” 
+	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ëª¨ë“œ 
+	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5ë¡œ ì´ë£¨ì–´ì§„ íŒ¨ë”©  
                        
-    -- ¸Å°³º¯¼ö·Î µé¾î¿Â RAW Å¸ÀÔ µ¥ÀÌÅÍ¸¦ ´Ù½Ã º¹È£È­ ( ¾ÏÈ£È­Çß´ø Å°¿Í ¾ÏÈ£È­ ½´Æ®´Â µ¿ÀÏÇÏ°Ô »ç¿ëÇØ¾ß ÇÑ´Ù. )
+    -- ë§¤ê°œë³€ìˆ˜ë¡œ ë“¤ì–´ì˜¨ RAW íƒ€ìž… ë°ì´í„°ë¥¼ ë‹¤ì‹œ ë³µí˜¸í™” ( ì•”í˜¸í™”í–ˆë˜ í‚¤ì™€ ì•”í˜¸í™” ìŠˆíŠ¸ëŠ” ë™ì¼í•˜ê²Œ ì‚¬ìš©í•´ì•¼ í•œë‹¤. )
     decrypted_raw := DBMS_CRYPTO.DECRYPT ( src => prw_encrypt,
                                            typ => encryption_type,
                                            key => v_key_raw
                                          );               
-     -- º¹È£È­µÈ RAW Å¸ÀÔ µ¥ÀÌÅÍ¸¦ UTL_I18N.RAW_TO_CHAR¸¦ »ç¿ëÇØ ´Ù½Ã VARCHAR2·Î º¯È¯ 
+     -- ë³µí˜¸í™”ëœ RAW íƒ€ìž… ë°ì´í„°ë¥¼ UTL_I18N.RAW_TO_CHARë¥¼ ì‚¬ìš©í•´ ë‹¤ì‹œ VARCHAR2ë¡œ ë³€í™˜ 
      vs_return := UTL_I18N.RAW_TO_CHAR (decrypted_raw, 'AL32UTF8');
      
      RETURN vs_return;
   END fn_decrypt;  
   
--- ¾ÏÈ£È­ Å×½ºÆ®
+-- ì•”í˜¸í™” í…ŒìŠ¤íŠ¸
 BEGIN
-  -- È«±æµ¿ÀÇ ÀüÈ­¹øÈ£¸¦ ¾ÏÈ£È­ÇÑ µÚ ÀúÀåÇÑ´Ù. 
+  -- í™ê¸¸ë™ì˜ ì „í™”ë²ˆí˜¸ë¥¼ ì•”í˜¸í™”í•œ ë’¤ ì €ìž¥í•œë‹¤. 
   UPDATE ch19_user
      SET phone_number = my_util_pkg.fn_encrypt('010-0000-0001')
    WHERE user_id = 'gdhong';
@@ -646,46 +646,46 @@ BEGIN
   COMMIT;
 END;  
 
--- º¹È£È­ Å×½ºÆ®
+-- ë³µí˜¸í™” í…ŒìŠ¤íŠ¸
 DECLARE 
   v_raw RAW(2000);
   vs_phone_number VARCHAR2(50);
 BEGIN
-  -- È«±æµ¿ÀÇ ÀüÈ­¹øÈ£¸¦ °¡Á®¿Â´Ù. 
+  -- í™ê¸¸ë™ì˜ ì „í™”ë²ˆí˜¸ë¥¼ ê°€ì ¸ì˜¨ë‹¤. 
   SELECT phone_number
     INTO v_raw
     FROM ch19_user
    WHERE user_id = 'gdhong';
   
-  -- RAW Å¸ÀÔÀÇ ÀüÈ­¹øÈ£¸¦ º¹È£È­ ÇÔ¼ö¿¡ ³Ö¾î ¿ø·¡ ¹®ÀÚÇüÅÂÀÇ ÀüÈ­¹øÈ£¸¦ ¾ò´Â´Ù. 
+  -- RAW íƒ€ìž…ì˜ ì „í™”ë²ˆí˜¸ë¥¼ ë³µí˜¸í™” í•¨ìˆ˜ì— ë„£ì–´ ì›ëž˜ ë¬¸ìží˜•íƒœì˜ ì „í™”ë²ˆí˜¸ë¥¼ ì–»ëŠ”ë‹¤. 
   vs_phone_number := my_util_pkg.fn_decrypt(v_raw);
-  DBMS_OUTPUT.PUT_LINE('ÀüÈ­¹øÈ£ : ' || vs_phone_number);
+  DBMS_OUTPUT.PUT_LINE('ì „í™”ë²ˆí˜¸ : ' || vs_phone_number);
 END;
 
 
--- ¡Ü MY_UTIL_PKG ¼Ò½º
+-- â— MY_UTIL_PKG ì†ŒìŠ¤
 CREATE OR REPLACE PACKAGE my_util_pkg IS
-    -- 1. ÇÁ·Î±×·¥ ¼Ò½º °Ë»ö ÇÁ·Î½ÃÀú 
+    -- 1. í”„ë¡œê·¸ëž¨ ì†ŒìŠ¤ ê²€ìƒ‰ í”„ë¡œì‹œì € 
     PROCEDURE program_search_prc (ps_src_text IN VARCHAR2);
     
-    -- 2. °´Ã¼°Ë»ö ÇÁ·Î½ÃÀú 
+    -- 2. ê°ì²´ê²€ìƒ‰ í”„ë¡œì‹œì € 
     PROCEDURE object_search_prc (ps_obj_name IN VARCHAR2);    
     
-    -- 3. Å×ÀÌºí Layout Ãâ·Â
+    -- 3. í…Œì´ë¸” Layout ì¶œë ¥
     PROCEDURE table_layout_prc ( ps_table_name IN VARCHAR2);
     
-    -- 4. ÄÃ·³ °ªÀ» ¼¼·Î·Î Ãâ·Â 
+    -- 4. ì»¬ëŸ¼ ê°’ì„ ì„¸ë¡œë¡œ ì¶œë ¥ 
     PROCEDURE print_col_value_prc ( ps_query IN VARCHAR2 );
     
-    -- ÀÌ¸ÞÀÏ Àü¼Û°ú °ü·ÃµÈ ÆÐÅ°Áö »ó¼ö
-    pv_host VARCHAR2(10)  := 'localhost';  -- SMTP ¼­¹ö¸í
-    pn_port NUMBER        := 25;           -- Æ÷Æ®¹øÈ£
-    pv_domain VARCHAR2(30) := 'hong.com';   -- µµ¸ÞÀÎ¸í
+    -- ì´ë©”ì¼ ì „ì†¡ê³¼ ê´€ë ¨ëœ íŒ¨í‚¤ì§€ ìƒìˆ˜
+    pv_host VARCHAR2(10)  := 'localhost';  -- SMTP ì„œë²„ëª…
+    pn_port NUMBER        := 25;           -- í¬íŠ¸ë²ˆí˜¸
+    pv_domain VARCHAR2(30) := 'hong.com';   -- ë„ë©”ì¸ëª…
     
     pv_boundary VARCHAR2(50) := 'DIFOJSLKDWFEFO.WEFOWJFOWE';  -- boundary text
-    pv_directory VARCHAR2(50) := 'SMTP_FILE'; --ÆÄÀÏÀÌ ÀÖ´Â µð·ºÅä¸®¸í   
+    pv_directory VARCHAR2(50) := 'SMTP_FILE'; --íŒŒì¼ì´ ìžˆëŠ” ë””ë ‰í† ë¦¬ëª…   
         
-    -- 5. ÀÌ¸ÞÀÏ Àü¼Û  
+    -- 5. ì´ë©”ì¼ ì „ì†¡  
     PROCEDURE email_send_prc ( ps_from    IN VARCHAR2,  
                                ps_to      IN VARCHAR2,  
                                ps_subject IN VARCHAR2, 
@@ -695,42 +695,42 @@ CREATE OR REPLACE PACKAGE my_util_pkg IS
                              );  
                              
                              
-    -- 6. ºñ¹Ð¹øÈ£ »ý¼º
+    -- 6. ë¹„ë°€ë²ˆí˜¸ ìƒì„±
     FUNCTION fn_create_pass ( ps_input IN VARCHAR2,
                               ps_add   IN VARCHAR2 )
              RETURN RAW;
                               
-    -- 7. ºñ¹Ð¹øÈ£ È®ÀÎ   
+    -- 7. ë¹„ë°€ë²ˆí˜¸ í™•ì¸   
     FUNCTION fn_check_pass ( ps_input IN VARCHAR2,
                              ps_add   IN VARCHAR2,
                              p_raw    IN RAW )  
              RETURN VARCHAR2;       
              
-    -- 8. ¾ÏÈ£È­ ÇÔ¼ö
+    -- 8. ì•”í˜¸í™” í•¨ìˆ˜
     FUNCTION fn_encrypt ( ps_input_string IN VARCHAR2 )
              RETURN RAW;
              
-    -- 9. º¹È£È­ ÇÔ¼ö
+    -- 9. ë³µí˜¸í™” í•¨ìˆ˜
     FUNCTION fn_decrypt ( prw_encrypt IN RAW )
              RETURN VARCHAR2;
   
 END my_util_pkg;
 
 
--- ÆÐÅ°Áö º»¹®
+-- íŒ¨í‚¤ì§€ ë³¸ë¬¸
 CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
 
-  /* 1. ÇÁ·Î±×·¥ ¼Ò½º °Ë»ö ÇÁ·Î½ÃÀú *************************************************************************************/
+  /* 1. í”„ë¡œê·¸ëž¨ ì†ŒìŠ¤ ê²€ìƒ‰ í”„ë¡œì‹œì € *************************************************************************************/
   PROCEDURE program_search_prc (ps_src_text IN VARCHAR2)
   IS
     vs_search VARCHAR2(100);
     vs_name   VARCHAR2(1000);
   BEGIN
-    -- Ã£À» Å°¿öµå ¾ÕµÚ¿¡ '%'¸¦ ºÙÀÎ´Ù. 
+    -- ì°¾ì„ í‚¤ì›Œë“œ ì•žë’¤ì— '%'ë¥¼ ë¶™ì¸ë‹¤. 
     vs_search := '%' || NVL(ps_src_text, '%') || '%';
     
-    -- dba_source¿¡¼­ ÀÔ·ÂµÈ Å°¿öµå·Î ¼Ò½º¸¦ °Ë»öÇÑ´Ù. 
-    -- ÀÔ·Â Å°¿öµå°¡ ´ë¹®ÀÚ È¤Àº ¼Ò¹®ÀÚ°¡ µÉ ¼ö ÀÖÀ¸¹Ç·Î UPPER, LOWER ÇÔ¼ö¸¦ ÀÌ¿ëÇØ °Ë»öÇÑ´Ù. 
+    -- dba_sourceì—ì„œ ìž…ë ¥ëœ í‚¤ì›Œë“œë¡œ ì†ŒìŠ¤ë¥¼ ê²€ìƒ‰í•œë‹¤. 
+    -- ìž…ë ¥ í‚¤ì›Œë“œê°€ ëŒ€ë¬¸ìž í˜¹ì€ ì†Œë¬¸ìžê°€ ë  ìˆ˜ ìžˆìœ¼ë¯€ë¡œ UPPER, LOWER í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ê²€ìƒ‰í•œë‹¤. 
     FOR C_CUR IN ( SELECT name, type, line, text
                      FROM user_source
                     WHERE text like UPPER(vs_search) 
@@ -738,7 +738,7 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
                     ORDER BY name, type, line
                   )
     LOOP
-       -- ÇÁ·Î±×·¥ ÀÌ¸§°ú ÁÙ¹øÈ£¸¦ °¡Á®¿Í Ãâ·ÂÇÑ´Ù. 
+       -- í”„ë¡œê·¸ëž¨ ì´ë¦„ê³¼ ì¤„ë²ˆí˜¸ë¥¼ ê°€ì ¸ì™€ ì¶œë ¥í•œë‹¤. 
        vs_name := C_CUR.name || ' - ' || C_CUR.type || ' - ' || C_Cur.line || ' : ' || REPLACE(C_CUR.text, CHR(10), '');
        DBMS_OUTPUT.PUT_LINE( vs_name);
     END LOOP;
@@ -746,31 +746,31 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
   END program_search_prc;
   
 
-  /* 2. °´Ã¼°Ë»ö ÇÁ·Î½ÃÀú *************************************************************************************************/
+  /* 2. ê°ì²´ê²€ìƒ‰ í”„ë¡œì‹œì € *************************************************************************************************/
   PROCEDURE object_search_prc (ps_obj_name IN VARCHAR2)
   IS
     vs_search VARCHAR2(100);
     vs_name   VARCHAR2(1000);
   BEGIN
-    -- Ã£À» Å°¿öµå ¾ÕµÚ¿¡ '%'¸¦ ºÙÀÎ´Ù. 
+    -- ì°¾ì„ í‚¤ì›Œë“œ ì•žë’¤ì— '%'ë¥¼ ë¶™ì¸ë‹¤. 
     vs_search := '%' || NVL(ps_obj_name, '%') || '%';
     
-    -- referenced_name ÀÔ·ÂµÈ Å°¿öµå·Î ÂüÁ¶°´Ã¼¸¦ °Ë»öÇÑ´Ù.  
-    -- user_dependencies¿¡´Â ¸ðµÎ ´ë¹®ÀÚ·Î µ¥ÀÌÅÍ°¡ µé¾î°¡ ÀÖÀ¸¹Ç·Î UPPER ÇÔ¼ö¸¦ ÀÌ¿ëÇØ °Ë»öÇÑ´Ù. 
+    -- referenced_name ìž…ë ¥ëœ í‚¤ì›Œë“œë¡œ ì°¸ì¡°ê°ì²´ë¥¼ ê²€ìƒ‰í•œë‹¤.  
+    -- user_dependenciesì—ëŠ” ëª¨ë‘ ëŒ€ë¬¸ìžë¡œ ë°ì´í„°ê°€ ë“¤ì–´ê°€ ìžˆìœ¼ë¯€ë¡œ UPPER í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ê²€ìƒ‰í•œë‹¤. 
     FOR C_CUR IN ( SELECT name, type
                      FROM user_dependencies
                     WHERE referenced_name LIKE UPPER(vs_search) 
                     ORDER BY name, type
                   )
     LOOP
-       -- ÇÁ·Î±×·¥ ÀÌ¸§°ú ÁÙ¹øÈ£¸¦ °¡Á®¿Í Ãâ·ÂÇÑ´Ù. 
+       -- í”„ë¡œê·¸ëž¨ ì´ë¦„ê³¼ ì¤„ë²ˆí˜¸ë¥¼ ê°€ì ¸ì™€ ì¶œë ¥í•œë‹¤. 
        vs_name := C_CUR.name || ' - ' || C_CUR.type ;
        DBMS_OUTPUT.PUT_LINE( vs_name);
     END LOOP;
   	
   END object_search_prc;  
   
-  /* 3. Å×ÀÌºí Layout Ãâ·Â ***********************************************************************************************/
+  /* 3. í…Œì´ë¸” Layout ì¶œë ¥ ***********************************************************************************************/
   PROCEDURE table_layout_prc ( ps_table_name IN VARCHAR2)
   IS
     vs_table_name VARCHAR2(50) := UPPER(ps_table_name);
@@ -778,29 +778,29 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
     vs_columns    VARCHAR2(300);
   BEGIN
   	BEGIN
-  	  -- TABLEÀÌ ÀÖ´ÂÁö °Ë»ö 
+  	  -- TABLEì´ ìžˆëŠ”ì§€ ê²€ìƒ‰ 
   	  SELECT OWNER
   	    INTO vs_owner
   	    FROM ALL_TABLES
     	 WHERE TABLE_NAME = vs_table_name;
   	
   	EXCEPTION WHEN NO_DATA_FOUND THEN
-  	     DBMS_OUTPUT.PUT_LINE(vs_table_name || '¶ó´Â Å×ÀÌºíÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù');
+  	     DBMS_OUTPUT.PUT_LINE(vs_table_name || 'ë¼ëŠ” í…Œì´ë¸”ì´ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤');
   	     RETURN;
     END;
     
     DBMS_OUTPUT.PUT_LINE('-------------------------------------------------------');
-    DBMS_OUTPUT.PUT_LINE('Å×ÀÌºí: ' || vs_table_name || ' , ¼ÒÀ¯ÀÚ : ' || vs_owner);
+    DBMS_OUTPUT.PUT_LINE('í…Œì´ë¸”: ' || vs_table_name || ' , ì†Œìœ ìž : ' || vs_owner);
     DBMS_OUTPUT.PUT_LINE('-------------------------------------------------------');
   	
-  	-- ÄÃ·³Á¤º¸ °Ë»ö ¹× Ãâ·Â 
+  	-- ì»¬ëŸ¼ì •ë³´ ê²€ìƒ‰ ë° ì¶œë ¥ 
     FOR C_CUR IN ( SELECT column_name, data_type, data_length, nullable, data_default 
                      FROM ALL_TAB_COLS
                     WHERE table_name = vs_table_name
                     ORDER BY column_id
                   )
     LOOP
-       -- ÄÃ·³ Á¤º¸¸¦ Ãâ·ÂÇÑ´Ù. ÁÙÀ» ¸ÂÃç Ãâ·ÂµÇµµ·Ï RPAD ÇÔ¼ö¸¦ »ç¿ëÇÑ´Ù.  
+       -- ì»¬ëŸ¼ ì •ë³´ë¥¼ ì¶œë ¥í•œë‹¤. ì¤„ì„ ë§žì¶° ì¶œë ¥ë˜ë„ë¡ RPAD í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•œë‹¤.  
        vs_columns := RPAD(C_CUR.column_name, 20) || RPAD(C_CUR.data_type, 15) || RPAD(C_CUR.data_length, 5) || RPAD(C_CUR.nullable, 2) || RPAD(C_CUR.data_default, 10);
        DBMS_OUTPUT.PUT_LINE( vs_columns);
     END LOOP;  	
@@ -808,7 +808,7 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
   END table_layout_prc;
   
   
-  /* 4. ÄÃ·³ °ªÀ» ¼¼·Î·Î Ãâ·Â *****************************************************************************************************************************************/
+  /* 4. ì»¬ëŸ¼ ê°’ì„ ì„¸ë¡œë¡œ ì¶œë ¥ *****************************************************************************************************************************************/
   PROCEDURE print_col_value_prc ( ps_query IN VARCHAR2 )
   IS
       l_theCursor     INTEGER DEFAULT DBMS_SQL.OPEN_CURSOR;
@@ -817,26 +817,26 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
       l_descTbl       DBMS_SQL.DESC_TAB;
       l_colCnt        NUMBER;
   BEGIN
-      -- Äõ¸®±¸¹®ÀÌ p_query ¸Å°³º¯¼ö¿¡ µé¾î¿À¹Ç·Î ÀÌ¸¦ ÆÄ½ÌÇÑ´Ù. 
+      -- ì¿¼ë¦¬êµ¬ë¬¸ì´ p_query ë§¤ê°œë³€ìˆ˜ì— ë“¤ì–´ì˜¤ë¯€ë¡œ ì´ë¥¼ íŒŒì‹±í•œë‹¤. 
       DBMS_SQL.PARSE(  l_theCursor,  ps_query, DBMS_SQL.NATIVE );
       
-      -- DESCRIBE_COLUMN ÇÁ·Î½ÃÀú : Ä¿¼­¿¡ ´ëÇÑ ÄÃ·³Á¤º¸¸¦ DBMS_SQL.DESC_TAB Çü º¯¼ö¿¡ ³Ö´Â´Ù. 
+      -- DESCRIBE_COLUMN í”„ë¡œì‹œì € : ì»¤ì„œì— ëŒ€í•œ ì»¬ëŸ¼ì •ë³´ë¥¼ DBMS_SQL.DESC_TAB í˜• ë³€ìˆ˜ì— ë„£ëŠ”ë‹¤. 
       DBMS_SQL.DESCRIBE_COLUMNS  ( l_theCursor, l_colCnt, l_descTbl );
   
-      -- ¼±ÅÃµÈ ÄÃ·³ °³¼ö¸¸Å­ ·çÇÁ¸¦ µ¹¸ç DEFINE_COLUMN ÇÁ·Î½ÃÀú¸¦ È£ÃâÇØ ÄÃ·³À» Á¤ÀÇÇÑ´Ù. 
+      -- ì„ íƒëœ ì»¬ëŸ¼ ê°œìˆ˜ë§Œí¼ ë£¨í”„ë¥¼ ëŒë©° DEFINE_COLUMN í”„ë¡œì‹œì €ë¥¼ í˜¸ì¶œí•´ ì»¬ëŸ¼ì„ ì •ì˜í•œë‹¤. 
       FOR i IN 1..l_colCnt 
       LOOP
           DBMS_SQL.DEFINE_COLUMN (l_theCursor, i, l_columnValue, 4000);
       END LOOP;
   
-      -- ½ÇÇà 
+      -- ì‹¤í–‰ 
       l_status := DBMS_SQL.EXECUTE(l_theCursor);
   
       WHILE ( DBMS_SQL.FETCH_ROWS (l_theCursor) > 0 ) 
       LOOP
-          -- ÄÃ·³ °³¼ö¸¸Å­ ´Ù½Ã ·çÇÁ¸¦ µ¹¸é¼­ ÄÃ·³ °ªÀ» l_columnValue º¯¼ö¿¡ ´ã´Â´Ù.
-          -- DBMS_SQL.DESC_TAB Çü º¯¼öÀÎ l_descTbl.COL_NAMEÀº ÄÃ·³ ¸íÄªÀÌ ÀÖ°í 
-          -- l_columnValue¿¡´Â ÄÃ·³ °ªÀÌ µé¾îÀÖ´Ù. 
+          -- ì»¬ëŸ¼ ê°œìˆ˜ë§Œí¼ ë‹¤ì‹œ ë£¨í”„ë¥¼ ëŒë©´ì„œ ì»¬ëŸ¼ ê°’ì„ l_columnValue ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤.
+          -- DBMS_SQL.DESC_TAB í˜• ë³€ìˆ˜ì¸ l_descTbl.COL_NAMEì€ ì»¬ëŸ¼ ëª…ì¹­ì´ ìžˆê³  
+          -- l_columnValueì—ëŠ” ì»¬ëŸ¼ ê°’ì´ ë“¤ì–´ìžˆë‹¤. 
           FOR i IN 1..l_colCnt 
           LOOP
             DBMS_SQL.COLUMN_VALUE ( l_theCursor, i, l_columnValue );
@@ -849,44 +849,44 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
   
   END print_col_value_prc;  
   
-  /* 5. ÀÌ¸ÞÀÏ Àü¼Û **************************************************************************************************************************/
-  PROCEDURE email_send_prc ( ps_from    IN VARCHAR2,  -- º¸³»´Â »ç¶÷
-                             ps_to      IN VARCHAR2,  -- ¹Þ´Â »ç¶÷
-                             ps_subject IN VARCHAR2,  -- Á¦¸ñ
-                             ps_body    IN VARCHAR2,  -- º»¹® 
+  /* 5. ì´ë©”ì¼ ì „ì†¡ **************************************************************************************************************************/
+  PROCEDURE email_send_prc ( ps_from    IN VARCHAR2,  -- ë³´ë‚´ëŠ” ì‚¬ëžŒ
+                             ps_to      IN VARCHAR2,  -- ë°›ëŠ” ì‚¬ëžŒ
+                             ps_subject IN VARCHAR2,  -- ì œëª©
+                             ps_body    IN VARCHAR2,  -- ë³¸ë¬¸ 
                              ps_content IN VARCHAR2  DEFAULT 'text/plain;', -- Content-Type
-                             ps_file_nm IN VARCHAR2   -- Ã·ºÎÆÄÀÏ 
+                             ps_file_nm IN VARCHAR2   -- ì²¨ë¶€íŒŒì¼ 
                            )
   IS
     vc_con utl_smtp.connection;
     
-    v_bfile        BFILE;       -- ÆÄÀÏÀ» ´ãÀ» º¯¼ö 
-    vn_bfile_size  NUMBER := 0; -- ÆÄÀÏÅ©±â 
+    v_bfile        BFILE;       -- íŒŒì¼ì„ ë‹´ì„ ë³€ìˆ˜ 
+    vn_bfile_size  NUMBER := 0; -- íŒŒì¼í¬ê¸° 
     
-    v_temp_blob    BLOB := EMPTY_BLOB; -- ÆÄÀÏÀ» ¿Å°Ü´ãÀ» BLOB Å¸ÀÔ º¯¼ö
-    vn_blob_size   NUMBER := 0;        -- BLOB º¯¼ö Å©±â 
-    vn_amount      NUMBER := 54;       -- 54 ´ÜÀ§·Î ÆÄÀÏÀ» Àß¶ó ¸ÞÀÏ¿¡ ºÙÀÌ±â À§ÇÔ
-    v_tmp_raw      RAW(54);            -- 54 ´ÜÀ§·Î ÀÚ¸¥ ÆÄÀÏ³»¿ëÀÌ ´ã±ä RAW Å¸ÀÔº¯¼ö 
-    vn_pos         NUMBER := 1; --ÆÄÀÏ À§Ä¡¸¦ ´ã´Â º¯¼ö 
+    v_temp_blob    BLOB := EMPTY_BLOB; -- íŒŒì¼ì„ ì˜®ê²¨ë‹´ì„ BLOB íƒ€ìž… ë³€ìˆ˜
+    vn_blob_size   NUMBER := 0;        -- BLOB ë³€ìˆ˜ í¬ê¸° 
+    vn_amount      NUMBER := 54;       -- 54 ë‹¨ìœ„ë¡œ íŒŒì¼ì„ ìž˜ë¼ ë©”ì¼ì— ë¶™ì´ê¸° ìœ„í•¨
+    v_tmp_raw      RAW(54);            -- 54 ë‹¨ìœ„ë¡œ ìžë¥¸ íŒŒì¼ë‚´ìš©ì´ ë‹´ê¸´ RAW íƒ€ìž…ë³€ìˆ˜ 
+    vn_pos         NUMBER := 1; --íŒŒì¼ ìœ„ì¹˜ë¥¼ ë‹´ëŠ” ë³€ìˆ˜ 
     
   BEGIN
   	
     vc_con := UTL_SMTP.OPEN_CONNECTION(pv_host, pn_port);
 
     UTL_SMTP.HELO(vc_con, pv_domain); -- HELO  
-    UTL_SMTP.MAIL(vc_con, ps_from);   -- º¸³»´Â»ç¶÷
-    UTL_SMTP.RCPT(vc_con, ps_to);     -- ¹Þ´Â»ç¶÷  	
+    UTL_SMTP.MAIL(vc_con, ps_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+    UTL_SMTP.RCPT(vc_con, ps_to);     -- ë°›ëŠ”ì‚¬ëžŒ  	
     
-    UTL_SMTP.OPEN_DATA(vc_con); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
-    UTL_SMTP.WRITE_DATA(vc_con,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ¹öÀü  
+    UTL_SMTP.OPEN_DATA(vc_con); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
+    UTL_SMTP.WRITE_DATA(vc_con,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ë²„ì „  
     
     UTL_SMTP.WRITE_DATA(vc_con,'Content-Type: multipart/mixed; boundary="' || pv_boundary || '"' || UTL_TCP.CRLF); 
-    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('From: ' || ps_from || UTL_TCP.CRLF) ); -- º¸³»´Â»ç¶÷
-    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('To: ' || ps_to || UTL_TCP.CRLF) );   -- ¹Þ´Â»ç¶÷
-    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('Subject: ' || ps_subject || UTL_TCP.CRLF) ); -- Á¦¸ñ
-    UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF );  -- ÇÑ ÁÙ ¶ç¿ì±â  
+    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('From: ' || ps_from || UTL_TCP.CRLF) ); -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('To: ' || ps_to || UTL_TCP.CRLF) );   -- ë°›ëŠ”ì‚¬ëžŒ
+    UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW('Subject: ' || ps_subject || UTL_TCP.CRLF) ); -- ì œëª©
+    UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF );  -- í•œ ì¤„ ë„ìš°ê¸°  
   	
-    -- ¸ÞÀÏ º»¹® 
+    -- ë©”ì¼ ë³¸ë¬¸ 
     UTL_SMTP.WRITE_DATA(vc_con, '--' || pv_boundary || UTL_TCP.CRLF );
     UTL_SMTP.WRITE_DATA(vc_con, 'Content-Type: ' || ps_content || UTL_TCP.CRLF );
     UTL_SMTP.WRITE_DATA(vc_con, 'charset=euc-kr' || UTL_TCP.CRLF );
@@ -894,38 +894,38 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
     UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_RAW.CAST_TO_RAW(ps_body || UTL_TCP.CRLF)  );
     UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF );
 
-    -- Ã·ºÎÆÄÀÏÀÌ ÀÖ´Ù¸é ...
+    -- ì²¨ë¶€íŒŒì¼ì´ ìžˆë‹¤ë©´ ...
     IF ps_file_nm IS NOT NULL THEN  
     
         UTL_SMTP.WRITE_DATA(vc_con, '--' || pv_boundary || UTL_TCP.CRLF ); 
-        -- ÆÄÀÏÀÇ Content-TypeÀº application/octet-stream
+        -- íŒŒì¼ì˜ Content-Typeì€ application/octet-stream
         UTL_SMTP.WRITE_DATA(vc_con,'Content-Type: application/octet-stream; name="' || ps_file_nm || '"' || UTL_TCP.CRLF);
         UTL_SMTP.WRITE_DATA(vc_con,'Content-Transfer-Encoding: base64' || UTL_TCP.CRLF);
         UTL_SMTP.WRITE_DATA(vc_con,'Content-Disposition: attachment; filename="' || ps_file_nm || '"' || UTL_TCP.CRLF);
 
         UTL_SMTP.WRITE_DATA(vc_con, UTL_TCP.CRLF);
         
-        -- ÆÄÀÏÃ³¸® ½ÃÀÛ
-        -- ÆÄÀÏÀ» ÀÐ¾î BFILE º¯¼öÀÎ v_bfile¿¡ ´ã´Â´Ù. 
+        -- íŒŒì¼ì²˜ë¦¬ ì‹œìž‘
+        -- íŒŒì¼ì„ ì½ì–´ BFILE ë³€ìˆ˜ì¸ v_bfileì— ë‹´ëŠ”ë‹¤. 
         v_bfile := BFILENAME(pv_directory, ps_file_nm); 
-        -- v_bfile ´ãÀº ÆÄÀÏÀ» ÀÐ±âÀü¿ëÀ¸·Î ¿¬´Ù. 
+        -- v_bfile ë‹´ì€ íŒŒì¼ì„ ì½ê¸°ì „ìš©ìœ¼ë¡œ ì—°ë‹¤. 
         DBMS_LOB.OPEN(v_bfile, DBMS_LOB.LOB_READONLY); 
-        -- v_bfile¿¡ ´ã±ä ÆÄÀÏÀÇ Å©±â¸¦ °¡Á®¿Â´Ù. 
+        -- v_bfileì— ë‹´ê¸´ íŒŒì¼ì˜ í¬ê¸°ë¥¼ ê°€ì ¸ì˜¨ë‹¤. 
         vn_bfile_size := DBMS_LOB.GETLENGTH(v_bfile);
         
-        -- v_bfile¸¦ BLOB º¯¼öÀÎ v_temp_blob¿¡ ´ã±â À§ÇØ ÃÊ±âÈ­ 
+        -- v_bfileë¥¼ BLOB ë³€ìˆ˜ì¸ v_temp_blobì— ë‹´ê¸° ìœ„í•´ ì´ˆê¸°í™” 
         DBMS_LOB.CREATETEMPORARY(v_temp_blob, TRUE);
-        -- v_bfile¿¡ ´ã±ä ÆÄÀÏÀ» v_temp_blob ·Î ¿Å±ä´Ù. 
+        -- v_bfileì— ë‹´ê¸´ íŒŒì¼ì„ v_temp_blob ë¡œ ì˜®ê¸´ë‹¤. 
         DBMS_LOB.LOADFROMFILE(v_temp_blob, v_bfile, vn_bfile_size);
-        -- v_temp_blobÀÇ Å©±â¸¦ ±¸ÇÑ´Ù. 
+        -- v_temp_blobì˜ í¬ê¸°ë¥¼ êµ¬í•œë‹¤. 
         vn_blob_size := DBMS_LOB.GETLENGTH(v_temp_blob);    
         
-        -- vn_pos ÃÊ±â°ªÀº 1, v_temp_blob Å©±âº¸´Ù ÀÛÀº °æ¿ì ·çÇÁ 
+        -- vn_pos ì´ˆê¸°ê°’ì€ 1, v_temp_blob í¬ê¸°ë³´ë‹¤ ìž‘ì€ ê²½ìš° ë£¨í”„ 
         WHILE vn_pos < vn_blob_size 
         LOOP
-            -- v_temp_blob¿¡ ´ã±ä ÆÄÀÏÀ» vn_amount(54)¾¿ Àß¶ó  v_tmp_raw¿¡ ´ã´Â´Ù. 
+            -- v_temp_blobì— ë‹´ê¸´ íŒŒì¼ì„ vn_amount(54)ì”© ìž˜ë¼  v_tmp_rawì— ë‹´ëŠ”ë‹¤. 
             DBMS_LOB.READ(v_temp_blob, vn_amount, vn_pos, v_tmp_raw);
-            -- Àß¶ó³½ v_tmp_raw¸¦ ¸ÞÀÏ¿¡ Ã·ºÎÇÑ´Ù. 
+            -- ìž˜ë¼ë‚¸ v_tmp_rawë¥¼ ë©”ì¼ì— ì²¨ë¶€í•œë‹¤. 
             UTL_SMTP.WRITE_RAW_DATA(vc_con, UTL_ENCODE.BASE64_ENCODE ( v_tmp_raw));
             UTL_SMTP.WRITE_DATA(vc_con,  UTL_TCP.CRLF );            
 
@@ -933,16 +933,16 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
             vn_pos := vn_pos + vn_amount;
         END LOOP;
         
-      DBMS_LOB.FREETEMPORARY(v_temp_blob); -- v_temp_blob ¸Þ¸ð¸® ÇØÁ¦
-      DBMS_LOB.FILECLOSE(v_bfile); -- v_bfile ´Ý±â         
+      DBMS_LOB.FREETEMPORARY(v_temp_blob); -- v_temp_blob ë©”ëª¨ë¦¬ í•´ì œ
+      DBMS_LOB.FILECLOSE(v_bfile); -- v_bfile ë‹«ê¸°         
 
-    END IF; -- Ã·ºÎÆÄÀÏ Ã³¸® Á¾·á 
+    END IF; -- ì²¨ë¶€íŒŒì¼ ì²˜ë¦¬ ì¢…ë£Œ 
     
-    -- ¸Ç ¸¶Áö¸· boundary¿¡´Â ¾Õ°ú µÚ¿¡ '--'¸¦ ¹Ýµå½Ã ºÙ¿©¾ß ÇÑ´Ù.
+    -- ë§¨ ë§ˆì§€ë§‰ boundaryì—ëŠ” ì•žê³¼ ë’¤ì— '--'ë¥¼ ë°˜ë“œì‹œ ë¶™ì—¬ì•¼ í•œë‹¤.
     UTL_SMTP.WRITE_DATA(vc_con, '--' ||  pv_boundary || '--' || UTL_TCP.CRLF );   
     
-    UTL_SMTP.CLOSE_DATA(vc_con); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á  
-    UTL_SMTP.QUIT(vc_con);       -- ¸ÞÀÏ ¼¼¼Ç Á¾·á
+    UTL_SMTP.CLOSE_DATA(vc_con); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ  
+    UTL_SMTP.QUIT(vc_con);       -- ë©”ì¼ ì„¸ì…˜ ì¢…ë£Œ
     
   EXCEPTION 
     WHEN UTL_SMTP.INVALID_OPERATION THEN
@@ -963,7 +963,7 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
   END email_send_prc;
 
 
-  /* 6. ºñ¹Ð¹øÈ£ »ý¼º **************************************************************************************************************************/
+  /* 6. ë¹„ë°€ë²ˆí˜¸ ìƒì„± **************************************************************************************************************************/
   FUNCTION fn_create_pass ( ps_input IN VARCHAR2,
                             ps_add   IN VARCHAR2 )
            RETURN RAW
@@ -972,14 +972,14 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
     v_key_raw RAW(32747);
     v_input_string VARCHAR2(100);
   BEGIN
-    -- Å° °ªÀ» °¡Áø ch19_wrap_pkg ÆÐÅ°ÁöÀÇ pv_key_string »ó¼ö¸¦ °¡Á®¿Í RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- í‚¤ ê°’ì„ ê°€ì§„ ch19_wrap_pkg íŒ¨í‚¤ì§€ì˜ pv_key_string ìƒìˆ˜ë¥¼ ê°€ì ¸ì™€ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_key_raw := UTL_RAW.CAST_TO_RAW(ch19_wrap_pkg.pv_key_string );
     
-    -- Á» ´õ º¸¾ÈÀ» °­È­ÇÏ±â À§ÇØ µÎ °³ÀÇ ÀÔ·Â ¸Å°³º¯¼ö¿Í Æ¯¼ö¹®ÀÚÀÎ $%¸¦ Á¶ÇÕÇØ 
-    -- MAC ÇÔ¼öÀÇ Ã¹ ¹øÂ° ¸Å°³º¯¼ö·Î ³Ñ±ä´Ù.  
+    -- ì¢€ ë” ë³´ì•ˆì„ ê°•í™”í•˜ê¸° ìœ„í•´ ë‘ ê°œì˜ ìž…ë ¥ ë§¤ê°œë³€ìˆ˜ì™€ íŠ¹ìˆ˜ë¬¸ìžì¸ $%ë¥¼ ì¡°í•©í•´ 
+    -- MAC í•¨ìˆ˜ì˜ ì²« ë²ˆì§¸ ë§¤ê°œë³€ìˆ˜ë¡œ ë„˜ê¸´ë‹¤.  
     v_input_string := ps_input || '$%' || ps_add;
     
-    -- MAC ÇÔ¼ö¸¦ »ç¿ëÇØ ÀÔ·Â ¹®ÀÚ¿­À» RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- MAC í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ ìž…ë ¥ ë¬¸ìžì—´ì„ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_raw := DBMS_CRYPTO.MAC (src => UTL_RAW.CAST_TO_RAW(v_input_string)
                              ,typ => DBMS_CRYPTO.HMAC_SH1
                              ,key => v_key_raw);
@@ -987,7 +987,7 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
     RETURN v_raw;
   END fn_create_pass;
   
-  /* 7. ºñ¹Ð¹øÈ£ È®ÀÎ **************************************************************************************************************************/
+  /* 7. ë¹„ë°€ë²ˆí˜¸ í™•ì¸ **************************************************************************************************************************/
   FUNCTION fn_check_pass ( ps_input IN VARCHAR2,
                            ps_add   IN VARCHAR2,
                            p_raw    IN RAW ) 
@@ -999,14 +999,14 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
     
     v_rtn VARCHAR2(10) := 'N';
   BEGIN  
-    -- Å° °ªÀ» °¡Áø ch19_wrap_pkg ÆÐÅ°ÁöÀÇ pv_key_string »ó¼ö¸¦ °¡Á®¿Í RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- í‚¤ ê°’ì„ ê°€ì§„ ch19_wrap_pkg íŒ¨í‚¤ì§€ì˜ pv_key_string ìƒìˆ˜ë¥¼ ê°€ì ¸ì™€ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_key_raw := UTL_RAW.CAST_TO_RAW(ch19_wrap_pkg.pv_key_string );
     
-    -- Á» ´õ º¸¾ÈÀ» °­È­ÇÏ±â À§ÇØ µÎ °³ÀÇ ÀÔ·Â ¸Å°³º¯¼ö¿Í Æ¯¼ö¹®ÀÚÀÎ $%¸¦ Á¶ÇÕÇØ 
-    -- MAC ÇÔ¼öÀÇ Ã¹ ¹øÂ° ¸Å°³º¯¼ö·Î ³Ñ±ä´Ù.  
+    -- ì¢€ ë” ë³´ì•ˆì„ ê°•í™”í•˜ê¸° ìœ„í•´ ë‘ ê°œì˜ ìž…ë ¥ ë§¤ê°œë³€ìˆ˜ì™€ íŠ¹ìˆ˜ë¬¸ìžì¸ $%ë¥¼ ì¡°í•©í•´ 
+    -- MAC í•¨ìˆ˜ì˜ ì²« ë²ˆì§¸ ë§¤ê°œë³€ìˆ˜ë¡œ ë„˜ê¸´ë‹¤.  
     v_input_string := ps_input || '$%' || ps_add;
     
-    -- MAC ÇÔ¼ö¸¦ »ç¿ëÇØ ÀÔ·Â ¹®ÀÚ¿­À» RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
+    -- MAC í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ ìž…ë ¥ ë¬¸ìžì—´ì„ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
     v_raw := DBMS_CRYPTO.MAC (src => UTL_RAW.CAST_TO_RAW(v_input_string)
                              ,typ => DBMS_CRYPTO.HMAC_SH1
                              ,key => v_key_raw);
@@ -1020,23 +1020,23 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
     RETURN v_rtn;
   END fn_check_pass;  
   
-  /* 8. ¾ÏÈ£È­ ÇÔ¼ö **************************************************************************************************************************/    
+  /* 8. ì•”í˜¸í™” í•¨ìˆ˜ **************************************************************************************************************************/    
   FUNCTION fn_encrypt ( ps_input_string IN VARCHAR2 )
            RETURN RAW
   IS 
     encrypted_raw RAW(32747);
-    v_key_raw RAW(32747);         -- ¾ÏÈ£È­ Å°    
-    encryption_type PLS_INTEGER;  -- ¾ÏÈ£È­ ½´Æ®    
+    v_key_raw RAW(32747);         -- ì•”í˜¸í™” í‚¤    
+    encryption_type PLS_INTEGER;  -- ì•”í˜¸í™” ìŠˆíŠ¸    
   BEGIN
-    -- ¾ÏÈ£È­ Å° °ªÀ» °¡Á®¿Â´Ù. 
+    -- ì•”í˜¸í™” í‚¤ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤. 
     v_key_raw := ch19_wrap_pkg.key_bytes_raw;  
     
-	  -- ¾ÏÈ£È­ ½´Æ® ¼³Á¤
-	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ºñÆ® Å°¸¦ »ç¿ëÇÑ AES ¾ÏÈ£È­ 
-	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ¸ðµå 
-	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5·Î ÀÌ·ç¾îÁø ÆÐµù 
+	  -- ì•”í˜¸í™” ìŠˆíŠ¸ ì„¤ì •
+	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ë¹„íŠ¸ í‚¤ë¥¼ ì‚¬ìš©í•œ AES ì•”í˜¸í™” 
+	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ëª¨ë“œ 
+	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5ë¡œ ì´ë£¨ì–´ì§„ íŒ¨ë”© 
          
-    -- ENCRYPT ÇÔ¼ö·Î ¾ÏÈ£È­¸¦ ÇÑ´Ù. ¸Å°³º¯¼ö·Î µé¾î¿Â ¹®ÀÚ¿­À» UTL_I18N.STRING_TO_RAW¸¦ »ç¿ëÇØ RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù.               
+    -- ENCRYPT í•¨ìˆ˜ë¡œ ì•”í˜¸í™”ë¥¼ í•œë‹¤. ë§¤ê°œë³€ìˆ˜ë¡œ ë“¤ì–´ì˜¨ ë¬¸ìžì—´ì„ UTL_I18N.STRING_TO_RAWë¥¼ ì‚¬ìš©í•´ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤.               
     encrypted_raw := DBMS_CRYPTO.ENCRYPT ( src => UTL_I18N.STRING_TO_RAW (ps_input_string, 'AL32UTF8'),   
                                            typ => encryption_type,
                                            key => v_key_raw
@@ -1045,29 +1045,29 @@ CREATE OR REPLACE PACKAGE BODY my_util_pkg IS
      RETURN encrypted_raw;
   END fn_encrypt;
   
-  /* 9. º¹È£È­ ÇÔ¼ö **************************************************************************************************************************/      
+  /* 9. ë³µí˜¸í™” í•¨ìˆ˜ **************************************************************************************************************************/      
   FUNCTION fn_decrypt ( prw_encrypt IN RAW )
            RETURN VARCHAR2
   IS
     vs_return VARCHAR2(100);
-    v_key_raw RAW(32747);         -- ¾ÏÈ£È­ Å°    
-    encryption_type PLS_INTEGER;  -- ¾ÏÈ£È­ ½´Æ®  
-    decrypted_raw   RAW (2000);   -- º¹È£È­ µ¥ÀÌÅÍ 
+    v_key_raw RAW(32747);         -- ì•”í˜¸í™” í‚¤    
+    encryption_type PLS_INTEGER;  -- ì•”í˜¸í™” ìŠˆíŠ¸  
+    decrypted_raw   RAW (2000);   -- ë³µí˜¸í™” ë°ì´í„° 
   BEGIN
-    -- ¾ÏÈ£È­ Å° °ªÀ» °¡Á®¿Â´Ù. 
+    -- ì•”í˜¸í™” í‚¤ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤. 
     v_key_raw := ch19_wrap_pkg.key_bytes_raw;    
     
-	  -- ¾ÏÈ£È­ ½´Æ® ¼³Á¤
-	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ºñÆ® Å°¸¦ »ç¿ëÇÑ AES ¾ÏÈ£È­ 
-	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ¸ðµå 
-	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5·Î ÀÌ·ç¾îÁø ÆÐµù  
+	  -- ì•”í˜¸í™” ìŠˆíŠ¸ ì„¤ì •
+	  encryption_type := DBMS_CRYPTO.ENCRYPT_AES256 + -- 256ë¹„íŠ¸ í‚¤ë¥¼ ì‚¬ìš©í•œ AES ì•”í˜¸í™” 
+	                     DBMS_CRYPTO.CHAIN_CBC +      -- CBC ëª¨ë“œ 
+	                     DBMS_CRYPTO.PAD_PKCS5;       -- PKCS5ë¡œ ì´ë£¨ì–´ì§„ íŒ¨ë”©  
                        
-    -- ¸Å°³º¯¼ö·Î µé¾î¿Â RAW Å¸ÀÔ µ¥ÀÌÅÍ¸¦ ´Ù½Ã º¹È£È­ ( ¾ÏÈ£È­Çß´ø Å°¿Í ¾ÏÈ£È­ ½´Æ®´Â µ¿ÀÏÇÏ°Ô »ç¿ëÇØ¾ß ÇÑ´Ù. )
+    -- ë§¤ê°œë³€ìˆ˜ë¡œ ë“¤ì–´ì˜¨ RAW íƒ€ìž… ë°ì´í„°ë¥¼ ë‹¤ì‹œ ë³µí˜¸í™” ( ì•”í˜¸í™”í–ˆë˜ í‚¤ì™€ ì•”í˜¸í™” ìŠˆíŠ¸ëŠ” ë™ì¼í•˜ê²Œ ì‚¬ìš©í•´ì•¼ í•œë‹¤. )
     decrypted_raw := DBMS_CRYPTO.DECRYPT ( src => prw_encrypt,
                                            typ => encryption_type,
                                            key => v_key_raw
                                          );               
-     -- º¹È£È­µÈ RAW Å¸ÀÔ µ¥ÀÌÅÍ¸¦ UTL_I18N.RAW_TO_CHAR¸¦ »ç¿ëÇØ ´Ù½Ã VARCHAR2·Î º¯È¯ 
+     -- ë³µí˜¸í™”ëœ RAW íƒ€ìž… ë°ì´í„°ë¥¼ UTL_I18N.RAW_TO_CHARë¥¼ ì‚¬ìš©í•´ ë‹¤ì‹œ VARCHAR2ë¡œ ë³€í™˜ 
      vs_return := UTL_I18N.RAW_TO_CHAR (decrypted_raw, 'AL32UTF8');
      
      RETURN vs_return;

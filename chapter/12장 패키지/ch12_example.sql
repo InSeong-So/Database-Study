@@ -1,30 +1,30 @@
 --
 
-1. hr_pkg¿¡´Â »ç¿øÀÌ¸§¹ÝÈ¯, ½Å±Ô»ç¿øÀÔ·Â, Åð»ç»ç¿øÀ» Ã³¸®ÇÏ´Â ¼­ºê ÇÁ·Î±×·¥ÀÌ ÀÖ´Ù. 
-   hr_pkg2¶ó´Â ÆÐÅ°Áö¸¦ ¸¸µé°í, ÀÌ¹ø¿¡´Â ºÎ¼­ÀÌ¸§¹ÝÈ¯, ½Å±ÔºÎ¼­ÀÔ·Â, ºÎ¼­¸¦ »èÁ¦ÇÏ´Â ¼­ºêÇÁ·Î±×·¥À» ¸¸µé¾î º¸ÀÚ. 
-   ( ´Ü, ºÎ¼­¸¦ »èÁ¦ÇÒ ¶§´Â »èÁ¦ÇÒ ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ ÀÖ´ÂÁö Ã¼Å©ÇØ¼­, ÀÖÀ¸¸é ¸Þ½ÃÁöÃ³¸®ÇÏ°í ¾øÀ» °æ¿ì¸¸ »èÁ¦ÇØ¾ß ÇÑ´Ù)
+1. hr_pkgì—ëŠ” ì‚¬ì›ì´ë¦„ë°˜í™˜, ì‹ ê·œì‚¬ì›ìž…ë ¥, í‡´ì‚¬ì‚¬ì›ì„ ì²˜ë¦¬í•˜ëŠ” ì„œë¸Œ í”„ë¡œê·¸ëž¨ì´ ìžˆë‹¤. 
+   hr_pkg2ë¼ëŠ” íŒ¨í‚¤ì§€ë¥¼ ë§Œë“¤ê³ , ì´ë²ˆì—ëŠ” ë¶€ì„œì´ë¦„ë°˜í™˜, ì‹ ê·œë¶€ì„œìž…ë ¥, ë¶€ì„œë¥¼ ì‚­ì œí•˜ëŠ” ì„œë¸Œí”„ë¡œê·¸ëž¨ì„ ë§Œë“¤ì–´ ë³´ìž. 
+   ( ë‹¨, ë¶€ì„œë¥¼ ì‚­ì œí•  ë•ŒëŠ” ì‚­ì œí•  ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ìžˆëŠ”ì§€ ì²´í¬í•´ì„œ, ìžˆìœ¼ë©´ ë©”ì‹œì§€ì²˜ë¦¬í•˜ê³  ì—†ì„ ê²½ìš°ë§Œ ì‚­ì œí•´ì•¼ í•œë‹¤)
    
-<Á¤´ä>
+<ì •ë‹µ>
 
 CREATE OR REPLACE PACKAGE hr_pkg2 IS
 
-  -- ºÎ¼­¹øÈ£¸¦ ¹Þ¾Æ ºÎ¼­¸íÀ» ¹ÝÈ¯ÇÏ´Â ÇÔ¼ö
+  -- ë¶€ì„œë²ˆí˜¸ë¥¼ ë°›ì•„ ë¶€ì„œëª…ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
   FUNCTION fn_get_dep_name ( pn_department_id IN NUMBER )
      RETURN VARCHAR2;
      
-  -- ½Å±ÔºÎ¼­ ÀÔ·Â  
+  -- ì‹ ê·œë¶€ì„œ ìž…ë ¥  
   PROCEDURE new_emp_proc ( ps_dep_name   IN VARCHAR2, 
                            pn_parent_id  IN NUMBER, 
                            pn_manager_id IN NUMBER);
                                
-  -- ºÎ¼­»èÁ¦Ã³¸®                     
+  -- ë¶€ì„œì‚­ì œì²˜ë¦¬                     
   PROCEDURE del_dep_proc ( pn_department_id IN NUMBER );
   
 END  hr_pkg2; 
 
 CREATE OR REPLACE PACKAGE BODY hr_pkg2 IS
 
-  -- ºÎ¼­¹øÈ£¸¦ ¹Þ¾Æ ºÎ¼­¸íÀ» ¹ÝÈ¯ÇÏ´Â ÇÔ¼ö
+  -- ë¶€ì„œë²ˆí˜¸ë¥¼ ë°›ì•„ ë¶€ì„œëª…ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
   FUNCTION fn_get_dep_name ( pn_department_id IN NUMBER )
      RETURN VARCHAR2
   IS
@@ -39,11 +39,11 @@ CREATE OR REPLACE PACKAGE BODY hr_pkg2 IS
      RETURN vs_dep_name;
 
      EXCEPTION WHEN OTHERS THEN
-           RETURN 'ÇØ´ç ºÎ¼­ ¾øÀ½';
+           RETURN 'í•´ë‹¹ ë¶€ì„œ ì—†ìŒ';
            
   END fn_get_dep_name;
      
-  -- ½Å±ÔºÎ¼­ ÀÔ·Â  
+  -- ì‹ ê·œë¶€ì„œ ìž…ë ¥  
   PROCEDURE new_emp_proc ( ps_dep_name   IN VARCHAR2, 
                            pn_parent_id  IN NUMBER, 
                            pn_manager_id IN NUMBER)
@@ -61,7 +61,7 @@ CREATE OR REPLACE PACKAGE BODY hr_pkg2 IS
        FROM departments;
       
      IF vn_cnt > 0 THEN
-        DBMS_OUTPUT.PUT_LINE(ps_dep_name || ' ¶ó´Â ºÎ¼­°¡ ÀÌ¹Ì Á¸ÀçÇÕ´Ï´Ù!');
+        DBMS_OUTPUT.PUT_LINE(ps_dep_name || ' ë¼ëŠ” ë¶€ì„œê°€ ì´ë¯¸ ì¡´ìž¬í•©ë‹ˆë‹¤!');
         RETURN;
      END IF;
      
@@ -75,7 +75,7 @@ CREATE OR REPLACE PACKAGE BODY hr_pkg2 IS
               ROLLBACK;
   END new_emp_proc;
                                
-  -- ºÎ¼­»èÁ¦Ã³¸®                     
+  -- ë¶€ì„œì‚­ì œì²˜ë¦¬                     
   PROCEDURE del_dep_proc ( pn_department_id IN NUMBER )
   IS 
     vn_cnt1 NUMBER := 0;
@@ -88,7 +88,7 @@ CREATE OR REPLACE PACKAGE BODY hr_pkg2 IS
      WHERE department_id = pn_department_id;
   
      IF vn_cnt1 = 0 THEN
-        DBMS_OUTPUT.PUT_LINE(pn_department_id || ' ºÎ¼­°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù!');
+        DBMS_OUTPUT.PUT_LINE(pn_department_id || ' ë¶€ì„œê°€ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤!');
         RETURN;
      END IF;  
      
@@ -99,7 +99,7 @@ CREATE OR REPLACE PACKAGE BODY hr_pkg2 IS
        AND retire_date IS NOT NULL;
   
      IF vn_cnt2 > 0 THEN
-        DBMS_OUTPUT.PUT_LINE(pn_department_id || ' ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ Á¸ÀçÇÏ¹Ç·Î »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù');
+        DBMS_OUTPUT.PUT_LINE(pn_department_id || ' ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ì¡´ìž¬í•˜ë¯€ë¡œ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤');
         RETURN;
      END IF;       
      
@@ -118,60 +118,60 @@ END  hr_pkg2;
 
 
    
-2. ¿À¶óÅ¬¿¡¼­´Â Ã¤¹øÀ» ÇÒ ¶§, º¸Åë ½ÃÄö½º °´Ã¼¸¦ »ç¿ëÇÑ´Ù. 
-   ¿¹¸¦ µé¾î, ½Å±Ô »ç¿ø ÀÔ·Â ½Ã »ç¹øÀ» °¡Á®¿Í¾ß ÇÏ´Âµ¥, ÀÌ ¶§ »ç¹ø ½ÃÄö½º¸¦ »ý¼ºÇØ ³õÀ¸¸é "»ç¹ø½ÃÄö½º.NEXTVAL"·Î ´ÙÀ½ ¼ø¹øÀÇ »ç¹øÀ» °¡Á®¿Ã ¼ö ÀÖ´Ù. 
-   ch12_seq_pkg¶õ ÀÌ¸§ÀÇ ÆÐÅ°Áö¿¡ ½ÃÄö½º Ã³·³ µ¿ÀÛÇÏµµ·Ï get_nextval ÀÌ¶õ ÇÔ¼ö¸¦ ¸¸µé¾îº¸ÀÚ. 
-   ÀÌ ÇÔ¼ö´Â ¼¼¼Çº° ½ÃÄö½º °ªÀ» °¡Á®¿Í¾ß ÇÏ¸ç ÃÊ±â°ªÀº 1, 1¾¿ Áõ°¡ÇÏ°í ¼¼¼ÇÀÌ ´Þ¶óÁö¸é ´Ù½Ã ÃÊ±â°ªÀ» °¡Á®¿Í¾ß ÇÑ´Ù. 
+2. ì˜¤ë¼í´ì—ì„œëŠ” ì±„ë²ˆì„ í•  ë•Œ, ë³´í†µ ì‹œí€€ìŠ¤ ê°ì²´ë¥¼ ì‚¬ìš©í•œë‹¤. 
+   ì˜ˆë¥¼ ë“¤ì–´, ì‹ ê·œ ì‚¬ì› ìž…ë ¥ ì‹œ ì‚¬ë²ˆì„ ê°€ì ¸ì™€ì•¼ í•˜ëŠ”ë°, ì´ ë•Œ ì‚¬ë²ˆ ì‹œí€€ìŠ¤ë¥¼ ìƒì„±í•´ ë†“ìœ¼ë©´ "ì‚¬ë²ˆì‹œí€€ìŠ¤.NEXTVAL"ë¡œ ë‹¤ìŒ ìˆœë²ˆì˜ ì‚¬ë²ˆì„ ê°€ì ¸ì˜¬ ìˆ˜ ìžˆë‹¤. 
+   ch12_seq_pkgëž€ ì´ë¦„ì˜ íŒ¨í‚¤ì§€ì— ì‹œí€€ìŠ¤ ì²˜ëŸ¼ ë™ìž‘í•˜ë„ë¡ get_nextval ì´ëž€ í•¨ìˆ˜ë¥¼ ë§Œë“¤ì–´ë³´ìž. 
+   ì´ í•¨ìˆ˜ëŠ” ì„¸ì…˜ë³„ ì‹œí€€ìŠ¤ ê°’ì„ ê°€ì ¸ì™€ì•¼ í•˜ë©° ì´ˆê¸°ê°’ì€ 1, 1ì”© ì¦ê°€í•˜ê³  ì„¸ì…˜ì´ ë‹¬ë¼ì§€ë©´ ë‹¤ì‹œ ì´ˆê¸°ê°’ì„ ê°€ì ¸ì™€ì•¼ í•œë‹¤. 
    
    
-<Á¤´ä>   
+<ì •ë‹µ>   
 
 CREATE OR REPLACE PACKAGE ch12_seq_pkg IS
-   -- ´ÙÀ½ ½ÃÄö½º ¹øÈ£ ¹ÝÈ¯ ÇÔ¼ö 
+   -- ë‹¤ìŒ ì‹œí€€ìŠ¤ ë²ˆí˜¸ ë°˜í™˜ í•¨ìˆ˜ 
     FUNCTION get_nextval RETURN NUMBER;
 END ch12_seq_pkg;
 
 
 CREATE OR REPLACE PACKAGE BODY ch12_seq_pkg IS
-    -- ½ÃÄö½º ¹øÈ£¸¦ °¡Áø ³»ºÎ(PRIVATE) º¯¼ö ¼±¾ð 
+    -- ì‹œí€€ìŠ¤ ë²ˆí˜¸ë¥¼ ê°€ì§„ ë‚´ë¶€(PRIVATE) ë³€ìˆ˜ ì„ ì–¸ 
     cv_seq NUMBER := 0;
     
-    -- ´ÙÀ½ ½ÃÄö½º ¹øÈ£ ¹ÝÈ¯ ÇÔ¼ö 
+    -- ë‹¤ìŒ ì‹œí€€ìŠ¤ ë²ˆí˜¸ ë°˜í™˜ í•¨ìˆ˜ 
     FUNCTION get_nextval RETURN NUMBER
     IS     
     BEGIN
-       -- 1À» Áõ°¡½ÃÅ²´Ù. 
+       -- 1ì„ ì¦ê°€ì‹œí‚¨ë‹¤. 
        cv_seq := cv_seq + 1;
-       -- ½ÃÄö½º ¹øÈ£ ¹ÝÈ¯ 
+       -- ì‹œí€€ìŠ¤ ë²ˆí˜¸ ë°˜í™˜ 
        RETURN cv_seq;
     END get_nextval;
 END ch12_seq_pkg;
 
    
-3. ÆÐÅ°Áö Ä¿¼­¸¦ »ç¿ëÇÒ ¶§´Â ÁÖÀÇÇØ¾ß ÇÑ´Ù. Áï, »ç¿ë ÈÄ Ä¿¼­¸¦ ´ÝÁö ¾Ê¾ÒÀ» °æ¿ì, °°Àº ¼¼¼Ç¿¡¼­ ´Ù½Ã ÇØ´ç Ä¿¼­¸¦ »ç¿ëÇÒ ¶§ ¿À·ù°¡ ¹ß»ýÇÑ´Ù. 
+3. íŒ¨í‚¤ì§€ ì»¤ì„œë¥¼ ì‚¬ìš©í•  ë•ŒëŠ” ì£¼ì˜í•´ì•¼ í•œë‹¤. ì¦‰, ì‚¬ìš© í›„ ì»¤ì„œë¥¼ ë‹«ì§€ ì•Šì•˜ì„ ê²½ìš°, ê°™ì€ ì„¸ì…˜ì—ì„œ ë‹¤ì‹œ í•´ë‹¹ ì»¤ì„œë¥¼ ì‚¬ìš©í•  ë•Œ ì˜¤ë¥˜ê°€ ë°œìƒí•œë‹¤. 
    
    CREATE OR REPLACE PACKAGE ch12_exacur_pkg IS 
        
-     -- ROWTYPEÇü Ä¿¼­ Çì´õ¼±¾ð 
+     -- ROWTYPEí˜• ì»¤ì„œ í—¤ë”ì„ ì–¸ 
      CURSOR pc_depname_cur ( dep_id IN departments.department_id%TYPE ) 
          RETURN departments%ROWTYPE;
 
    END ch12_exacur_pkg;
    
-   ch12_exacur_pkg ÆÐÅ°ÁöÀÇ ¼±¾ðºÎÀÎµ¥. pc_depname_cur Ä¿¼­¸¦ »ç¿ëÇØ ºÎ¼­Á¤º¸¸¦ ÃßÃâÇÏ´Â ÇÁ·Î½ÃÀú¸¦ Ãß°¡ÇØº¸ÀÚ. 
-   ´Ü, ÀÌ ÇÁ·Î½ÃÀú ³»ºÎ¿¡¼­´Â ÇØ´ç Ä¿¼­ÀÇ "¿­±â-ÆÐÄ¡-´Ý±â" ÀÛ¾÷À» ¼öÇàÇØ¾ß ÇÏ¸ç, 
-   ÇØ´ç Ä¿¼­¸¦ ¿­¶§ È¤½Ã¶óµµ ´ÝÇô ÀÖÁö ¾ÊÀ» °æ¿ì¿¡´Â ¿À·ù¸¦ ¹ß»ý½ÃÅ°Áö ¸»°í ´Ý´Â ÀÛ¾÷±îÁö ¼öÇàÇÏµµ·Ï ÀÛ¼ºÇØ¾ß ÇÑ´Ù. 
+   ch12_exacur_pkg íŒ¨í‚¤ì§€ì˜ ì„ ì–¸ë¶€ì¸ë°. pc_depname_cur ì»¤ì„œë¥¼ ì‚¬ìš©í•´ ë¶€ì„œì •ë³´ë¥¼ ì¶”ì¶œí•˜ëŠ” í”„ë¡œì‹œì €ë¥¼ ì¶”ê°€í•´ë³´ìž. 
+   ë‹¨, ì´ í”„ë¡œì‹œì € ë‚´ë¶€ì—ì„œëŠ” í•´ë‹¹ ì»¤ì„œì˜ "ì—´ê¸°-íŒ¨ì¹˜-ë‹«ê¸°" ìž‘ì—…ì„ ìˆ˜í–‰í•´ì•¼ í•˜ë©°, 
+   í•´ë‹¹ ì»¤ì„œë¥¼ ì—´ë•Œ í˜¹ì‹œë¼ë„ ë‹«í˜€ ìžˆì§€ ì•Šì„ ê²½ìš°ì—ëŠ” ì˜¤ë¥˜ë¥¼ ë°œìƒì‹œí‚¤ì§€ ë§ê³  ë‹«ëŠ” ìž‘ì—…ê¹Œì§€ ìˆ˜í–‰í•˜ë„ë¡ ìž‘ì„±í•´ì•¼ í•œë‹¤. 
    
    
-<Á¤´ä>   
+<ì •ë‹µ>   
 
    CREATE OR REPLACE PACKAGE ch12_exacur_pkg IS 
        
-     -- ROWTYPEÇü Ä¿¼­ Çì´õ¼±¾ð 
+     -- ROWTYPEí˜• ì»¤ì„œ í—¤ë”ì„ ì–¸ 
      CURSOR pc_depname_cur ( p_parent_id IN departments.department_id%TYPE ) 
          RETURN departments%ROWTYPE;
          
-     -- Ä¿¼­ Ã³¸® ÇÁ·Î½ÃÀú     
+     -- ì»¤ì„œ ì²˜ë¦¬ í”„ë¡œì‹œì €     
      PROCEDURE cur_example_proc ( p_parent_id IN NUMBER);
 
    END ch12_exacur_pkg;
@@ -179,7 +179,7 @@ END ch12_seq_pkg;
    
    CREATE OR REPLACE PACKAGE BODY ch12_exacur_pkg IS 
        
-     -- ROWTYPEÇü Ä¿¼­ º»¹® 
+     -- ROWTYPEí˜• ì»¤ì„œ ë³¸ë¬¸ 
      CURSOR pc_depname_cur ( p_parent_id IN departments.department_id%TYPE ) 
          RETURN departments%ROWTYPE
      IS 
@@ -187,15 +187,15 @@ END ch12_seq_pkg;
           FROM departments
          WHERE parent_id = p_parent_id;
          
-     -- Ä¿¼­ Ã³¸® ÇÁ·Î½ÃÀú     
+     -- ì»¤ì„œ ì²˜ë¦¬ í”„ë¡œì‹œì €     
      PROCEDURE cur_example_proc ( p_parent_id IN NUMBER)
      IS
-      -- Ä¿¼­º¯¼ö ¼±¾ð
+      -- ì»¤ì„œë³€ìˆ˜ ì„ ì–¸
       dep_cur  ch12_exacur_pkg.pc_depname_cur%ROWTYPE;
 
      BEGIN
      
-       -- Ä¿¼­°¡ ¿­·Á ÀÖÀ¸¸é Ä¿¼­¸¦ ´Ý´Â´Ù. 
+       -- ì»¤ì„œê°€ ì—´ë ¤ ìžˆìœ¼ë©´ ì»¤ì„œë¥¼ ë‹«ëŠ”ë‹¤. 
        IF ch12_exacur_pkg.pc_depname_cur%ISOPEN THEN
           CLOSE ch12_exacur_pkg.pc_depname_cur;
        END IF;
@@ -208,7 +208,7 @@ END ch12_seq_pkg;
          DBMS_OUTPUT.PUT_LINE ( dep_cur.department_id || ' - ' || dep_cur.department_name);
        END LOOP;
        
-       -- Ä¿¼­´Ý±â 
+       -- ì»¤ì„œë‹«ê¸° 
        CLOSE ch12_exacur_pkg.pc_depname_cur;	     
      
      END cur_example_proc;        
@@ -217,15 +217,15 @@ END ch12_seq_pkg;
    
 
 
-4. ´ÙÀ½°ú °°Àº ±â´ÉÀ» ¼öÇàÇÏ´Â get_dep_hierarchy_proc ¶õ ÀÌ¸§À¸·Î 2°³ÀÇ ÇÁ·Î½ÃÀú¸¦ ¸¸µé¾îº¸ÀÚ. 
-   (1) ¸Å°³º¯¼ö : department_id
-       Ãâ·Â     : ºÎ¼­ ¹øÈ£¿Í ºÎ¼­¸í
+4. ë‹¤ìŒê³¼ ê°™ì€ ê¸°ëŠ¥ì„ ìˆ˜í–‰í•˜ëŠ” get_dep_hierarchy_proc ëž€ ì´ë¦„ìœ¼ë¡œ 2ê°œì˜ í”„ë¡œì‹œì €ë¥¼ ë§Œë“¤ì–´ë³´ìž. 
+   (1) ë§¤ê°œë³€ìˆ˜ : department_id
+       ì¶œë ¥     : ë¶€ì„œ ë²ˆí˜¸ì™€ ë¶€ì„œëª…
        
-   (2) ¸Å°³º¯¼ö : department_id, parent_id
-       Ãâ·Â     : ÇØ´ç ºÎ¼­¹øÈ£¿Í ºÎ¼­¸í,
-                  parent_id¿¡ ¼ÓÇÏ´Â ¸ðµç ºÎ¼­¹øÈ£¿Í ºÎ¼­¸í
+   (2) ë§¤ê°œë³€ìˆ˜ : department_id, parent_id
+       ì¶œë ¥     : í•´ë‹¹ ë¶€ì„œë²ˆí˜¸ì™€ ë¶€ì„œëª…,
+                  parent_idì— ì†í•˜ëŠ” ëª¨ë“  ë¶€ì„œë²ˆí˜¸ì™€ ë¶€ì„œëª…
                   
-<Á¤´ä>
+<ì •ë‹µ>
                   
 CREATE OR REPLACE PACKAGE ch12_exam4_pkg IS
 
@@ -250,8 +250,8 @@ CREATE OR REPLACE PACKAGE BODY ch12_exam4_pkg IS
     	  FROM departments
     	 WHERE department_id = p_dep_id;
     	
-    	DBMS_OUTPUT.PUT_LINE('ºÎ¼­¹øÈ£: ' || vn_dep_id);
-    	DBMS_OUTPUT.PUT_LINE('ºÎ¼­¸í : ' ||  vs_dep_name);
+    	DBMS_OUTPUT.PUT_LINE('ë¶€ì„œë²ˆí˜¸: ' || vn_dep_id);
+    	DBMS_OUTPUT.PUT_LINE('ë¶€ì„œëª… : ' ||  vs_dep_name);
     	
     END get_dep_hierarchy_proc;
     
@@ -261,7 +261,7 @@ CREATE OR REPLACE PACKAGE BODY ch12_exam4_pkg IS
       vn_dep_id    departments.department_id%TYPE;
       vs_dep_name  departments.department_name%TYPE;   
       
-    -- Ä¿¼­ ¼±¾ð 
+    -- ì»¤ì„œ ì„ ì–¸ 
     CURSOR my_dep ( p_par_id departments.parent_id%TYPE ) IS
       SELECT department_id AS dep_id, LPAD(' ' , 3 * (LEVEL-1)) || department_name AS dep_nm
         FROM departments
@@ -275,8 +275,8 @@ CREATE OR REPLACE PACKAGE BODY ch12_exam4_pkg IS
     	  FROM departments
     	 WHERE department_id = p_dep_id;
     	
-    	DBMS_OUTPUT.PUT_LINE('ºÎ¼­¹øÈ£: ' || vn_dep_id);
-    	DBMS_OUTPUT.PUT_LINE('ºÎ¼­¸í : ' ||  vs_dep_name);    
+    	DBMS_OUTPUT.PUT_LINE('ë¶€ì„œë²ˆí˜¸: ' || vn_dep_id);
+    	DBMS_OUTPUT.PUT_LINE('ë¶€ì„œëª… : ' ||  vs_dep_name);    
     	
     	FOR rec IN my_dep(p_par_id)
     	LOOP
@@ -291,13 +291,13 @@ END ch12_exam4_pkg;
 
 
 
-5. ½Ã½ºÅÛ ÆÐÅ°ÁöÀÎ DBMS_METADATA¸¦ »ç¿ëÇØ DBMS_OUTPUT ÆÐÅ°Áö ¼Ò½º¸¦ ÃßÃâÇØº¸ÀÚ. 
+5. ì‹œìŠ¤í…œ íŒ¨í‚¤ì§€ì¸ DBMS_METADATAë¥¼ ì‚¬ìš©í•´ DBMS_OUTPUT íŒ¨í‚¤ì§€ ì†ŒìŠ¤ë¥¼ ì¶”ì¶œí•´ë³´ìž. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 SELECT DBMS_METADATA.GET_DDL('PACKAGE', 'DBMS_OUTPUT', 'SYS')
   FROM DUAL;
 
-   --¼Ò½º¸¦ ÃßÃâÇØº¸¸é ÀÌ»óÇÑ ¹®ÀÚ·Î °¡µæÂ÷ ÀÖÀ» °ÍÀÌ´Ù. ±× ÀÌÀ¯´Â dbms_output ½Ã½ºÅÛ ÆÐÅ°ÁöÀÇ
-   --¸í¼¼(½ºÆå)Àº °ø¿ëÀÌÁö¸¸ body ºÎºÐÀº °¨ÃçÁ®ÀÖ±â ¶§¹®ÀÌ´Ù. 
+   --ì†ŒìŠ¤ë¥¼ ì¶”ì¶œí•´ë³´ë©´ ì´ìƒí•œ ë¬¸ìžë¡œ ê°€ë“ì°¨ ìžˆì„ ê²ƒì´ë‹¤. ê·¸ ì´ìœ ëŠ” dbms_output ì‹œìŠ¤í…œ íŒ¨í‚¤ì§€ì˜
+   --ëª…ì„¸(ìŠ¤íŽ™)ì€ ê³µìš©ì´ì§€ë§Œ body ë¶€ë¶„ì€ ê°ì¶°ì ¸ìžˆê¸° ë•Œë¬¸ì´ë‹¤. 
 

@@ -1,11 +1,11 @@
 --
-1. 101¹ø »ç¿ø¿¡ ´ëÇØ ¾Æ·¡ÀÇ °á°ú¸¦ »êÃâÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇØ º¸ÀÚ. 
+1. 101ë²ˆ ì‚¬ì›ì— ëŒ€í•´ ì•„ë˜ì˜ ê²°ê³¼ë¥¼ ì‚°ì¶œí•˜ëŠ” ì¿¼ë¦¬ë¥¼ ì‘ì„±í•´ ë³´ì. 
 ---------------------------------------------------------------------------------------
-»ç¹ø   »ç¿ø¸í   job¸íÄª job½ÃÀÛÀÏÀÚ  jobÁ¾·áÀÏÀÚ   job¼öÇàºÎ¼­¸í
+ì‚¬ë²ˆ   ì‚¬ì›ëª…   jobëª…ì¹­ jobì‹œì‘ì¼ì  jobì¢…ë£Œì¼ì   jobìˆ˜í–‰ë¶€ì„œëª…
 ---------------------------------------------------------------------------------------
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 select a.employee_id, a.emp_name, d.job_title, b.start_date, b.end_date, c.department_name
   from employees a,
        job_history b,
@@ -17,7 +17,7 @@ select a.employee_id, a.emp_name, d.job_title, b.start_date, b.end_date, c.depar
    and a.employee_id = 101;  
    
 
-2. ¾Æ·¡ÀÇ Äõ¸®¸¦ ¼öÇàÇÏ¸é ¿À·ù°¡ ¹ß»ıÇÑ´Ù. ¿À·ùÀÇ ¿øÀÎÀº ¹«¾ùÀÎ°¡?
+2. ì•„ë˜ì˜ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰í•˜ë©´ ì˜¤ë¥˜ê°€ ë°œìƒí•œë‹¤. ì˜¤ë¥˜ì˜ ì›ì¸ì€ ë¬´ì—‡ì¸ê°€?
 
 select a.employee_id, a.emp_name, b.job_id, b.department_id 
   from employees a,
@@ -25,27 +25,27 @@ select a.employee_id, a.emp_name, b.job_id, b.department_id
  where a.employee_id      = b.employee_id(+)
    and a.department_id(+) = b.department_id;
    
-<Á¤´ä>
-¿ÜºÎ Á¶ÀÎÀÇ °æ¿ì, Á¶ÀÎÁ¶°Ç¿¡¼­ µ¥ÀÌÅÍ°¡ ¾ø´Â Å×ÀÌºíÀÇ ÄÃ·³¿¡¸¸ (+)¸¦ ºÙ¿©¾ß ÇÑ´Ù.
-µû¶ó¼­ À§ Äõ¸®ÀÇ °æ¿ì, and a.department_id(+) = b.department_id °¡ ¾Æ´Ñ and a.department_id = b.department_id(+)·Î °íÃÄ¾ß ÇÑ´Ù. 
+<ì •ë‹µ>
+ì™¸ë¶€ ì¡°ì¸ì˜ ê²½ìš°, ì¡°ì¸ì¡°ê±´ì—ì„œ ë°ì´í„°ê°€ ì—†ëŠ” í…Œì´ë¸”ì˜ ì»¬ëŸ¼ì—ë§Œ (+)ë¥¼ ë¶™ì—¬ì•¼ í•œë‹¤.
+ë”°ë¼ì„œ ìœ„ ì¿¼ë¦¬ì˜ ê²½ìš°, and a.department_id(+) = b.department_id ê°€ ì•„ë‹Œ and a.department_id = b.department_id(+)ë¡œ ê³ ì³ì•¼ í•œë‹¤. 
 
 
 
-3. ¿ÜºÎÁ¶ÀÎ½Ã (+)¿¬»êÀÚ¸¦ °°ÀÌ »ç¿ëÇÒ ¼ö ¾ø´Âµ¥, INÀı¿¡ »ç¿ëÇÏ´Â °ªÀÌ 1°³ÀÎ °æ¿ì´Â »ç¿ë °¡´ÉÇÏ´Ù. ±× ÀÌÀ¯´Â ¹«¾ùÀÏ±î?
+3. ì™¸ë¶€ì¡°ì¸ì‹œ (+)ì—°ì‚°ìë¥¼ ê°™ì´ ì‚¬ìš©í•  ìˆ˜ ì—†ëŠ”ë°, INì ˆì— ì‚¬ìš©í•˜ëŠ” ê°’ì´ 1ê°œì¸ ê²½ìš°ëŠ” ì‚¬ìš© ê°€ëŠ¥í•˜ë‹¤. ê·¸ ì´ìœ ëŠ” ë¬´ì—‡ì¼ê¹Œ?
 
-<Á¤´ä>
-¿À¶óÅ¬Àº IN Àı¿¡ Æ÷ÇÔµÈ °ªÀ» ±âÁØÀ¸·Î OR·Î º¯È¯ÇÑ´Ù.
-¿¹¸¦ µé¾î, 
-   department_id IN (10, 20, 30) Àº
+<ì •ë‹µ>
+ì˜¤ë¼í´ì€ IN ì ˆì— í¬í•¨ëœ ê°’ì„ ê¸°ì¤€ìœ¼ë¡œ ORë¡œ ë³€í™˜í•œë‹¤.
+ì˜ˆë¥¼ ë“¤ì–´, 
+   department_id IN (10, 20, 30) ì€
    department_id = 10
    OR department_id = 20
-   OR department_id = 30) ·Î ¹Ù²ã ¾µ ¼ö ÀÖ´Ù.
+   OR department_id = 30) ë¡œ ë°”ê¿” ì“¸ ìˆ˜ ìˆë‹¤.
    
-±×·±µ¥ INÀı¿¡ °ªÀÌ 1°³ÀÎ °æ¿ì, Áï department_id IN (10)ÀÏ °æ¿ì department_id = 10 ·Î º¯È¯ÇÒ ¼ö ÀÖÀ¸¹Ç·Î, ¿ÜºÎÁ¶ÀÎÀ» ÇÏ´õ¶óµµ °ªÀÌ 1°³ÀÎ °æ¿ì´Â »ç¿ëÇÒ ¼ö ÀÖ´Ù.
+ê·¸ëŸ°ë° INì ˆì— ê°’ì´ 1ê°œì¸ ê²½ìš°, ì¦‰ department_id IN (10)ì¼ ê²½ìš° department_id = 10 ë¡œ ë³€í™˜í•  ìˆ˜ ìˆìœ¼ë¯€ë¡œ, ì™¸ë¶€ì¡°ì¸ì„ í•˜ë”ë¼ë„ ê°’ì´ 1ê°œì¸ ê²½ìš°ëŠ” ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤.
 
 
 
-4. ´ÙÀ½ÀÇ Äõ¸®¸¦ ANSI ¹®¹ıÀ¸·Î º¯°æÇØ º¸ÀÚ.
+4. ë‹¤ìŒì˜ ì¿¼ë¦¬ë¥¼ ANSI ë¬¸ë²•ìœ¼ë¡œ ë³€ê²½í•´ ë³´ì.
 
 SELECT a.department_id, a.department_name
   FROM departments a, employees b
@@ -54,7 +54,7 @@ SELECT a.department_id, a.department_name
 ORDER BY a.department_name;
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT a.department_id, a.department_name
   FROM departments a
   INNER JOIN employees b
@@ -64,7 +64,7 @@ ORDER BY a.department_name;
 
 
 
-5. ´ÙÀ½Àº ¿¬°ü¼º ÀÖ´Â ¼­ºêÄõ¸®ÀÌ´Ù. ÀÌ¸¦ ¿¬°ü¼º ¾ø´Â ¼­ºêÄõ¸®·Î º¯È¯ÇØ º¸ÀÚ. 
+5. ë‹¤ìŒì€ ì—°ê´€ì„± ìˆëŠ” ì„œë¸Œì¿¼ë¦¬ì´ë‹¤. ì´ë¥¼ ì—°ê´€ì„± ì—†ëŠ” ì„œë¸Œì¿¼ë¦¬ë¡œ ë³€í™˜í•´ ë³´ì. 
 
 SELECT a.department_id, a.department_name
  FROM departments a
@@ -74,14 +74,14 @@ WHERE EXISTS ( SELECT 1
                 
                 
 
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT a.department_id, a.department_name
  FROM departments a
 WHERE a.department_id IN ( SELECT department_id
                              FROM job_history  );
                              
                              
-6. ¿¬µµº° ÀÌÅÂ¸® ÃÖ´ë¸ÅÃâ¾×°ú »ç¿øÀ» ÀÛ¼ºÇÏ´Â Äõ¸®¸¦ ÇĞ½ÀÇß´Ù. ÀÌ Äõ¸®¸¦ ±âÁØÀ¸·Î ÃÖ´ë ¸ÅÃâ¾× »Ó¸¸ ¾Æ´Ï¶ó ÃÖ¼Ò¸ÅÃâ¾×°ú ÇØ´ç »ç¿øÀ» Á¶È¸ÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇØ º¸ÀÚ. 
+6. ì—°ë„ë³„ ì´íƒœë¦¬ ìµœëŒ€ë§¤ì¶œì•¡ê³¼ ì‚¬ì›ì„ ì‘ì„±í•˜ëŠ” ì¿¼ë¦¬ë¥¼ í•™ìŠµí–ˆë‹¤. ì´ ì¿¼ë¦¬ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ìµœëŒ€ ë§¤ì¶œì•¡ ë¿ë§Œ ì•„ë‹ˆë¼ ìµœì†Œë§¤ì¶œì•¡ê³¼ í•´ë‹¹ ì‚¬ì›ì„ ì¡°íšŒí•˜ëŠ” ì¿¼ë¦¬ë¥¼ ì‘ì„±í•´ ë³´ì. 
 
 SELECT emp.years, 
        emp.employee_id,

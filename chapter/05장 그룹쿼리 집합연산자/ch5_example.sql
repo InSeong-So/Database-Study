@@ -1,8 +1,8 @@
 
 
-1. »ç¿øÅ×ÀÌºí¿¡¼­ ÀÔ»ç³âµµº° »ç¿ø¼ö¸¦ ±¸ÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇØº¸ÀÚ. 
+1. ì‚¬ì›í…Œì´ë¸”ì—ì„œ ìž…ì‚¬ë…„ë„ë³„ ì‚¬ì›ìˆ˜ë¥¼ êµ¬í•˜ëŠ” ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ë³´ìž. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 SELECT TO_CHAR(hire_date, 'YYYY') AS hire_year,
        COUNT(*)
@@ -10,9 +10,9 @@ SELECT TO_CHAR(hire_date, 'YYYY') AS hire_year,
 GROUP BY TO_CHAR(hire_date, 'YYYY')
 ORDER BY TO_CHAR(hire_date, 'YYYY');
 
-2. kor_loan_status Å×ÀÌºí¿¡¼­ 2012³âµµ ¿ùº°, Áö¿ªº° ´ëÃâ ÃÑ ÀÜ¾×À» ±¸ÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇÏ¶ó. 
+2. kor_loan_status í…Œì´ë¸”ì—ì„œ 2012ë…„ë„ ì›”ë³„, ì§€ì—­ë³„ ëŒ€ì¶œ ì´ ìž”ì•¡ì„ êµ¬í•˜ëŠ” ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•˜ë¼. 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 SELECT period, region, SUM(loan_jan_amt)
 FROM kor_loan_status
@@ -21,16 +21,16 @@ GROUP BY period, region
 ORDER BY period, region;
 
 
-3. ¾Æ·¡ÀÇ Äõ¸®´Â ºÐÇÒ ROLLUPÀ» Àû¿ëÇÑ Äõ¸®ÀÌ´Ù.
+3. ì•„ëž˜ì˜ ì¿¼ë¦¬ëŠ” ë¶„í•  ROLLUPì„ ì ìš©í•œ ì¿¼ë¦¬ì´ë‹¤.
 
 SELECT period, gubun, SUM(loan_jan_amt) totl_jan
   FROM kor_loan_status
  WHERE period LIKE '2013%' 
  GROUP BY period, ROLLUP( gubun );
  
- ÀÌ Äõ¸®¸¦ ROLLUPÀ» »ç¿ëÇÏÁö ¾Ê°í, ÁýÇÕ¿¬»êÀÚ¸¦ »ç¿ëÇØ¼­ µ¿ÀÏÇÑ °á°ú°¡ ³ª¿Àµµ·Ï Äõ¸®¸¦ ÀÛ¼ºÇØº¸ÀÚ. 
+ ì´ ì¿¼ë¦¬ë¥¼ ROLLUPì„ ì‚¬ìš©í•˜ì§€ ì•Šê³ , ì§‘í•©ì—°ì‚°ìžë¥¼ ì‚¬ìš©í•´ì„œ ë™ì¼í•œ ê²°ê³¼ê°€ ë‚˜ì˜¤ë„ë¡ ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ë³´ìž. 
  
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT period, gubun, SUM(loan_jan_amt) totl_jan
   FROM kor_loan_status
  WHERE period LIKE '2013%' 
@@ -42,41 +42,41 @@ SELECT period, '', SUM(loan_jan_amt) totl_jan
  GROUP BY period;  
  
  
-4. ´ÙÀ½ Äõ¸®¸¦ ½ÇÇàÇØ¼­ °á°ú¸¦ È®ÀÎÇÑ ÈÄ, ÁýÇÕ ¿¬»êÀÚ¸¦ »ç¿ëÇØ µ¿ÀÏÇÑ °á°ú¸¦ ÃßÃâÇÏµµ·Ï Äõ¸®¸¦ ÀÛ¼ºÇØ º¸ÀÚ. 
+4. ë‹¤ìŒ ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•´ì„œ ê²°ê³¼ë¥¼ í™•ì¸í•œ í›„, ì§‘í•© ì—°ì‚°ìžë¥¼ ì‚¬ìš©í•´ ë™ì¼í•œ ê²°ê³¼ë¥¼ ì¶”ì¶œí•˜ë„ë¡ ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ ë³´ìž. 
 
 SELECT period, 
-       CASE WHEN gubun = 'ÁÖÅÃ´ãº¸´ëÃâ' THEN SUM(loan_jan_amt) ELSE 0 END ÁÖÅÃ´ãº¸´ëÃâ¾×,
-       CASE WHEN gubun = '±âÅ¸´ëÃâ'     THEN SUM(loan_jan_amt) ELSE 0 END ±âÅ¸´ëÃâ¾× 
+       CASE WHEN gubun = 'ì£¼íƒë‹´ë³´ëŒ€ì¶œ' THEN SUM(loan_jan_amt) ELSE 0 END ì£¼íƒë‹´ë³´ëŒ€ì¶œì•¡,
+       CASE WHEN gubun = 'ê¸°íƒ€ëŒ€ì¶œ'     THEN SUM(loan_jan_amt) ELSE 0 END ê¸°íƒ€ëŒ€ì¶œì•¡ 
   FROM kor_loan_status
  WHERE period = '201311' 
  GROUP BY period, gubun;
  
- <Á¤´ä>
-SELECT period, SUM(loan_jan_amt) ÁÖÅÃ´ãº¸´ëÃâ¾×, 0 ±âÅ¸´ëÃâ¾×
+ <ì •ë‹µ>
+SELECT period, SUM(loan_jan_amt) ì£¼íƒë‹´ë³´ëŒ€ì¶œì•¡, 0 ê¸°íƒ€ëŒ€ì¶œì•¡
   FROM kor_loan_status
  WHERE period = '201311' 
-   AND gubun = 'ÁÖÅÃ´ãº¸´ëÃâ'
+   AND gubun = 'ì£¼íƒë‹´ë³´ëŒ€ì¶œ'
  GROUP BY period, gubun
  UNION ALL
-SELECT period, 0 ÁÖÅÃ´ãº¸´ëÃâ¾×, SUM(loan_jan_amt) ±âÅ¸´ëÃâ¾×
+SELECT period, 0 ì£¼íƒë‹´ë³´ëŒ€ì¶œì•¡, SUM(loan_jan_amt) ê¸°íƒ€ëŒ€ì¶œì•¡
   FROM kor_loan_status
  WHERE period = '201311' 
-   AND gubun = '±âÅ¸´ëÃâ'
+   AND gubun = 'ê¸°íƒ€ëŒ€ì¶œ'
  GROUP BY period, gubun ;
 
 
-5. ´ÙÀ½°ú °°Àº ÇüÅÂ, Áï Áö¿ª°ú °¢ ¿ùº° ´ëÃâÃÑÀÜ¾×À» ±¸ÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇØ º¸ÀÚ.
+5. ë‹¤ìŒê³¼ ê°™ì€ í˜•íƒœ, ì¦‰ ì§€ì—­ê³¼ ê° ì›”ë³„ ëŒ€ì¶œì´ìž”ì•¡ì„ êµ¬í•˜ëŠ” ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ ë³´ìž.
 
 ---------------------------------------------------------------------------------------
-Áö¿ª   201111   201112    201210    201211   201212   203110    201311
+ì§€ì—­   201111   201112    201210    201211   201212   203110    201311
 ---------------------------------------------------------------------------------------
-¼­¿ï   
-ºÎ»ê
+ì„œìš¸   
+ë¶€ì‚°
 ...
 ...
 ---------------------------------------------------------------------------------------
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 SELECT REGION, 
        SUM(AMT1) AS "201111", 

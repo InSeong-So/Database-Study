@@ -1,4 +1,4 @@
--- IF πÆ
+-- IF Î¨∏
 
 DECLARE
    vn_num1 NUMBER := 1;
@@ -6,9 +6,9 @@ DECLARE
 BEGIN
 	
 	 IF vn_num1 >= vn_num2 THEN
-	    DBMS_OUTPUT.PUT_LINE(vn_num1 ||'¿Ã ≈´ ºˆ');
+	    DBMS_OUTPUT.PUT_LINE(vn_num1 ||'Ïù¥ ÌÅ∞ Ïàò');
 	 ELSE
-	    DBMS_OUTPUT.PUT_LINE(vn_num2 ||'¿Ã ≈´ ºˆ');	 
+	    DBMS_OUTPUT.PUT_LINE(vn_num2 ||'Ïù¥ ÌÅ∞ Ïàò');	 
 	 END IF;
 	
 END;
@@ -30,16 +30,16 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE(vn_salary);
   
   IF vn_salary BETWEEN 1 AND 3000 THEN
-     DBMS_OUTPUT.PUT_LINE('≥∑¿Ω');
+     DBMS_OUTPUT.PUT_LINE('ÎÇÆÏùå');
   
   ELSIF vn_salary BETWEEN 3001 AND 6000 THEN
-     DBMS_OUTPUT.PUT_LINE('¡ﬂ∞£');
+     DBMS_OUTPUT.PUT_LINE('Ï§ëÍ∞Ñ');
   
   ELSIF vn_salary BETWEEN 6001 AND 10000 THEN
-     DBMS_OUTPUT.PUT_LINE('≥Ù¿Ω');
+     DBMS_OUTPUT.PUT_LINE('ÎÜíÏùå');
   
   ELSE
-     DBMS_OUTPUT.PUT_LINE('√÷ªÛ¿ß');
+     DBMS_OUTPUT.PUT_LINE('ÏµúÏÉÅÏúÑ');
   END IF;  
    
 	
@@ -71,7 +71,7 @@ BEGIN
   END IF;  
 END;
 
--- CASE πÆ
+-- CASE Î¨∏
 DECLARE
    vn_salary NUMBER := 0;
    vn_department_id NUMBER := 0;
@@ -88,18 +88,18 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE(vn_salary);
   
   CASE WHEN vn_salary BETWEEN 1 AND 3000 THEN
-            DBMS_OUTPUT.PUT_LINE('≥∑¿Ω');
+            DBMS_OUTPUT.PUT_LINE('ÎÇÆÏùå');
        WHEN vn_salary BETWEEN 3001 AND 6000 THEN
-            DBMS_OUTPUT.PUT_LINE('¡ﬂ∞£');
+            DBMS_OUTPUT.PUT_LINE('Ï§ëÍ∞Ñ');
        WHEN vn_salary BETWEEN 6001 AND 10000 THEN
-            DBMS_OUTPUT.PUT_LINE('≥Ù¿Ω');
+            DBMS_OUTPUT.PUT_LINE('ÎÜíÏùå');
        ELSE 
-            DBMS_OUTPUT.PUT_LINE('√÷ªÛ¿ß');
+            DBMS_OUTPUT.PUT_LINE('ÏµúÏÉÅÏúÑ');
   END CASE;
 
 END;
 
--- LOOP πÆ
+-- LOOP Î¨∏
 DECLARE
    vn_base_num NUMBER := 3;
    vn_cnt      NUMBER := 1;
@@ -108,26 +108,26 @@ BEGIN
    LOOP
       DBMS_OUTPUT.PUT_LINE (vn_base_num || '*' || vn_cnt || '= ' || vn_base_num * vn_cnt);
       
-      vn_cnt := vn_cnt + 1; -- vn_cnt ∞™¿ª 1æø ¡ı∞°
+      vn_cnt := vn_cnt + 1; -- vn_cnt Í∞íÏùÑ 1Ïî© Ï¶ùÍ∞Ä
       
-      EXIT WHEN vn_cnt >9;  -- vn_cnt∞° 9∫∏¥Ÿ ≈©∏È ∑Á«¡ ¡æ∑·
+      EXIT WHEN vn_cnt >9;  -- vn_cntÍ∞Ä 9Î≥¥Îã§ ÌÅ¨Î©¥ Î£®ÌîÑ Ï¢ÖÎ£å
    
    END LOOP;
     
 END;
 
 
--- WHILE πÆ
+-- WHILE Î¨∏
 DECLARE
    vn_base_num NUMBER := 3;
    vn_cnt      NUMBER := 1;
 BEGIN
    
-   WHILE  vn_cnt <= 9 -- vn_cnt∞° 9∫∏¥Ÿ ¿€∞≈≥™ ∞∞¿ª ∞ÊøÏø°∏∏ π›∫π√≥∏Æ 
+   WHILE  vn_cnt <= 9 -- vn_cntÍ∞Ä 9Î≥¥Îã§ ÏûëÍ±∞ÎÇò Í∞ôÏùÑ Í≤ΩÏö∞ÏóêÎßå Î∞òÎ≥µÏ≤òÎ¶¨ 
    LOOP
       DBMS_OUTPUT.PUT_LINE (vn_base_num || '*' || vn_cnt || '= ' || vn_base_num * vn_cnt);
       
-      vn_cnt := vn_cnt + 1; -- vn_cnt ∞™¿ª 1æø ¡ı∞°
+      vn_cnt := vn_cnt + 1; -- vn_cnt Í∞íÏùÑ 1Ïî© Ï¶ùÍ∞Ä
       
    END LOOP;
     
@@ -138,17 +138,17 @@ DECLARE
    vn_cnt      NUMBER := 1;
 BEGIN
    
-   WHILE  vn_cnt <= 9 -- vn_cnt∞° 9∫∏¥Ÿ ¿€∞≈≥™ ∞∞¿ª ∞ÊøÏø°∏∏ π›∫π√≥∏Æ 
+   WHILE  vn_cnt <= 9 -- vn_cntÍ∞Ä 9Î≥¥Îã§ ÏûëÍ±∞ÎÇò Í∞ôÏùÑ Í≤ΩÏö∞ÏóêÎßå Î∞òÎ≥µÏ≤òÎ¶¨ 
    LOOP
       DBMS_OUTPUT.PUT_LINE (vn_base_num || '*' || vn_cnt || '= ' || vn_base_num * vn_cnt);
       EXIT WHEN vn_cnt = 5;
-      vn_cnt := vn_cnt + 1; -- vn_cnt ∞™¿ª 1æø ¡ı∞°
+      vn_cnt := vn_cnt + 1; -- vn_cnt Í∞íÏùÑ 1Ïî© Ï¶ùÍ∞Ä
    END LOOP;    
 END;
 
 
 
--- FOR πÆ
+-- FOR Î¨∏
 DECLARE
    vn_base_num NUMBER := 3;
 BEGIN
@@ -174,7 +174,7 @@ BEGIN
     
 END;
 
--- CONTINUE πÆ
+-- CONTINUE Î¨∏
 DECLARE
    vn_base_num NUMBER := 3;
 BEGIN
@@ -187,7 +187,7 @@ BEGIN
     
 END;
 
--- GOTOπÆ
+-- GOTOÎ¨∏
 DECLARE
    vn_base_num NUMBER := 3;
 BEGIN
@@ -212,37 +212,37 @@ BEGIN
 END;
 
 
--- NULL πÆ
+-- NULL Î¨∏
 IF vn_variable = 'A' THEN
-   √≥∏Æ∑Œ¡˜1;
+   Ï≤òÎ¶¨Î°úÏßÅ1;
 ELSIF vn_variable = 'B' THEN
-   √≥∏Æ∑Œ¡˜2;
+   Ï≤òÎ¶¨Î°úÏßÅ2;
 ...
 ELSE NULL;
 END IF;
 
 CASE WHEN vn_variable = 'A' THEN
-          √≥∏Æ∑Œ¡˜1;
+          Ï≤òÎ¶¨Î°úÏßÅ1;
      WHEN vn_variable = 'B' THEN
-          √≥∏Æ∑Œ¡˜2;      
+          Ï≤òÎ¶¨Î°úÏßÅ2;      
      ...
      ELSE NULL;
 END CASE;     
 
 
--- «‘ºˆ
+-- Ìï®Ïàò
 
 CREATE OR REPLACE FUNCTION my_mod ( num1 NUMBER, num2 NUMBER )
-   RETURN NUMBER  -- π›»Ø µ•¿Ã≈Õ≈∏¿‘¿∫ NUMBER
+   RETURN NUMBER  -- Î∞òÌôò Îç∞Ïù¥ÌÑ∞ÌÉÄÏûÖÏùÄ NUMBER
 IS
-   vn_remainder NUMBER := 0; -- π›»Ø«“ ≥™∏”¡ˆ
-   vn_quotient  NUMBER := 0; -- ∏Ú 
+   vn_remainder NUMBER := 0; -- Î∞òÌôòÌï† ÎÇòÎ®∏ÏßÄ
+   vn_quotient  NUMBER := 0; -- Î™´ 
 BEGIN
 	 
-	 vn_quotient  := FLOOR(num1 / num2); -- ««¡¶ºˆ/¡¶ºˆ ∞·∞˙ø°º≠ ¡§ºˆ ∫Œ∫–¿ª ∞…∑Ø≥Ω¥Ÿ
-	 vn_remainder := num1 - ( num2 * vn_quotient); --≥™∏”¡ˆ = ««¡¶ºˆ - ( ¡¶ºˆ * ∏Ú)
+	 vn_quotient  := FLOOR(num1 / num2); -- ÌîºÏ†úÏàò/Ï†úÏàò Í≤∞Í≥ºÏóêÏÑú Ï†ïÏàò Î∂ÄÎ∂ÑÏùÑ Í±∏Îü¨ÎÇ∏Îã§
+	 vn_remainder := num1 - ( num2 * vn_quotient); --ÎÇòÎ®∏ÏßÄ = ÌîºÏ†úÏàò - ( Ï†úÏàò * Î™´)
 	 
-	 RETURN vn_remainder;  -- ≥™∏”¡ˆ∏¶ π›»Ø
+	 RETURN vn_remainder;  -- ÎÇòÎ®∏ÏßÄÎ•º Î∞òÌôò
 	
 END;	
   
@@ -252,7 +252,7 @@ SELECT my_mod(14, 3) reminder
   
 
 CREATE OR REPLACE FUNCTION fn_get_country_name ( p_country_id NUMBER )
-   RETURN VARCHAR2  -- ±π∞°∏Ì¿ª π›»Ø«œπ«∑Œ π›»Ø µ•¿Ã≈Õ≈∏¿‘¿∫ VARCHAR2
+   RETURN VARCHAR2  -- Íµ≠Í∞ÄÎ™ÖÏùÑ Î∞òÌôòÌïòÎØÄÎ°ú Î∞òÌôò Îç∞Ïù¥ÌÑ∞ÌÉÄÏûÖÏùÄ VARCHAR2
 IS
    vs_country_name COUNTRIES.COUNTRY_NAME%TYPE;
 BEGIN
@@ -262,7 +262,7 @@ BEGIN
 	   FROM countries
 	  WHERE country_id = p_country_id;
 	 
-	 RETURN vs_country_name;  -- ±π∞°∏Ì π›»Ø
+	 RETURN vs_country_name;  -- Íµ≠Í∞ÄÎ™Ö Î∞òÌôò
 	
 END;	
 
@@ -271,7 +271,7 @@ SELECT fn_get_country_name (52777) COUN1, fn_get_country_name(10000) COUN2
   FROM DUAL;
   
 CREATE OR REPLACE FUNCTION fn_get_country_name ( p_country_id NUMBER )
-   RETURN VARCHAR2  -- ±π∞°∏Ì¿ª π›»Ø«œπ«∑Œ π›»Ø µ•¿Ã≈Õ≈∏¿‘¿∫ VARCHAR2
+   RETURN VARCHAR2  -- Íµ≠Í∞ÄÎ™ÖÏùÑ Î∞òÌôòÌïòÎØÄÎ°ú Î∞òÌôò Îç∞Ïù¥ÌÑ∞ÌÉÄÏûÖÏùÄ VARCHAR2
 IS
    vs_country_name COUNTRIES.COUNTRY_NAME%TYPE;
    vn_count NUMBER := 0;
@@ -284,7 +284,7 @@ BEGIN
 	 WHERE country_id = p_country_id;
 	 
   IF vn_count = 0 THEN
-     vs_country_name := '«ÿ¥Á±π∞° æ¯¿Ω';
+     vs_country_name := 'Ìï¥ÎãπÍµ≠Í∞Ä ÏóÜÏùå';
   ELSE
 	
 	  SELECT country_name
@@ -294,7 +294,7 @@ BEGIN
 	      
   END IF;
 	 
- RETURN vs_country_name;  -- ±π∞°∏Ì π›»Ø
+ RETURN vs_country_name;  -- Íµ≠Í∞ÄÎ™Ö Î∞òÌôò
 	
 END;	  
   
@@ -303,7 +303,7 @@ SELECT fn_get_country_name (52777) COUN1, fn_get_country_name(10000) COUN2
   
 
 CREATE OR REPLACE FUNCTION fn_get_user
-   RETURN VARCHAR2  -- π›»Ø µ•¿Ã≈Õ≈∏¿‘¿∫ VARCHAR2
+   RETURN VARCHAR2  -- Î∞òÌôò Îç∞Ïù¥ÌÑ∞ÌÉÄÏûÖÏùÄ VARCHAR2
 IS
    vs_user_name VARCHAR2(80);
 BEGIN
@@ -311,7 +311,7 @@ BEGIN
     INTO vs_user_name
     FROM DUAL;
 		 
-  RETURN vs_user_name;  -- ªÁøÎ¿⁄¿Ã∏ß π›»Ø
+  RETURN vs_user_name;  -- ÏÇ¨Ïö©ÏûêÏù¥Î¶Ñ Î∞òÌôò
 	
 END;	 	
 
@@ -319,7 +319,7 @@ SELECT fn_get_user(),fn_get_user
   FROM DUAL;
 
 
--- «¡∑ŒΩ√¿˙ ª˝º∫
+-- ÌîÑÎ°úÏãúÏ†Ä ÏÉùÏÑ±
 
 CREATE OR REPLACE PROCEDURE my_new_job_proc 
           ( p_job_id    IN JOBS.JOB_ID%TYPE,
@@ -338,7 +338,7 @@ BEGIN
 	
 END ;            
 
--- «¡∑ŒΩ√¿˙ Ω««‡
+-- ÌîÑÎ°úÏãúÏ†Ä Ïã§Ìñâ
 
 EXEC my_new_job_proc ('SM_JOB1', 'Sample JOB1', 1000, 5000);
 
@@ -358,19 +358,19 @@ IS
   vn_cnt NUMBER := 0;
 BEGIN
 	
-	-- µø¿œ«— job_id∞° ¿÷¥¬¡ˆ √º≈©
+	-- ÎèôÏùºÌïú job_idÍ∞Ä ÏûàÎäîÏßÄ Ï≤¥ÌÅ¨
 	SELECT COUNT(*)
 	  INTO vn_cnt
 	  FROM JOBS
 	 WHERE job_id = p_job_id;
 	 
-	-- æ¯¿∏∏È INSERT 
+	-- ÏóÜÏúºÎ©¥ INSERT 
 	IF vn_cnt = 0 THEN 
 	
 	   INSERT INTO JOBS ( job_id, job_title, min_salary, max_salary, create_date, update_date)
 	             VALUES ( p_job_id, p_job_title, p_min_sal, p_max_sal, SYSDATE, SYSDATE);
 	             
-	ELSE -- ¿÷¿∏∏È UPDATE
+	ELSE -- ÏûàÏúºÎ©¥ UPDATE
 	
 	   UPDATE JOBS
 	      SET job_title   = p_job_title,
@@ -394,7 +394,7 @@ SELECT *
  WHERE job_id = 'SM_JOB1';
  
  
--- ∏≈∞≥∫Øºˆ µ∆˙∆Æ ∞™ º≥¡§ 
+-- Îß§Í∞úÎ≥ÄÏàò ÎîîÌè¥Ìä∏ Í∞í ÏÑ§Ï†ï 
  
 EXEC my_new_job_proc ('SM_JOB1', 'Sample JOB1'); 
  
@@ -408,19 +408,19 @@ IS
   vn_cnt NUMBER := 0;
 BEGIN
 	
-	-- µø¿œ«— job_id∞° ¿÷¥¬¡ˆ √º≈©
+	-- ÎèôÏùºÌïú job_idÍ∞Ä ÏûàÎäîÏßÄ Ï≤¥ÌÅ¨
 	SELECT COUNT(*)
 	  INTO vn_cnt
 	  FROM JOBS
 	 WHERE job_id = p_job_id;
 	 
-	-- æ¯¿∏∏È INSERT 
+	-- ÏóÜÏúºÎ©¥ INSERT 
 	IF vn_cnt = 0 THEN 
 	
 	   INSERT INTO JOBS ( job_id, job_title, min_salary, max_salary, create_date, update_date)
 	             VALUES ( p_job_id, p_job_title, p_min_sal, p_max_sal, SYSDATE, SYSDATE);
 	             
-	ELSE -- ¿÷¿∏∏È UPDATE
+	ELSE -- ÏûàÏúºÎ©¥ UPDATE
 	
 	   UPDATE JOBS
 	      SET job_title   = p_job_title,
@@ -443,7 +443,7 @@ SELECT *
   FROM jobs
  WHERE job_id = 'SM_JOB1';
  
--- OUT, IN OUT ∏≈∞≥∫Øºˆ ªÁøÎ
+-- OUT, IN OUT Îß§Í∞úÎ≥ÄÏàò ÏÇ¨Ïö©
 
 CREATE OR REPLACE PROCEDURE my_new_job_proc 
           ( p_job_id    IN  JOBS.JOB_ID%TYPE,
@@ -456,19 +456,19 @@ IS
   vn_cur_date JOBS.UPDATE_DATE%TYPE := SYSDATE;
 BEGIN
 	
-	-- µø¿œ«— job_id∞° ¿÷¥¬¡ˆ √º≈©
+	-- ÎèôÏùºÌïú job_idÍ∞Ä ÏûàÎäîÏßÄ Ï≤¥ÌÅ¨
 	SELECT COUNT(*)
 	  INTO vn_cnt
 	  FROM JOBS
 	 WHERE job_id = p_job_id;
 	 
-	-- æ¯¿∏∏È INSERT 
+	-- ÏóÜÏúºÎ©¥ INSERT 
 	IF vn_cnt = 0 THEN 
 	
 	   INSERT INTO JOBS ( job_id, job_title, min_salary, max_salary, create_date, update_date)
 	             VALUES ( p_job_id, p_job_title, p_min_sal, p_max_sal, vn_cur_date, vn_cur_date);
 	             
-	ELSE -- ¿÷¿∏∏È UPDATE
+	ELSE -- ÏûàÏúºÎ©¥ UPDATE
 	
 	   UPDATE JOBS
 	      SET job_title   = p_job_title,
@@ -479,7 +479,7 @@ BEGIN
 	
   END IF;
   
-	-- OUT ∏≈∞≥∫Øºˆø° ¿œ¿⁄ «“¥Á
+	-- OUT Îß§Í∞úÎ≥ÄÏàòÏóê ÏùºÏûê Ìï†Îãπ
 	p_upd_date := vn_cur_date;
 	          
 	COMMIT;
@@ -526,7 +526,7 @@ BEGIN
 END;
 
 
--- RETURN πÆ
+-- RETURN Î¨∏
 CREATE OR REPLACE PROCEDURE my_new_job_proc 
           ( p_job_id    IN  JOBS.JOB_ID%TYPE,
             p_job_title IN  JOBS.JOB_TITLE%TYPE,
@@ -538,25 +538,25 @@ IS
   vn_cnt NUMBER := 0;
   vn_cur_date JOBS.UPDATE_DATE%TYPE := SYSDATE;
 BEGIN
-	-- 1000 ∫∏¥Ÿ ¿€¿∏∏È ∏ﬁΩ√¡ˆ √‚∑¬ »ƒ ∫¸¡Æ≥™∞£¥Ÿ
+	-- 1000 Î≥¥Îã§ ÏûëÏúºÎ©¥ Î©îÏãúÏßÄ Ï∂úÎ†• ÌõÑ Îπ†Ï†∏ÎÇòÍ∞ÑÎã§
 	IF p_min_sal < 1000 THEN
-	   DBMS_OUTPUT.PUT_LINE('√÷º“ ±ﬁø©∞™¿∫ 1000 ¿ÃªÛ¿ÃæÓæﬂ «’¥œ¥Ÿ');
+	   DBMS_OUTPUT.PUT_LINE('ÏµúÏÜå Í∏âÏó¨Í∞íÏùÄ 1000 Ïù¥ÏÉÅÏù¥Ïñ¥Ïïº Ìï©ÎãàÎã§');
 	   RETURN;
   END IF;
 	
-	-- µø¿œ«— job_id∞° ¿÷¥¬¡ˆ √º≈©
+	-- ÎèôÏùºÌïú job_idÍ∞Ä ÏûàÎäîÏßÄ Ï≤¥ÌÅ¨
 	SELECT COUNT(*)
 	  INTO vn_cnt
 	  FROM JOBS
 	 WHERE job_id = p_job_id;
 	 
-	-- æ¯¿∏∏È INSERT 
+	-- ÏóÜÏúºÎ©¥ INSERT 
 	IF vn_cnt = 0 THEN 
 	
 	   INSERT INTO JOBS ( job_id, job_title, min_salary, max_salary, create_date, update_date)
 	             VALUES ( p_job_id, p_job_title, p_min_sal, p_max_sal, vn_cur_date, vn_cur_date);
 	             
-	ELSE -- ¿÷¿∏∏È UPDATE
+	ELSE -- ÏûàÏúºÎ©¥ UPDATE
 	
 	   UPDATE JOBS
 	      SET job_title   = p_job_title,
@@ -577,7 +577,7 @@ END ;
 EXEC my_new_job_proc ('SM_JOB1', 'Sample JOB1', 999, 6000);
 
 
---- «ˆ¿Â ≥Î«œøÏ 1
+--- ÌòÑÏû• ÎÖ∏ÌïòÏö∞ 1
 DECLARE
   emp_name VARCHAR2(80);
 BEGIN

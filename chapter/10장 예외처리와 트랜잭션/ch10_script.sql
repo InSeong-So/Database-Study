@@ -1,4 +1,4 @@
--- ¿¹¿ÜÃ³¸®±¸¹®
+-- ì˜ˆì™¸ì²˜ë¦¬êµ¬ë¬¸
 
 DECLARE 
    vi_num NUMBER := 0;
@@ -22,7 +22,7 @@ BEGIN
 	 
 EXCEPTION WHEN OTHERS THEN
 	 
-	 DBMS_OUTPUT.PUT_LINE('¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù');	
+	 DBMS_OUTPUT.PUT_LINE('ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤');	
 END;
 
 
@@ -47,7 +47,7 @@ BEGIN
 	
 EXCEPTION WHEN OTHERS THEN
 	 
-	 DBMS_OUTPUT.PUT_LINE('¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù');		
+	 DBMS_OUTPUT.PUT_LINE('ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤');		
 	
 END;	
 
@@ -73,7 +73,7 @@ BEGIN
 END;
 
 
--- SQLCODE, SQLERRMÀ» ÀÌ¿ëÇÑ ¿¹¿ÜÁ¤º¸ ÂüÁ¶
+-- SQLCODE, SQLERRMì„ ì´ìš©í•œ ì˜ˆì™¸ì •ë³´ ì°¸ì¡°
 
 CREATE OR REPLACE PROCEDURE ch10_exception_proc 
 IS
@@ -85,10 +85,10 @@ BEGIN
 	
 EXCEPTION WHEN OTHERS THEN
 	 
- DBMS_OUTPUT.PUT_LINE('¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù');		
+ DBMS_OUTPUT.PUT_LINE('ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤');		
  DBMS_OUTPUT.PUT_LINE( 'SQL ERROR CODE: ' || SQLCODE);
- DBMS_OUTPUT.PUT_LINE( 'SQL ERROR MESSAGE: ' || SQLERRM); -- ¸Å°³º¯¼ö ¾ø´Â SQLERRM
- DBMS_OUTPUT.PUT_LINE( SQLERRM(SQLCODE)); -- ¸Å°³º¯¼ö ÀÖ´Â SQLERRM
+ DBMS_OUTPUT.PUT_LINE( 'SQL ERROR MESSAGE: ' || SQLERRM); -- ë§¤ê°œë³€ìˆ˜ ì—†ëŠ” SQLERRM
+ DBMS_OUTPUT.PUT_LINE( SQLERRM(SQLCODE)); -- ë§¤ê°œë³€ìˆ˜ ìžˆëŠ” SQLERRM
 
 	
 END;	
@@ -106,7 +106,7 @@ BEGIN
 	
 EXCEPTION WHEN OTHERS THEN
 	 
- DBMS_OUTPUT.PUT_LINE('¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù');		
+ DBMS_OUTPUT.PUT_LINE('ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤');		
  DBMS_OUTPUT.PUT_LINE( 'SQL ERROR CODE: ' || SQLCODE);
  DBMS_OUTPUT.PUT_LINE( 'SQL ERROR MESSAGE: ' || SQLERRM); 
  
@@ -115,7 +115,7 @@ EXCEPTION WHEN OTHERS THEN
 END;	
 
 
--- ½Ã½ºÅÛ ¿¹¿Ü 
+-- ì‹œìŠ¤í…œ ì˜ˆì™¸ 
 
 CREATE OR REPLACE PROCEDURE ch10_exception_proc 
 IS
@@ -127,7 +127,7 @@ BEGIN
 	
 EXCEPTION WHEN ZERO_DIVIDE THEN
 	 
-	 DBMS_OUTPUT.PUT_LINE('¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù');		
+	 DBMS_OUTPUT.PUT_LINE('ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤');		
 	 DBMS_OUTPUT.PUT_LINE('SQL ERROR CODE: ' || SQLCODE);
 	 DBMS_OUTPUT.PUT_LINE('SQL ERROR MESSAGE: ' || SQLERRM);
 	
@@ -146,10 +146,10 @@ BEGIN
 	DBMS_OUTPUT.PUT_LINE('Success!');
 	
 EXCEPTION WHEN ZERO_DIVIDE THEN
-	          	 DBMS_OUTPUT.PUT_LINE('¿À·ù1');		
+	          	 DBMS_OUTPUT.PUT_LINE('ì˜¤ë¥˜1');		
 	             DBMS_OUTPUT.PUT_LINE('SQL ERROR MESSAGE1: ' || SQLERRM);
 	        WHEN OTHERS THEN
-	          	 DBMS_OUTPUT.PUT_LINE('¿À·ù2');		
+	          	 DBMS_OUTPUT.PUT_LINE('ì˜¤ë¥˜2');		
 	             DBMS_OUTPUT.PUT_LINE('SQL ERROR MESSAGE2: ' || SQLERRM);	
 END;	
 
@@ -169,7 +169,7 @@ BEGIN
 	 WHERE JOB_ID = p_job_id;
 	 
 	IF vn_cnt = 0 THEN
-	   DBMS_OUTPUT.PUT_LINE('job_id°¡ ¾ø½À´Ï´Ù');
+	   DBMS_OUTPUT.PUT_LINE('job_idê°€ ì—†ìŠµë‹ˆë‹¤');
 	   RETURN;
 	ELSE
 	   UPDATE employees
@@ -206,9 +206,9 @@ BEGIN
   
   EXCEPTION WHEN NO_DATA_FOUND THEN
                  DBMS_OUTPUT.PUT_LINE(SQLERRM);
-                 DBMS_OUTPUT.PUT_LINE(p_job_id ||'¿¡ ÇØ´çÇÏ´Â job_id°¡ ¾ø½À´Ï´Ù');
+                 DBMS_OUTPUT.PUT_LINE(p_job_id ||'ì— í•´ë‹¹í•˜ëŠ” job_idê°€ ì—†ìŠµë‹ˆë‹¤');
             WHEN OTHERS THEN
-                 DBMS_OUTPUT.PUT_LINE('±âÅ¸ ¿¡·¯: ' || SQLERRM);
+                 DBMS_OUTPUT.PUT_LINE('ê¸°íƒ€ ì—ëŸ¬: ' || SQLERRM);
 END;
                    
 
@@ -235,12 +235,12 @@ BEGIN
   
   EXCEPTION WHEN NO_DATA_FOUND THEN
                  DBMS_OUTPUT.PUT_LINE(SQLERRM);
-                 DBMS_OUTPUT.PUT_LINE(p_job_id ||'¿¡ ÇØ´çÇÏ´Â job_id°¡ ¾ø½À´Ï´Ù');
+                 DBMS_OUTPUT.PUT_LINE(p_job_id ||'ì— í•´ë‹¹í•˜ëŠ” job_idê°€ ì—†ìŠµë‹ˆë‹¤');
             WHEN OTHERS THEN
-                 DBMS_OUTPUT.PUT_LINE('±âÅ¸ ¿¡·¯: ' || SQLERRM);
+                 DBMS_OUTPUT.PUT_LINE('ê¸°íƒ€ ì—ëŸ¬: ' || SQLERRM);
 END;
 
--- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü
+-- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸
 
 CREATE OR REPLACE PROCEDURE ch10_ins_emp_proc ( 
                   p_emp_name       employees.emp_name%TYPE,
@@ -250,39 +250,39 @@ IS
    vd_curr_date    DATE := SYSDATE;
    vn_cnt          NUMBER := 0;
    
-   ex_invalid_depid EXCEPTION; -- Àß¸øµÈ ºÎ¼­¹øÈ£ÀÏ °æ¿ì ¿¹¿Ü Á¤ÀÇ
+   ex_invalid_depid EXCEPTION; -- ìž˜ëª»ëœ ë¶€ì„œë²ˆí˜¸ì¼ ê²½ìš° ì˜ˆì™¸ ì •ì˜
 BEGIN
 	
-	 -- ºÎ¼­Å×ÀÌºí¿¡¼­ ÇØ´ç ºÎ¼­¹øÈ£ Á¸ÀçÀ¯¹« Ã¼Å©
+	 -- ë¶€ì„œí…Œì´ë¸”ì—ì„œ í•´ë‹¹ ë¶€ì„œë²ˆí˜¸ ì¡´ìž¬ìœ ë¬´ ì²´í¬
 	 SELECT COUNT(*)
 	   INTO vn_cnt
 	   FROM departments
 	  WHERE department_id = p_department_id;
 	  
 	 IF vn_cnt = 0 THEN
-	    RAISE ex_invalid_depid; -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü ¹ß»ý
+	    RAISE ex_invalid_depid; -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ë°œìƒ
 	 END IF;
 	 
-	 -- employee_idÀÇ max °ª¿¡ +1
+	 -- employee_idì˜ max ê°’ì— +1
 	 SELECT MAX(employee_id) + 1
 	   INTO vn_employee_id
 	   FROM employees;
 	 
-	 -- »ç¿ëÀÚ¿¹¿ÜÃ³¸® ¿¹Á¦ÀÌ¹Ç·Î »ç¿ø Å×ÀÌºí¿¡ ÃÖ¼ÒÇÑ µ¥ÀÌÅÍ¸¸ ÀÔ·ÂÇÔ
+	 -- ì‚¬ìš©ìžì˜ˆì™¸ì²˜ë¦¬ ì˜ˆì œì´ë¯€ë¡œ ì‚¬ì› í…Œì´ë¸”ì— ìµœì†Œí•œ ë°ì´í„°ë§Œ ìž…ë ¥í•¨
 	 INSERT INTO employees ( employee_id, emp_name, hire_date, department_id )
               VALUES ( vn_employee_id, p_emp_name, vd_curr_date, p_department_id );
               
    COMMIT;              
               
-EXCEPTION WHEN ex_invalid_depid THEN -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
-               DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­¹øÈ£°¡ ¾ø½À´Ï´Ù');
+EXCEPTION WHEN ex_invalid_depid THEN -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ì²˜ë¦¬
+               DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œë²ˆí˜¸ê°€ ì—†ìŠµë‹ˆë‹¤');
           WHEN OTHERS THEN
                DBMS_OUTPUT.PUT_LINE(SQLERRM);              
 	
 END;                	
 
 
-EXEC ch10_ins_emp_proc ('È«±æµ¿', 999);
+EXEC ch10_ins_emp_proc ('í™ê¸¸ë™', 999);
 
 
 CREATE OR REPLACE PROCEDURE ch10_ins_emp_proc ( 
@@ -294,55 +294,55 @@ IS
    vd_curr_date    DATE := SYSDATE;
    vn_cnt          NUMBER := 0;
    
-   ex_invalid_depid EXCEPTION; -- Àß¸øµÈ ºÎ¼­¹øÈ£ÀÏ °æ¿ì ¿¹¿Ü Á¤ÀÇ
+   ex_invalid_depid EXCEPTION; -- ìž˜ëª»ëœ ë¶€ì„œë²ˆí˜¸ì¼ ê²½ìš° ì˜ˆì™¸ ì •ì˜
    
-   ex_invalid_month EXCEPTION; -- Àß¸øµÈ ÀÔ»ç¿ùÀÎ °æ¿ì ¿¹¿Ü Á¤ÀÇ
-   PRAGMA EXCEPTION_INIT ( ex_invalid_month, -1843); -- ¿¹¿Ü¸í°ú ¿¹¿ÜÄÚµå ¿¬°á
+   ex_invalid_month EXCEPTION; -- ìž˜ëª»ëœ ìž…ì‚¬ì›”ì¸ ê²½ìš° ì˜ˆì™¸ ì •ì˜
+   PRAGMA EXCEPTION_INIT ( ex_invalid_month, -1843); -- ì˜ˆì™¸ëª…ê³¼ ì˜ˆì™¸ì½”ë“œ ì—°ê²°
 BEGIN
 	
-	 -- ºÎ¼­Å×ÀÌºí¿¡¼­ ÇØ´ç ºÎ¼­¹øÈ£ Á¸ÀçÀ¯¹« Ã¼Å©
+	 -- ë¶€ì„œí…Œì´ë¸”ì—ì„œ í•´ë‹¹ ë¶€ì„œë²ˆí˜¸ ì¡´ìž¬ìœ ë¬´ ì²´í¬
 	 SELECT COUNT(*)
 	   INTO vn_cnt
 	   FROM departments
 	  WHERE department_id = p_department_id;
 	  
 	 IF vn_cnt = 0 THEN
-	    RAISE ex_invalid_depid; -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü ¹ß»ý
+	    RAISE ex_invalid_depid; -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ë°œìƒ
 	 END IF;
 	 
-	 -- ÀÔ»ç¿ù Ã¼Å© (1~12¿ù ¹üÀ§¸¦ ¹þ¾î³µ´ÂÁö Ã¼Å©)
+	 -- ìž…ì‚¬ì›” ì²´í¬ (1~12ì›” ë²”ìœ„ë¥¼ ë²—ì–´ë‚¬ëŠ”ì§€ ì²´í¬)
 	 IF SUBSTR(p_hire_month, 5, 2) NOT BETWEEN '01' AND '12' THEN
-	    RAISE ex_invalid_month; -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü ¹ß»ý
+	    RAISE ex_invalid_month; -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ë°œìƒ
 	 
 	 END IF;
 	 
 	 
-	 -- employee_idÀÇ max °ª¿¡ +1
+	 -- employee_idì˜ max ê°’ì— +1
 	 SELECT MAX(employee_id) + 1
 	   INTO vn_employee_id
 	   FROM employees;
 	 
-	 -- »ç¿ëÀÚ¿¹¿ÜÃ³¸® ¿¹Á¦ÀÌ¹Ç·Î »ç¿ø Å×ÀÌºí¿¡ ÃÖ¼ÒÇÑ µ¥ÀÌÅÍ¸¸ ÀÔ·ÂÇÔ
+	 -- ì‚¬ìš©ìžì˜ˆì™¸ì²˜ë¦¬ ì˜ˆì œì´ë¯€ë¡œ ì‚¬ì› í…Œì´ë¸”ì— ìµœì†Œí•œ ë°ì´í„°ë§Œ ìž…ë ¥í•¨
 	 INSERT INTO employees ( employee_id, emp_name, hire_date, department_id )
               VALUES ( vn_employee_id, p_emp_name, TO_DATE(p_hire_month || '01'), p_department_id );
               
    COMMIT;              
               
-EXCEPTION WHEN ex_invalid_depid THEN -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
-               DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­¹øÈ£°¡ ¾ø½À´Ï´Ù');
-          WHEN ex_invalid_month THEN -- ÀÔ»ç¿ù »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
+EXCEPTION WHEN ex_invalid_depid THEN -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ì²˜ë¦¬
+               DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œë²ˆí˜¸ê°€ ì—†ìŠµë‹ˆë‹¤');
+          WHEN ex_invalid_month THEN -- ìž…ì‚¬ì›” ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ì²˜ë¦¬
                DBMS_OUTPUT.PUT_LINE(SQLCODE);
                DBMS_OUTPUT.PUT_LINE(SQLERRM);
-               DBMS_OUTPUT.PUT_LINE('1~12¿ù ¹üÀ§¸¦ ¹þ¾î³­ ¿ùÀÔ´Ï´Ù');               
+               DBMS_OUTPUT.PUT_LINE('1~12ì›” ë²”ìœ„ë¥¼ ë²—ì–´ë‚œ ì›”ìž…ë‹ˆë‹¤');               
           WHEN OTHERS THEN
                DBMS_OUTPUT.PUT_LINE(SQLERRM);              
 	
 END;    
 
-EXEC ch10_ins_emp_proc ('È«±æµ¿', 110, '201314');
+EXEC ch10_ins_emp_proc ('í™ê¸¸ë™', 110, '201314');
 
 
--- RAISE¿Í RAISE_APPLICATOIN_ERROR
+-- RAISEì™€ RAISE_APPLICATOIN_ERROR
 
 CREATE OR REPLACE PROCEDURE ch10_raise_test_proc ( p_num NUMBER)
 IS
@@ -355,7 +355,7 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE(p_num);
   
 EXCEPTION WHEN INVALID_NUMBER THEN
-               DBMS_OUTPUT.PUT_LINE('¾ç¼ö¸¸ ÀÔ·Â¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù');
+               DBMS_OUTPUT.PUT_LINE('ì–‘ìˆ˜ë§Œ ìž…ë ¥ë°›ì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤');
           WHEN OTHERS THEN
                DBMS_OUTPUT.PUT_LINE(SQLERRM);
 	
@@ -371,13 +371,13 @@ IS
 BEGIN
 	IF p_num <= 0 THEN
 	   --RAISE INVALID_NUMBER;
-	   RAISE_APPLICATION_ERROR (-20000, '¾ç¼ö¸¸ ÀÔ·Â¹ÞÀ» ¼ö ÀÖ´Ü ¸»ÀÔ´Ï´Ù!');
+	   RAISE_APPLICATION_ERROR (-20000, 'ì–‘ìˆ˜ë§Œ ìž…ë ¥ë°›ì„ ìˆ˜ ìžˆë‹¨ ë§ìž…ë‹ˆë‹¤!');
   END IF;
   
   DBMS_OUTPUT.PUT_LINE(p_num);
   
 EXCEPTION WHEN INVALID_NUMBER THEN
-               DBMS_OUTPUT.PUT_LINE('¾ç¼ö¸¸ ÀÔ·Â¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù');
+               DBMS_OUTPUT.PUT_LINE('ì–‘ìˆ˜ë§Œ ìž…ë ¥ë°›ì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤');
           WHEN OTHERS THEN
                DBMS_OUTPUT.PUT_LINE(SQLCODE);
                DBMS_OUTPUT.PUT_LINE(SQLERRM);
@@ -388,15 +388,15 @@ EXEC ch10_raise_test_proc (-10);
 
 
 
--- ÇöÀå ³ëÇÏ¿ì
+-- í˜„ìž¥ ë…¸í•˜ìš°
 
 CREATE TABLE error_log (
-             error_seq     NUMBER,        -- ¿¡·¯ ½ÃÄö½º
-             prog_name     VARCHAR2(80),  -- ÇÁ·Î±×·¥¸í
-             error_code    NUMBER,        -- ¿¡·¯ÄÚµå
-             error_message VARCHAR2(300), -- ¿¡·¯ ¸Þ½ÃÁö
-             error_line    VARCHAR2(100), -- ¿¡·¯ ¶óÀÎ
-             error_date    DATE DEFAULT SYSDATE -- ¿¡·¯¹ß»ýÀÏÀÚ
+             error_seq     NUMBER,        -- ì—ëŸ¬ ì‹œí€€ìŠ¤
+             prog_name     VARCHAR2(80),  -- í”„ë¡œê·¸ëž¨ëª…
+             error_code    NUMBER,        -- ì—ëŸ¬ì½”ë“œ
+             error_message VARCHAR2(300), -- ì—ëŸ¬ ë©”ì‹œì§€
+             error_line    VARCHAR2(100), -- ì—ëŸ¬ ë¼ì¸
+             error_date    DATE DEFAULT SYSDATE -- ì—ëŸ¬ë°œìƒì¼ìž
              );
              
 CREATE SEQUENCE error_seq
@@ -433,48 +433,48 @@ IS
    vd_curr_date    DATE := SYSDATE;
    vn_cnt          NUMBER := 0;
    
-   ex_invalid_depid EXCEPTION; -- Àß¸øµÈ ºÎ¼­¹øÈ£ÀÏ °æ¿ì ¿¹¿Ü Á¤ÀÇ
-   PRAGMA EXCEPTION_INIT ( ex_invalid_depid, -20000); -- ¿¹¿Ü¸í°ú ¿¹¿ÜÄÚµå ¿¬°á
+   ex_invalid_depid EXCEPTION; -- ìž˜ëª»ëœ ë¶€ì„œë²ˆí˜¸ì¼ ê²½ìš° ì˜ˆì™¸ ì •ì˜
+   PRAGMA EXCEPTION_INIT ( ex_invalid_depid, -20000); -- ì˜ˆì™¸ëª…ê³¼ ì˜ˆì™¸ì½”ë“œ ì—°ê²°
 
-   ex_invalid_month EXCEPTION; -- Àß¸øµÈ ÀÔ»ç¿ùÀÎ °æ¿ì ¿¹¿Ü Á¤ÀÇ
-   PRAGMA EXCEPTION_INIT ( ex_invalid_month, -1843); -- ¿¹¿Ü¸í°ú ¿¹¿ÜÄÚµå ¿¬°á
+   ex_invalid_month EXCEPTION; -- ìž˜ëª»ëœ ìž…ì‚¬ì›”ì¸ ê²½ìš° ì˜ˆì™¸ ì •ì˜
+   PRAGMA EXCEPTION_INIT ( ex_invalid_month, -1843); -- ì˜ˆì™¸ëª…ê³¼ ì˜ˆì™¸ì½”ë“œ ì—°ê²°
    
    v_err_code error_log.error_code%TYPE;
    v_err_msg  error_log.error_message%TYPE;
    v_err_line error_log.error_line%TYPE;
 BEGIN
- -- ºÎ¼­Å×ÀÌºí¿¡¼­ ÇØ´ç ºÎ¼­¹øÈ£ Á¸ÀçÀ¯¹« Ã¼Å©
+ -- ë¶€ì„œí…Œì´ë¸”ì—ì„œ í•´ë‹¹ ë¶€ì„œë²ˆí˜¸ ì¡´ìž¬ìœ ë¬´ ì²´í¬
  SELECT COUNT(*)
    INTO vn_cnt
    FROM departments
   WHERE department_id = p_department_id;
 	  
  IF vn_cnt = 0 THEN
-    RAISE ex_invalid_depid; -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü ¹ß»ý
+    RAISE ex_invalid_depid; -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ë°œìƒ
  END IF;
 
--- ÀÔ»ç¿ù Ã¼Å© (1~12¿ù ¹üÀ§¸¦ ¹þ¾î³µ´ÂÁö Ã¼Å©)
+-- ìž…ì‚¬ì›” ì²´í¬ (1~12ì›” ë²”ìœ„ë¥¼ ë²—ì–´ë‚¬ëŠ”ì§€ ì²´í¬)
  IF SUBSTR(p_hire_month, 5, 2) NOT BETWEEN '01' AND '12' THEN
-    RAISE ex_invalid_month; -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü ¹ß»ý
+    RAISE ex_invalid_month; -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ë°œìƒ
  END IF;
 
- -- employee_idÀÇ max °ª¿¡ +1
+ -- employee_idì˜ max ê°’ì— +1
  SELECT MAX(employee_id) + 1
    INTO vn_employee_id
    FROM employees;
  
--- »ç¿ëÀÚ¿¹¿ÜÃ³¸® ¿¹Á¦ÀÌ¹Ç·Î »ç¿ø Å×ÀÌºí¿¡ ÃÖ¼ÒÇÑ µ¥ÀÌÅÍ¸¸ ÀÔ·ÂÇÔ
+-- ì‚¬ìš©ìžì˜ˆì™¸ì²˜ë¦¬ ì˜ˆì œì´ë¯€ë¡œ ì‚¬ì› í…Œì´ë¸”ì— ìµœì†Œí•œ ë°ì´í„°ë§Œ ìž…ë ¥í•¨
 INSERT INTO employees ( employee_id, emp_name, hire_date, department_id )
             VALUES ( vn_employee_id, p_emp_name, TO_DATE(p_hire_month || '01'), p_department_id );              
  COMMIT;
 
-EXCEPTION WHEN ex_invalid_depid THEN -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
+EXCEPTION WHEN ex_invalid_depid THEN -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ì²˜ë¦¬
                v_err_code := SQLCODE;
-               v_err_msg  := 'ÇØ´ç ºÎ¼­°¡ ¾ø½À´Ï´Ù';
+               v_err_msg  := 'í•´ë‹¹ ë¶€ì„œê°€ ì—†ìŠµë‹ˆë‹¤';
                v_err_line := DBMS_UTILITY.FORMAT_ERROR_BACKTRACE;
                ROLLBACK;
                error_log_proc ( 'ch10_ins_emp2_proc', v_err_code, v_err_msg, v_err_line); 
-          WHEN ex_invalid_month THEN -- ÀÔ»ç¿ù »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
+          WHEN ex_invalid_month THEN -- ìž…ì‚¬ì›” ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ì²˜ë¦¬
                v_err_code := SQLCODE;
                v_err_msg  := SQLERRM;
                v_err_line := DBMS_UTILITY.FORMAT_ERROR_BACKTRACE;
@@ -489,9 +489,9 @@ EXCEPTION WHEN ex_invalid_depid THEN -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
 END;
 
 
-EXEC ch10_ins_emp2_proc ('HONG', 1000, '201401'); -- Àß¸øµÈ ºÎ¼­
+EXEC ch10_ins_emp2_proc ('HONG', 1000, '201401'); -- ìž˜ëª»ëœ ë¶€ì„œ
 
-EXEC ch10_ins_emp2_proc ('HONG', 100, '201413'); -- Àß¸øµÈ ¿ù
+EXEC ch10_ins_emp2_proc ('HONG', 100, '201413'); -- ìž˜ëª»ëœ ì›”
 
 
 SELECT *
@@ -500,15 +500,15 @@ SELECT *
   
 
 CREATE TABLE app_user_define_error (
-             error_code    NUMBER,         -- ¿¡·¯ÄÚµå
-             error_message VARCHAR2(300),  -- ¿¡·¯ ¸Þ½ÃÁö
-             create_date   DATE DEFAULT SYSDATE, -- µî·ÏÀÏÀÚ 
+             error_code    NUMBER,         -- ì—ëŸ¬ì½”ë“œ
+             error_message VARCHAR2(300),  -- ì—ëŸ¬ ë©”ì‹œì§€
+             create_date   DATE DEFAULT SYSDATE, -- ë“±ë¡ì¼ìž 
              PRIMARY KEY (error_code)
              );
              
              
-INSERT INTO app_user_define_error ( error_code, error_message ) VALUES (-1843, 'ÁöÁ¤ÇÑ ¿ùÀÌ ºÎÀûÇÕÇÕ´Ï´Ù');
-INSERT INTO app_user_define_error ( error_code, error_message ) VALUES (-20000, 'ÇØ´ç ºÎ¼­°¡ ¾ø½À´Ï´Ù');
+INSERT INTO app_user_define_error ( error_code, error_message ) VALUES (-1843, 'ì§€ì •í•œ ì›”ì´ ë¶€ì í•©í•©ë‹ˆë‹¤');
+INSERT INTO app_user_define_error ( error_code, error_message ) VALUES (-20000, 'í•´ë‹¹ ë¶€ì„œê°€ ì—†ìŠµë‹ˆë‹¤');
 
 COMMIT;
              
@@ -524,8 +524,8 @@ IS
   
 BEGIN
 	
-	-- »ç¿ëÀÚ Á¤ÀÇ ¿¡·¯ Å×ÀÌºí¿¡¼­ ¿¡·¯ ¸Þ½ÃÁö¸¦ ¹Þ¾Æ¿À´Â ºÎºÐÀ» BLOCKÀ¸·Î °¨½Ñ´Ù.
-	-- ÇØ´ç ¸Þ½ÃÁö°¡ ¾øÀ» °æ¿ì Ã³¸®¸¦ À§ÇØ¼­....
+	-- ì‚¬ìš©ìž ì •ì˜ ì—ëŸ¬ í…Œì´ë¸”ì—ì„œ ì—ëŸ¬ ë©”ì‹œì§€ë¥¼ ë°›ì•„ì˜¤ëŠ” ë¶€ë¶„ì„ BLOCKìœ¼ë¡œ ê°ì‹¼ë‹¤.
+	-- í•´ë‹¹ ë©”ì‹œì§€ê°€ ì—†ì„ ê²½ìš° ì²˜ë¦¬ë¥¼ ìœ„í•´ì„œ....
 	BEGIN
 	  -- 
 	  SELECT error_message 
@@ -533,7 +533,7 @@ BEGIN
 	    FROM app_user_define_error 
 	   WHERE error_code = vn_error_code;
 	 
-   	-- ÇØ´ç ¿¡·¯°¡ Å×ÀÌºí¿¡ ¾ø´Ù¸é ¸Å°³º¯¼ö·Î ¹Þ¾Æ¿Â ¸Þ½ÃÁö¸¦ ±×´ë·Î ÇÒ´çÇÑ´Ù. 
+   	-- í•´ë‹¹ ì—ëŸ¬ê°€ í…Œì´ë¸”ì— ì—†ë‹¤ë©´ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ì˜¨ ë©”ì‹œì§€ë¥¼ ê·¸ëŒ€ë¡œ í• ë‹¹í•œë‹¤. 
 	  EXCEPTION WHEN NO_DATA_FOUND THEN
 	               vn_error_message :=  p_error_messgge;
 	
@@ -556,48 +556,48 @@ IS
    vd_curr_date    DATE := SYSDATE;
    vn_cnt          NUMBER := 0;
    
-   ex_invalid_depid EXCEPTION; -- Àß¸øµÈ ºÎ¼­¹øÈ£ÀÏ °æ¿ì ¿¹¿Ü Á¤ÀÇ
-   PRAGMA EXCEPTION_INIT ( ex_invalid_depid, -20000); -- ¿¹¿Ü¸í°ú ¿¹¿ÜÄÚµå ¿¬°á
+   ex_invalid_depid EXCEPTION; -- ìž˜ëª»ëœ ë¶€ì„œë²ˆí˜¸ì¼ ê²½ìš° ì˜ˆì™¸ ì •ì˜
+   PRAGMA EXCEPTION_INIT ( ex_invalid_depid, -20000); -- ì˜ˆì™¸ëª…ê³¼ ì˜ˆì™¸ì½”ë“œ ì—°ê²°
 
-   ex_invalid_month EXCEPTION; -- Àß¸øµÈ ÀÔ»ç¿ùÀÎ °æ¿ì ¿¹¿Ü Á¤ÀÇ
-   PRAGMA EXCEPTION_INIT ( ex_invalid_month, -1843); -- ¿¹¿Ü¸í°ú ¿¹¿ÜÄÚµå ¿¬°á
+   ex_invalid_month EXCEPTION; -- ìž˜ëª»ëœ ìž…ì‚¬ì›”ì¸ ê²½ìš° ì˜ˆì™¸ ì •ì˜
+   PRAGMA EXCEPTION_INIT ( ex_invalid_month, -1843); -- ì˜ˆì™¸ëª…ê³¼ ì˜ˆì™¸ì½”ë“œ ì—°ê²°
    
-  -- ¿¹¿Ü °ü·Ã º¯¼ö ¼±¾ð
+  -- ì˜ˆì™¸ ê´€ë ¨ ë³€ìˆ˜ ì„ ì–¸
    v_err_code error_log.error_code%TYPE;
    v_err_msg  error_log.error_message%TYPE;
    v_err_line error_log.error_line%TYPE;
 BEGIN
- -- ºÎ¼­Å×ÀÌºí¿¡¼­ ÇØ´ç ºÎ¼­¹øÈ£ Á¸ÀçÀ¯¹« Ã¼Å©
+ -- ë¶€ì„œí…Œì´ë¸”ì—ì„œ í•´ë‹¹ ë¶€ì„œë²ˆí˜¸ ì¡´ìž¬ìœ ë¬´ ì²´í¬
  SELECT COUNT(*)
    INTO vn_cnt
    FROM departments
   WHERE department_id = p_department_id;
 	  
  IF vn_cnt = 0 THEN
-    RAISE ex_invalid_depid; -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü ¹ß»ý
+    RAISE ex_invalid_depid; -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ë°œìƒ
  END IF;
 
--- ÀÔ»ç¿ù Ã¼Å© (1~12¿ù ¹üÀ§¸¦ ¹þ¾î³µ´ÂÁö Ã¼Å©)
+-- ìž…ì‚¬ì›” ì²´í¬ (1~12ì›” ë²”ìœ„ë¥¼ ë²—ì–´ë‚¬ëŠ”ì§€ ì²´í¬)
  IF SUBSTR(p_hire_month, 5, 2) NOT BETWEEN '01' AND '12' THEN
-    RAISE ex_invalid_month; -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü ¹ß»ý
+    RAISE ex_invalid_month; -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ë°œìƒ
  END IF;
 
- -- employee_idÀÇ max °ª¿¡ +1
+ -- employee_idì˜ max ê°’ì— +1
  SELECT MAX(employee_id) + 1
    INTO vn_employee_id
    FROM employees;
  
--- »ç¿ëÀÚ¿¹¿ÜÃ³¸® ¿¹Á¦ÀÌ¹Ç·Î »ç¿ø Å×ÀÌºí¿¡ ÃÖ¼ÒÇÑ µ¥ÀÌÅÍ¸¸ ÀÔ·ÂÇÔ
+-- ì‚¬ìš©ìžì˜ˆì™¸ì²˜ë¦¬ ì˜ˆì œì´ë¯€ë¡œ ì‚¬ì› í…Œì´ë¸”ì— ìµœì†Œí•œ ë°ì´í„°ë§Œ ìž…ë ¥í•¨
 INSERT INTO employees ( employee_id, emp_name, hire_date, department_id )
             VALUES ( vn_employee_id, p_emp_name, TO_DATE(p_hire_month || '01'), p_department_id );              
  COMMIT;
 
-EXCEPTION WHEN ex_invalid_depid THEN -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
+EXCEPTION WHEN ex_invalid_depid THEN -- ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ì²˜ë¦¬
                v_err_code := SQLCODE;
                v_err_line := DBMS_UTILITY.FORMAT_ERROR_BACKTRACE;
                ROLLBACK;
                error_log_proc ( 'ch10_ins_emp2_proc', v_err_code, v_err_msg, v_err_line); 
-          WHEN ex_invalid_month THEN -- ÀÔ»ç¿ù »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
+          WHEN ex_invalid_month THEN -- ìž…ì‚¬ì›” ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ ì²˜ë¦¬
                v_err_code := SQLCODE;
                v_err_line := DBMS_UTILITY.FORMAT_ERROR_BACKTRACE;
                ROLLBACK;
@@ -610,10 +610,10 @@ EXCEPTION WHEN ex_invalid_depid THEN -- »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü Ã³¸®
                error_log_proc ( 'ch10_ins_emp2_proc', v_err_code, v_err_msg, v_err_line);        	
 END;
 
--- Àß¸øµÈ ºÎ¼­
+-- ìž˜ëª»ëœ ë¶€ì„œ
 EXEC ch10_ins_emp2_proc ('HONG', 1000, '201401');
  
--- Àß¸øµÈ ¿ù
+-- ìž˜ëª»ëœ ì›”
 EXEC ch10_ins_emp2_proc ('HONG', 100, '201413'); 
 
 
@@ -622,7 +622,7 @@ SELECT *
 
 
 
--- COMMIT °ú ROLLBACK
+-- COMMIT ê³¼ ROLLBACK
 
 CREATE TABLE ch10_sales (
        sales_month   VARCHAR2(8),
@@ -757,14 +757,14 @@ IS
 
 BEGIN
 	
-	--±âÁ¸ µ¥ÀÌÅÍ »èÁ¦
+	--ê¸°ì¡´ ë°ì´í„° ì‚­ì œ
 	DELETE ch10_sales
 	 WHERE sales_month  = p_sales_month
 	   AND country_name = p_country_name;
 	   
 	   
-	-- ½Å±Ô·Î ¿ù, ±¹°¡¸¦ ¸Å°³º¯¼ö·Î ¹Þ¾Æ INSERT 
-	-- DELETE¸¦ ¼öÇàÇÏ¹Ç·Î PRIMARY KEY Áßº¹ÀÌ ¹ß»ýÄ¡ ¾ÊÀ½
+	-- ì‹ ê·œë¡œ ì›”, êµ­ê°€ë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ INSERT 
+	-- DELETEë¥¼ ìˆ˜í–‰í•˜ë¯€ë¡œ PRIMARY KEY ì¤‘ë³µì´ ë°œìƒì¹˜ ì•ŠìŒ
 	INSERT INTO ch10_sales (sales_month, country_name, prod_category, channel_desc, sales_amt)	   
 	SELECT A.SALES_MONTH, 
        C.COUNTRY_NAME, 
@@ -783,19 +783,19 @@ BEGIN
        D.PROD_CATEGORY,
        E.CHANNEL_DESC;
        
- -- SAVEPOINT È®ÀÎÀ» À§ÇÑ UPDATE
-  -- ÇöÀç½Ã°£¿¡¼­ ÃÊ¸¦ °¡Á®¿Í ¼ýÀÚ·Î º¯È¯ÇÑ ÈÄ * 10 (¸Å¹ø ÃÊ´Â ´Þ¶óÁö¹Ç·Î ¼º°øÀûÀ¸·Î ½ÇÇà ½Ã ÀÌ °ªÀº ¸Å¹ø ´Þ¶óÁü)
+ -- SAVEPOINT í™•ì¸ì„ ìœ„í•œ UPDATE
+  -- í˜„ìž¬ì‹œê°„ì—ì„œ ì´ˆë¥¼ ê°€ì ¸ì™€ ìˆ«ìžë¡œ ë³€í™˜í•œ í›„ * 10 (ë§¤ë²ˆ ì´ˆëŠ” ë‹¬ë¼ì§€ë¯€ë¡œ ì„±ê³µì ìœ¼ë¡œ ì‹¤í–‰ ì‹œ ì´ ê°’ì€ ë§¤ë²ˆ ë‹¬ë¼ì§)
  UPDATE ch10_sales
     SET sales_amt = 10 * to_number(to_char(sysdate, 'ss'))
   WHERE sales_month  = p_sales_month
 	   AND country_name = p_country_name;
 	   
- -- SAVEPOINT ÁöÁ¤      
+ -- SAVEPOINT ì§€ì •      
  SAVEPOINT mysavepoint;      
  
  
- -- ch10_country_month_sales Å×ÀÌºí¿¡ INSERT
- -- Áßº¹ ÀÔ·Â ½Ã PRIMARY KEY Áßº¹µÊ
+ -- ch10_country_month_sales í…Œì´ë¸”ì— INSERT
+ -- ì¤‘ë³µ ìž…ë ¥ ì‹œ PRIMARY KEY ì¤‘ë³µë¨
  INSERT INTO ch10_country_month_sales 
        SELECT sales_month, country_name, SUM(sales_amt)
          FROM ch10_sales
@@ -807,8 +807,8 @@ BEGIN
 
 EXCEPTION WHEN OTHERS THEN
                DBMS_OUTPUT.PUT_LINE(SQLERRM);
-               ROLLBACK TO mysavepoint; -- SAVEPOINT ±îÁö¸¸ ROLLBACK
-               COMMIT; -- SAVEPOINT ÀÌÀü±îÁö´Â COMMIT
+               ROLLBACK TO mysavepoint; -- SAVEPOINT ê¹Œì§€ë§Œ ROLLBACK
+               COMMIT; -- SAVEPOINT ì´ì „ê¹Œì§€ëŠ” COMMIT
 
 	
 END;   

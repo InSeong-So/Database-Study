@@ -1,47 +1,47 @@
--- 17Àå ¿¬½À¹®Á¦ 
+-- 17ìž¥ ì—°ìŠµë¬¸ì œ 
 
 
-1. »ç¿ø Å×ÀÌºí(employees)À» ÂüÁ¶ÇÏ°í ÀÖ´Â ¸ðµç ÇÁ·Î±×·¥À» Ã£´Â 2°¡Áö ¹æ¹ýÀ» ¼³¸íÇÏ¶ó. 
+1. ì‚¬ì› í…Œì´ë¸”(employees)ì„ ì°¸ì¡°í•˜ê³  ìžˆëŠ” ëª¨ë“  í”„ë¡œê·¸ëž¨ì„ ì°¾ëŠ” 2ê°€ì§€ ë°©ë²•ì„ ì„¤ëª…í•˜ë¼. 
 
-<Á¤´ä>
-1. USER_SOURCE ½Ã½ºÅÛ ºä¿¡¼­ TEXT ÄÃ·³ °ª¿¡ »ç¿øÅ×ÀÌºí¸í, Áï employees¶õ ¸íÄªÀÌ ÀÖ´ÂÁö °Ë»öÇÑ´Ù. 
+<ì •ë‹µ>
+1. USER_SOURCE ì‹œìŠ¤í…œ ë·°ì—ì„œ TEXT ì»¬ëŸ¼ ê°’ì— ì‚¬ì›í…Œì´ë¸”ëª…, ì¦‰ employeesëž€ ëª…ì¹­ì´ ìžˆëŠ”ì§€ ê²€ìƒ‰í•œë‹¤. 
 
 SELECT *
 FROM USER_SOURCE
 WHERE TEXT LIKE '%EMPLOYEES%'
 OR    TEXT LIKE '%employees%';
 
-2. USER_DEPENDENCIES ½Ã½ºÅÛ ºä¿¡¼­ REFERENCED_NAME ÄÃ·³ °ªÀÌ »ç¿øÅ×ÀÌºí¸íÀÌ ÀÖ´ÂÁö °Ë»öÇÑ´Ù. 
+2. USER_DEPENDENCIES ì‹œìŠ¤í…œ ë·°ì—ì„œ REFERENCED_NAME ì»¬ëŸ¼ ê°’ì´ ì‚¬ì›í…Œì´ë¸”ëª…ì´ ìžˆëŠ”ì§€ ê²€ìƒ‰í•œë‹¤. 
 SELECT *
 FROM  USER_DEPENDENCIES
 WHERE REFERENCED_NAME = 'EMPLOYEES';
 
 
-2. "µð¹ö±ë ±â¹ý - ·Î±× Å×ÀÌºí" Àý¿¡¼­ ·Î±× Å×ÀÌºí¿¡ ·Î±×¸¦ ³²±â´Â ·çÆ¾À» SALES_DETAIL_PRC ÇÁ·Î½ÃÀú¿¡ Ãß°¡Çß´Ù.
-   ±×·±µ¥ ÀÚ¼¼È÷ º¸¸é ·Î±× Å×ÀÌºí¿¡ µ¥ÀÌÅÍ¸¦ ½×´Â ºÎºÐÀº º°µµÀÇ BEGIN ~ END Àý·Î ¹­¾î³ù´Âµ¥, ±× ÀÌÀ¯´Â ¹«¾ùÀÏ±î?
+2. "ë””ë²„ê¹… ê¸°ë²• - ë¡œê·¸ í…Œì´ë¸”" ì ˆì—ì„œ ë¡œê·¸ í…Œì´ë¸”ì— ë¡œê·¸ë¥¼ ë‚¨ê¸°ëŠ” ë£¨í‹´ì„ SALES_DETAIL_PRC í”„ë¡œì‹œì €ì— ì¶”ê°€í–ˆë‹¤.
+   ê·¸ëŸ°ë° ìžì„¸ížˆ ë³´ë©´ ë¡œê·¸ í…Œì´ë¸”ì— ë°ì´í„°ë¥¼ ìŒ“ëŠ” ë¶€ë¶„ì€ ë³„ë„ì˜ BEGIN ~ END ì ˆë¡œ ë¬¶ì–´ë†¨ëŠ”ë°, ê·¸ ì´ìœ ëŠ” ë¬´ì—‡ì¼ê¹Œ?
 
-<Á¤´ä>   
-SALES_DETAIL_PRC ÇÁ·Î½ÃÀú°¡ ¼öÇàµÇ¸é¼­ ¸¸¾à ¿À·ù°¡ ³ª¸é ¿¹¿ÜÃ³¸®ºÎ·Î Á¦¾î°¡ ¿Å°ÜÁ® ROLLBACKÀÌ µÈ´Ù. 
-±×·±µ¥ ¿À·ù°¡ ¹ß»ýÇØ ROLLBACK µÇ´õ¶óµµ ·Î±× Å×ÀÌºí¿¡´Â ¿À·ù³»¿ªÀÌ ÀÔ·ÂµÇ¾î¾ß ÇÏ±â ¶§¹®¿¡,
-º°µµÀÇ BEGIN ~END Àý·Î ¹­¾î Æ®·£Àè¼Ç Ã³¸®¸¦ µû·Î ÇÑ °ÍÀÌ´Ù. 
+<ì •ë‹µ>   
+SALES_DETAIL_PRC í”„ë¡œì‹œì €ê°€ ìˆ˜í–‰ë˜ë©´ì„œ ë§Œì•½ ì˜¤ë¥˜ê°€ ë‚˜ë©´ ì˜ˆì™¸ì²˜ë¦¬ë¶€ë¡œ ì œì–´ê°€ ì˜®ê²¨ì ¸ ROLLBACKì´ ëœë‹¤. 
+ê·¸ëŸ°ë° ì˜¤ë¥˜ê°€ ë°œìƒí•´ ROLLBACK ë˜ë”ë¼ë„ ë¡œê·¸ í…Œì´ë¸”ì—ëŠ” ì˜¤ë¥˜ë‚´ì—­ì´ ìž…ë ¥ë˜ì–´ì•¼ í•˜ê¸° ë•Œë¬¸ì—,
+ë³„ë„ì˜ BEGIN ~END ì ˆë¡œ ë¬¶ì–´ íŠ¸ëžœìž­ì…˜ ì²˜ë¦¬ë¥¼ ë”°ë¡œ í•œ ê²ƒì´ë‹¤. 
    
    
-3. ·Î±× Å×ÀÌºí¿¡ ·Î±×¸¦ ½×´Â ·çÆ¾À» ÇÏ³ªÀÇ ÇÁ·Î½ÃÀú·Î ¸¸µé¾îº¸ÀÚ. ´Ü, µ¶¸³Àû Æ®·£Àè¼Ç Ã³¸®¸¦ ÇÏµµ·Ï ÇØ¾ß ÇÑ´Ù. 
+3. ë¡œê·¸ í…Œì´ë¸”ì— ë¡œê·¸ë¥¼ ìŒ“ëŠ” ë£¨í‹´ì„ í•˜ë‚˜ì˜ í”„ë¡œì‹œì €ë¡œ ë§Œë“¤ì–´ë³´ìž. ë‹¨, ë…ë¦½ì  íŠ¸ëžœìž­ì…˜ ì²˜ë¦¬ë¥¼ í•˜ë„ë¡ í•´ì•¼ í•œë‹¤. 
 
-<Á¤´ä>   
+<ì •ë‹µ>   
 
-CREATE OR REPLACE PROCEDURE my_log_prc ( pn_log_id   NUMBER    -- ·Î±× ¾ÆÀÌµð
-                                        ,ps_prg_name VARCHAR2  -- ÇÁ·Î±×·¥¸í
-                                        ,ps_param    VARCHAR2  -- ÆÄ¶ó¹ÌÅÍ
-                                        ,ps_status   VARCHAR2  -- ±¸ºÐ(START, END, ERROR)
-                                        ,ps_desc     VARCHAR2  -- ·Î±×³»¿ë
+CREATE OR REPLACE PROCEDURE my_log_prc ( pn_log_id   NUMBER    -- ë¡œê·¸ ì•„ì´ë””
+                                        ,ps_prg_name VARCHAR2  -- í”„ë¡œê·¸ëž¨ëª…
+                                        ,ps_param    VARCHAR2  -- íŒŒë¼ë¯¸í„°
+                                        ,ps_status   VARCHAR2  -- êµ¬ë¶„(START, END, ERROR)
+                                        ,ps_desc     VARCHAR2  -- ë¡œê·¸ë‚´ìš©
                                        )
 IS
-  PRAGMA AUTONOMOUS_TRANSACTION;  -- µ¶¸³Àû Æ®·£Àè¼Ç Ã³¸®
+  PRAGMA AUTONOMOUS_TRANSACTION;  -- ë…ë¦½ì  íŠ¸ëžœìž­ì…˜ ì²˜ë¦¬
 BEGIN
-	-- ps_status, ±¸ºÐ °ª¿¡ µû¶ó Ã³¸®·çÆ¾À» ´Þ¸®ÇÑ´Ù. 
+	-- ps_status, êµ¬ë¶„ ê°’ì— ë”°ë¼ ì²˜ë¦¬ë£¨í‹´ì„ ë‹¬ë¦¬í•œë‹¤. 
 	
-  IF ps_status = 'START' THEN   -- ½ÃÀÛ·Î±×ÀÏ °æ¿ì 
+  IF ps_status = 'START' THEN   -- ì‹œìž‘ë¡œê·¸ì¼ ê²½ìš° 
   
      INSERT INTO program_log (
   	                log_id, 
@@ -55,15 +55,15 @@ BEGIN
                     'Running',
                     SYSTIMESTAMP);  
   
-  ELSIF ps_status = 'END' THEN -- Á¾·á·Î±×ÀÏ °æ¿ì 
+  ELSIF ps_status = 'END' THEN -- ì¢…ë£Œë¡œê·¸ì¼ ê²½ìš° 
   
       UPDATE program_log
          SET state    = 'Completed',
              end_time = SYSTIMESTAMP,
-             log_desc = ps_desc || 'ÀÛ¾÷Á¾·á!'
+             log_desc = ps_desc || 'ìž‘ì—…ì¢…ë£Œ!'
       WHERE log_id    = pn_log_id;
   
-  ELSIF ps_status = 'ERROR' THEN  -- ¿¡·¯·Î±×ÀÏ °æ¿ì 
+  ELSIF ps_status = 'ERROR' THEN  -- ì—ëŸ¬ë¡œê·¸ì¼ ê²½ìš° 
   
       UPDATE program_log
          SET state   = 'Error',
@@ -83,9 +83,9 @@ EXCEPTION WHEN OTHERS THEN
 END;
 
 
-4. Ãß°¡µÈ ·Î±×·çÆ¾À» Á¦°ÅÇÏ°í ´ë½Å 3¹ø¿¡¼­ ¸¸µç ¸¸µç ÇÁ·Î½ÃÀú·Î ´ëÃ¼ÇÏµµ·Ï SALES_DETAIL_PRC ÇÁ·Î½ÃÀú¸¦ ¼öÁ¤ÇØº¸ÀÚ. 
+4. ì¶”ê°€ëœ ë¡œê·¸ë£¨í‹´ì„ ì œê±°í•˜ê³  ëŒ€ì‹  3ë²ˆì—ì„œ ë§Œë“  ë§Œë“  í”„ë¡œì‹œì €ë¡œ ëŒ€ì²´í•˜ë„ë¡ SALES_DETAIL_PRC í”„ë¡œì‹œì €ë¥¼ ìˆ˜ì •í•´ë³´ìž. 
 
-<Á¤´ä>      
+<ì •ë‹µ>      
 
 CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
   
@@ -93,35 +93,35 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
                                pn_amt   IN NUMBER,
                                pn_rate  IN NUMBER   )
   IS
-     vn_total_time NUMBER := 0;     -- ¼Ò¿ä½Ã°£ °è»ê¿ë º¯¼ö 
+     vn_total_time NUMBER := 0;     -- ì†Œìš”ì‹œê°„ ê³„ì‚°ìš© ë³€ìˆ˜ 
      
-     vn_log_id       NUMBER;          -- ·Î±× ¾ÆÀÌµð 
-     vs_parameters  VARCHAR2(500);   -- ¸Å°³º¯¼ö   
-     vs_prg_log      VARCHAR2(2000);  -- ·Î±×³»¿ë
+     vn_log_id       NUMBER;          -- ë¡œê·¸ ì•„ì´ë”” 
+     vs_parameters  VARCHAR2(500);   -- ë§¤ê°œë³€ìˆ˜   
+     vs_prg_log      VARCHAR2(2000);  -- ë¡œê·¸ë‚´ìš©
   BEGIN
-    -- ¸Å°³º¯¼ö¿Í ±× °ªÀ» °¡Á®¿Â´Ù 
+    -- ë§¤ê°œë³€ìˆ˜ì™€ ê·¸ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤ 
     vs_parameters := 'ps_month => ' || ps_month || ', pn_amt => ' || pn_amt || ' , pn_rate => ' || pn_rate;
   	
-      -- ·Î±× ¾ÆÀÌµð °ª »ý¼º
+      -- ë¡œê·¸ ì•„ì´ë”” ê°’ ìƒì„±
       vn_log_id := prg_log_seq.NEXTVAL;  	    
 
-      -- ·Î±× ÇÁ·Î½ÃÀú È£Ãâ (½ÃÀÛ -> START)
+      -- ë¡œê·¸ í”„ë¡œì‹œì € í˜¸ì¶œ (ì‹œìž‘ -> START)
       my_log_prc ( vn_log_id, 'ch17_src_test_pkg.sales_detail_prc', vs_parameters, 'START', '' );                  
                                        
   	
-    --1. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ CH17_SALES_DETAIL µ¥ÀÌÅÍ »èÁ¦
+    --1. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ CH17_SALES_DETAIL ë°ì´í„° ì‚­ì œ
     vn_total_time := DBMS_UTILITY.GET_TIME;
 	      
     DELETE CH17_SALES_DETAIL
      WHERE sales_month = ps_month;
      
-    -- DELETE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- DELETE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time) / 100;
     
-    -- DELETE ·Î±× ³»¿ë ¸¸µé±â
-    vs_prg_log :=  'DELETE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time || CHR(13); 
+    -- DELETE ë¡œê·¸ ë‚´ìš© ë§Œë“¤ê¸°
+    vs_prg_log :=  'DELETE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time || CHR(13); 
      
-    --2. p_month¿¡ ÇØ´çÇÏ´Â ¿ùÀÇ CH17_SALES_DETAIL µ¥ÀÌÅÍ »ý¼º
+    --2. p_monthì— í•´ë‹¹í•˜ëŠ” ì›”ì˜ CH17_SALES_DETAIL ë°ì´í„° ìƒì„±
     vn_total_time := DBMS_UTILITY.GET_TIME;
     
     INSERT INTO CH17_SALES_DETAIL
@@ -150,13 +150,13 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
            a.sales_date,
            a.sales_month;
            
-    -- INSERT ¼Ò¿ä½Ã°£ °è»ê(ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- INSERT ì†Œìš”ì‹œê°„ ê³„ì‚°(ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time)  / 100;    
     
-    -- INSERT ·Î±× ³»¿ë ¸¸µé±â
-    vs_prg_log :=  vs_prg_log || 'INSERT °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time || CHR(13);                 
+    -- INSERT ë¡œê·¸ ë‚´ìš© ë§Œë“¤ê¸°
+    vs_prg_log :=  vs_prg_log || 'INSERT ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time || CHR(13);                 
            
-    -- 3. ÆÇ¸Å±Ý¾×(sales_amt)ÀÌ pn_amt º¸´Ù Å« °ÇÀº pn_rate ºñÀ² ¸¸Å­ ÇÒÀÎÇÑ´Ù.
+    -- 3. íŒë§¤ê¸ˆì•¡(sales_amt)ì´ pn_amt ë³´ë‹¤ í° ê±´ì€ pn_rate ë¹„ìœ¨ ë§Œí¼ í• ì¸í•œë‹¤.
     vn_total_time := DBMS_UTILITY.GET_TIME;
     
     UPDATE CH17_SALES_DETAIL
@@ -164,21 +164,21 @@ CREATE OR REPLACE PACKAGE BODY ch17_src_test_pkg IS
      WHERE sales_month = ps_month
        AND sales_amt   > pn_amt;
        
-    -- UPDATE ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ 100À¸·Î ³ª´«´Ù)
+    -- UPDATE ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ 100ìœ¼ë¡œ ë‚˜ëˆˆë‹¤)
     vn_total_time := (DBMS_UTILITY.GET_TIME - vn_total_time)  / 100; 
       
-    -- UPDATE ·Î±× ³»¿ë ¸¸µé±â
-    vs_prg_log :=  vs_prg_log || 'UPDATE °Ç¼ö : ' || SQL%ROWCOUNT || ' , ¼Ò¿ä½Ã°£: ' || vn_total_time || CHR(13);          
+    -- UPDATE ë¡œê·¸ ë‚´ìš© ë§Œë“¤ê¸°
+    vs_prg_log :=  vs_prg_log || 'UPDATE ê±´ìˆ˜ : ' || SQL%ROWCOUNT || ' , ì†Œìš”ì‹œê°„: ' || vn_total_time || CHR(13);          
 
     COMMIT; 
     
-    -- ·Î±× ÇÁ·Î½ÃÀú È£Ãâ (Á¾·á -> END)
+    -- ë¡œê·¸ í”„ë¡œì‹œì € í˜¸ì¶œ (ì¢…ë£Œ -> END)
     my_log_prc ( vn_log_id, '', '', 'END', vs_prg_log);                   
     
     
   EXCEPTION WHEN OTHERS THEN
   
-    -- ·Î±× ÇÁ·Î½ÃÀú È£Ãâ (¿À·ù -> ERROR)
+    -- ë¡œê·¸ í”„ë¡œì‹œì € í˜¸ì¶œ (ì˜¤ë¥˜ -> ERROR)
     my_log_prc ( vn_log_id, '', '', 'ERROR', vs_prg_log);  
                  
         ROLLBACK;   

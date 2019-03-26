@@ -193,7 +193,7 @@ TRUNCATE TABLE ex3_4;
 
 
 
--- �ǻ��÷�
+-- 의사컬럼
 SELECT ROWNUM, employee_id
   FROM employees;
 
@@ -206,21 +206,21 @@ FROM employees
 WHERE ROWNUM < 5;
 
 
--- ������
+-- 연산자
 SELECT employee_id || '-' || emp_name AS employee_info
   FROM employees
  WHERE ROWNUM < 5;
  
--- ǥ����
+-- 표현식
  SELECT employee_id, salary, 
-         CASE WHEN salary <= 5000 THEN 'C���'
-            WHEN salary > 5000 AND salary <= 15000 THEN 'B���'
-            ELSE 'A���'
+         CASE WHEN salary <= 5000 THEN 'C등급'
+            WHEN salary > 5000 AND salary <= 15000 THEN 'B등급'
+            ELSE 'A등급'
        END AS salary_grade
   FROM employees;
   
--- ���ǽ�
--- �����ǽ�
+-- 조건식
+-- 비교조건식
 
 SELECT employee_id, salary 
   FROM employees
@@ -244,19 +244,19 @@ SELECT employee_id, salary
 WHERE salary = SOME (2000, 3000, 4000)
 ORDER BY employee_id;
 
--- �������ǽ�
+-- 논리조건식
 SELECT employee_id, salary 
   FROM employees
 WHERE NOT ( salary >= 2500)
 ORDER BY employee_id;
 
--- BETWEEN AND ���ǽ�
+-- BETWEEN AND 조건식
 SELECT employee_id, salary 
   FROM employees
 WHERE salary BETWEEN 2000 AND 2500
 ORDER BY employee_id;
 
--- IN ���ǽ�
+-- IN 조건식
 SELECT employee_id, salary 
   FROM employees
 WHERE salary IN (2000, 3000, 4000)
@@ -268,7 +268,7 @@ WHERE salary NOT IN (2000, 3000, 4000)
 ORDER BY employee_id;
 
 
--- EXISTS ���ǽ�
+-- EXISTS 조건식
 SELECT department_id, department_name
   FROM departments a
  WHERE EXISTS ( SELECT * 
@@ -277,7 +277,7 @@ SELECT department_id, department_name
                   AND b.salary > 3000)
 ORDER BY a.department_name;
 
--- LIKE ���ǽ�
+-- LIKE 조건식
 SELECT emp_name
   FROM employees
  WHERE emp_name LIKE 'A%'
@@ -292,19 +292,19 @@ CREATE TABLE ex3_5 (
      names VARCHAR2(30));
      
    
-INSERT INTO ex3_5 VALUES ('ȫ�浿');
+INSERT INTO ex3_5 VALUES ('홍길동');
 
-INSERT INTO ex3_5 VALUES ('ȫ���');
+INSERT INTO ex3_5 VALUES ('홍길용');
 
-INSERT INTO ex3_5 VALUES ('ȫ���');
+INSERT INTO ex3_5 VALUES ('홍길상');
 
-INSERT INTO ex3_5 VALUES ('ȫ���');
+INSERT INTO ex3_5 VALUES ('홍길상동');
 
 
 SELECT *
   FROM ex3_5
- WHERE names LIKE 'ȫ��%';
+ WHERE names LIKE '홍길%';
  
  SELECT *
   FROM ex3_5
- WHERE names LIKE 'ȫ��_'; 
+ WHERE names LIKE '홍길_'; 

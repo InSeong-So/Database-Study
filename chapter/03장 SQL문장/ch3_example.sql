@@ -1,8 +1,8 @@
 
-1. ex3_6¶õ Å×ÀÌºíÀ» ¸¸µé°í, »ç¿øÅ×ÀÌºí(employees)¿¡¼­ °ü¸®ÀÚ»ç¹øÀÌ 124¹øÀÌ°í ±Þ¿©°¡ 2000¿¡¼­ 3000 »çÀÌ¿¡ ÀÖ´Â »ç¿øÀÇ »ç¹ø, »ç¿ø¸í, ±Þ¿©, °ü¸®ÀÚ»ç¹øÀ» ÀÔ·ÂÇÏ´Â
-   INSERT¹®À» ÀÛ¼ºÇØº¸ÀÚ.
+1. ex3_6ëž€ í…Œì´ë¸”ì„ ë§Œë“¤ê³ , ì‚¬ì›í…Œì´ë¸”(employees)ì—ì„œ ê´€ë¦¬ìžì‚¬ë²ˆì´ 124ë²ˆì´ê³  ê¸‰ì—¬ê°€ 2000ì—ì„œ 3000 ì‚¬ì´ì— ìžˆëŠ” ì‚¬ì›ì˜ ì‚¬ë²ˆ, ì‚¬ì›ëª…, ê¸‰ì—¬, ê´€ë¦¬ìžì‚¬ë²ˆì„ ìž…ë ¥í•˜ëŠ”
+   INSERTë¬¸ì„ ìž‘ì„±í•´ë³´ìž.
    
-   <Á¤´ä>
+   <ì •ë‹µ>
    CREATE TABLE ex3_6 ( 
           employee_id  NUMBER(6),
           emp_name     VARCHAR2(80),
@@ -15,7 +15,7 @@
     WHERE a.manager_id = 124
       AND a.salary BETWEEN 2000 AND 3000;
 
-2. ´ÙÀ½ ¹®ÀåÀ» ½ÇÇàÇØº¸ÀÚ. 
+2. ë‹¤ìŒ ë¬¸ìž¥ì„ ì‹¤í–‰í•´ë³´ìž. 
 DELETE ex3_3;
 
 INSERT INTO ex3_3 (employee_id)
@@ -27,10 +27,10 @@ SELECT e.employee_id
  
 COMMIT;
 
-°ü¸®ÀÚ»ç¹ø(manager_id)ÀÌ 145¹øÀÎ »ç¿øÀ» Ã£¾Æ À§ Å×ÀÌºí¿¡ ÀÖ´Â »ç¿øÀÇ »ç¹ø°ú ÀÏÄ¡ÇÏ¸é º¸³Ê½º ±Ý¾×(bonus_amt)¿¡ ÀÚ½ÅÀÇ ±Þ¿©ÀÇ 1%¸¦ º¸³Ê½º·Î °»½ÅÇÏ°í, 
-ex3_3 Å×ÀÌºí¿¡ ÀÖ´Â »ç¿øÀÇ »ç¹ø°ú ÀÏÄ¡ÇÏÁö ¾Ê´Â »ç¿øÀ» ½Å±Ô ÀÔ·Â (ÀÌ¶§ º¸³Ê½º ±Ý¾×Àº ±Þ¿©ÀÇ 0.5%·Î ÇÑ´Ù) ÇÏ´Â MERGE ¹®À» ÀÛ¼ºÇØ º¸ÀÚ.
+ê´€ë¦¬ìžì‚¬ë²ˆ(manager_id)ì´ 145ë²ˆì¸ ì‚¬ì›ì„ ì°¾ì•„ ìœ„ í…Œì´ë¸”ì— ìžˆëŠ” ì‚¬ì›ì˜ ì‚¬ë²ˆê³¼ ì¼ì¹˜í•˜ë©´ ë³´ë„ˆìŠ¤ ê¸ˆì•¡(bonus_amt)ì— ìžì‹ ì˜ ê¸‰ì—¬ì˜ 1%ë¥¼ ë³´ë„ˆìŠ¤ë¡œ ê°±ì‹ í•˜ê³ , 
+ex3_3 í…Œì´ë¸”ì— ìžˆëŠ” ì‚¬ì›ì˜ ì‚¬ë²ˆê³¼ ì¼ì¹˜í•˜ì§€ ì•ŠëŠ” ì‚¬ì›ì„ ì‹ ê·œ ìž…ë ¥ (ì´ë•Œ ë³´ë„ˆìŠ¤ ê¸ˆì•¡ì€ ê¸‰ì—¬ì˜ 0.5%ë¡œ í•œë‹¤) í•˜ëŠ” MERGE ë¬¸ì„ ìž‘ì„±í•´ ë³´ìž.
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 MERGE INTO ex3_3 d
      USING (SELECT employee_id, salary, manager_id
@@ -43,9 +43,9 @@ MERGE INTO ex3_3 d
       INSERT (d.employee_id, d.bonus_amt) VALUES (b.employee_id, b.salary *.005) ;
 
 
-3. »ç¿øÅ×ÀÌºí(employees)¿¡¼­ Ä¿¹Ì¼Ç(commission_pct) °ªÀÌ ¾ø´Â »ç¿øÀÇ »ç¹ø°ú »ç¿ø¸íÀ» ÃßÃâÇÏ´Â Äõ¸®¸¦ ÀÛ¼ºÇØº¸ÀÚ.
+3. ì‚¬ì›í…Œì´ë¸”(employees)ì—ì„œ ì»¤ë¯¸ì…˜(commission_pct) ê°’ì´ ì—†ëŠ” ì‚¬ì›ì˜ ì‚¬ë²ˆê³¼ ì‚¬ì›ëª…ì„ ì¶”ì¶œí•˜ëŠ” ì¿¼ë¦¬ë¥¼ ìž‘ì„±í•´ë³´ìž.
 
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT employee_id, emp_name
   FROM employees
 WHERE commission_pct IS NULL
@@ -53,14 +53,14 @@ ORDER BY employee_id;
 
 
 
-4. ¾Æ·¡ÀÇ Äõ¸®¸¦ ³í¸®¿¬»êÀÚ·Î º¯È¯ÇØº¸ÀÚ. 
+4. ì•„ëž˜ì˜ ì¿¼ë¦¬ë¥¼ ë…¼ë¦¬ì—°ì‚°ìžë¡œ ë³€í™˜í•´ë³´ìž. 
 
 SELECT employee_id, salary 
   FROM employees
 WHERE salary BETWEEN 2000 AND 2500
 ORDER BY employee_id;
 
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT employee_id, salary 
   FROM employees
 WHERE salary >= 2000 
@@ -68,14 +68,14 @@ WHERE salary >= 2000
 ORDER BY employee_id;
 
 
-5. ´ÙÀ½ÀÇ µÎ Äõ¸®¸¦ ANY, ALLÀ» »ç¿ëÇØ¼­ µ¿ÀÏÇÑ °á°ú¸¦ ÃßÃâÇÏµµ·Ï º¯°æÇØº¸ÀÚ.
+5. ë‹¤ìŒì˜ ë‘ ì¿¼ë¦¬ë¥¼ ANY, ALLì„ ì‚¬ìš©í•´ì„œ ë™ì¼í•œ ê²°ê³¼ë¥¼ ì¶”ì¶œí•˜ë„ë¡ ë³€ê²½í•´ë³´ìž.
 
 SELECT employee_id, salary 
   FROM employees
 WHERE salary IN (2000, 3000, 4000)
 ORDER BY employee_id;
 
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT employee_id, salary 
   FROM employees
 WHERE salary = ANY (2000, 3000, 4000)
@@ -87,7 +87,7 @@ SELECT employee_id, salary
 WHERE salary NOT IN (2000, 3000, 4000)
 ORDER BY employee_id;
 
-<Á¤´ä>
+<ì •ë‹µ>
 SELECT employee_id, salary 
   FROM employees
 WHERE salary <> ALL (2000, 3000, 4000)

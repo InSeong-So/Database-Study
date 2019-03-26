@@ -1,13 +1,13 @@
--- 18Àå. ÇÁ·Î½ÃÀú·Î ÀÌ¸ÞÀÏÀ» º¸³»ÀÚ
+-- 18ìž¥. í”„ë¡œì‹œì €ë¡œ ì´ë©”ì¼ì„ ë³´ë‚´ìž
 
--- 01.»çÀü ÁØºñ»çÇ×
+-- 01.ì‚¬ì „ ì¤€ë¹„ì‚¬í•­
 
 BEGIN
 
 DBMS_NETWORK_ACL_ADMIN.CREATE_ACL ( 
           acl => 'my_mail.xml', 
-          description => '¸ÞÀÏÀü¼Û¿ë ACL',
-          principal => 'ORA_USER',  -- ORA_USER¶õ »ç¿ëÀÚ¿¡°Ô ±ÇÇÑ ÇÒ´ç
+          description => 'ë©”ì¼ì „ì†¡ìš© ACL',
+          principal => 'ORA_USER',  -- ORA_USERëž€ ì‚¬ìš©ìžì—ê²Œ ê¶Œí•œ í• ë‹¹
           is_grant => true,
           privilege => 'connect');
 
@@ -19,7 +19,7 @@ BEGIN
 
 DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE ( 
           acl => 'my_mail.xml', 
-          principal => 'ORA_USER',  -- ORA_USER¶õ »ç¿ëÀÚ¿¡°Ô ±ÇÇÑ ÇÒ´ç
+          principal => 'ORA_USER',  -- ORA_USERëž€ ì‚¬ìš©ìžì—ê²Œ ê¶Œí•œ í• ë‹¹
           is_grant => true,
           privilege => 'resolve');
 
@@ -31,7 +31,7 @@ BEGIN
 
 DBMS_NETWORK_ACL_ADMIN.ASSIGN_ACL ( 
           acl => 'my_mail.xml', 
-          host => 'localhost',  -- È£½ºÆ®¸í
+          host => 'localhost',  -- í˜¸ìŠ¤íŠ¸ëª…
           lower_port => 25 );
 
   COMMIT;
@@ -48,16 +48,16 @@ BEGIN
 END;
 
 
--- 02. UTL_SMTP¸¦ ÀÌ¿ëÇÑ ¸ÞÀÏ Àü¼Û
--- ¨ç °£´ÜÇÑ ¸ÞÀÏ Àü¼Û
+-- 02. UTL_SMTPë¥¼ ì´ìš©í•œ ë©”ì¼ ì „ì†¡
+-- â‘  ê°„ë‹¨í•œ ë©”ì¼ ì „ì†¡
 
 DECLARE
-  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ¼­¹ö¸í
-  vn_port    NUMBER := 25;                -- Æ÷Æ®¹øÈ£
+  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ì„œë²„ëª…
+  vn_port    NUMBER := 25;                -- í¬íŠ¸ë²ˆí˜¸
   vv_domain  VARCHAR2(30) := 'hong.com';
   
-  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- º¸³»´Â ÁÖ¼Ò
-  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ¹Þ´Â ÁÖ¼Ò 
+  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- ë³´ë‚´ëŠ” ì£¼ì†Œ
+  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ë°›ëŠ” ì£¼ì†Œ 
   
   c utl_smtp.connection;
 
@@ -67,21 +67,21 @@ BEGIN
 
   UTL_SMTP.HELO(c, vv_domain); -- HELO
   
-  UTL_SMTP.MAIL(c, vv_from);   -- º¸³»´Â»ç¶÷
-  UTL_SMTP.RCPT(c, vv_to);     -- ¹Þ´Â»ç¶÷  
+  UTL_SMTP.MAIL(c, vv_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.RCPT(c, vv_to);     -- ë°›ëŠ”ì‚¬ëžŒ  
    
-  UTL_SMTP.OPEN_DATA(c); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
-  -- °¢ ¸Þ½ÃÁö´Â <CR><LF>·Î ºÐ¸®ÇÑ´Ù. ÀÌ´Â UTL_TCP.CRLF ÇÔ¼ö¸¦ ÀÌ¿ëÇÑ´Ù. 
+  UTL_SMTP.OPEN_DATA(c); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
+  -- ê° ë©”ì‹œì§€ëŠ” <CR><LF>ë¡œ ë¶„ë¦¬í•œë‹¤. ì´ëŠ” UTL_TCP.CRLF í•¨ìˆ˜ë¥¼ ì´ìš©í•œë‹¤. 
   
-  UTL_SMTP.WRITE_DATA(c,'From: ' || '"hong2" <charieh@hong.com>' || UTL_TCP.CRLF ); -- º¸³»´Â»ç¶÷
-  UTL_SMTP.WRITE_DATA(c,'To: ' || '"hong1" <charieh@hong.com>' || UTL_TCP.CRLF );   -- ¹Þ´Â»ç¶÷
-  UTL_SMTP.WRITE_DATA(c,'Subject: Test' || UTL_TCP.CRLF );                          -- Á¦¸ñ
-  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- ÇÑ ÁÙ ¶ç¿ì±â
-  UTL_SMTP.WRITE_DATA(c,'THIS IS SMTP_TEST1 ' || UTL_TCP.CRLF );                    -- º»¹® 
+  UTL_SMTP.WRITE_DATA(c,'From: ' || '"hong2" <charieh@hong.com>' || UTL_TCP.CRLF ); -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_DATA(c,'To: ' || '"hong1" <charieh@hong.com>' || UTL_TCP.CRLF );   -- ë°›ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_DATA(c,'Subject: Test' || UTL_TCP.CRLF );                          -- ì œëª©
+  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- í•œ ì¤„ ë„ìš°ê¸°
+  UTL_SMTP.WRITE_DATA(c,'THIS IS SMTP_TEST1 ' || UTL_TCP.CRLF );                    -- ë³¸ë¬¸ 
   
-  UTL_SMTP.CLOSE_DATA(c); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á
+  UTL_SMTP.CLOSE_DATA(c); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ
   
-  -- Á¾·á
+  -- ì¢…ë£Œ
   UTL_SMTP.QUIT(c);
 
 
@@ -102,16 +102,16 @@ EXCEPTION
      UTL_SMTP.QUIT(c);
 END;
 
--- ¨è ÇÑ±Û ¸ÞÀÏ Àü¼Û
+-- â‘¡ í•œê¸€ ë©”ì¼ ì „ì†¡
 
--- ÇÑ±ÛÀÌ ±úÁö´Â °æ¿ì 
+-- í•œê¸€ì´ ê¹¨ì§€ëŠ” ê²½ìš° 
 DECLARE
-  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ¼­¹ö¸í
-  vn_port    NUMBER := 25;                -- Æ÷Æ®¹øÈ£
+  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ì„œë²„ëª…
+  vn_port    NUMBER := 25;                -- í¬íŠ¸ë²ˆí˜¸
   vv_domain  VARCHAR2(30) := 'hong.com';
   
-  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- º¸³»´Â ÁÖ¼Ò
-  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ¹Þ´Â ÁÖ¼Ò 
+  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- ë³´ë‚´ëŠ” ì£¼ì†Œ
+  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ë°›ëŠ” ì£¼ì†Œ 
   
   c utl_smtp.connection;
 
@@ -121,21 +121,21 @@ BEGIN
 
   UTL_SMTP.HELO(c, vv_domain); -- HELO
   
-  UTL_SMTP.MAIL(c, vv_from);   -- º¸³»´Â»ç¶÷
-  UTL_SMTP.RCPT(c, vv_to);     -- ¹Þ´Â»ç¶÷  
+  UTL_SMTP.MAIL(c, vv_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.RCPT(c, vv_to);     -- ë°›ëŠ”ì‚¬ëžŒ  
    
-  UTL_SMTP.OPEN_DATA(c); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
-  -- °¢ ¸Þ½ÃÁö´Â <CR><LF>·Î ºÐ¸®ÇÑ´Ù. ÀÌ´Â UTL_TCP.CRLF ÇÔ¼ö¸¦ ÀÌ¿ëÇÑ´Ù. 
+  UTL_SMTP.OPEN_DATA(c); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
+  -- ê° ë©”ì‹œì§€ëŠ” <CR><LF>ë¡œ ë¶„ë¦¬í•œë‹¤. ì´ëŠ” UTL_TCP.CRLF í•¨ìˆ˜ë¥¼ ì´ìš©í•œë‹¤. 
   
-  UTL_SMTP.WRITE_DATA(c,'From: ' || '"hong2" <charieh@hong.com>' || UTL_TCP.CRLF ); -- º¸³»´Â»ç¶÷
-  UTL_SMTP.WRITE_DATA(c,'To: ' || '"hong1" <charieh@hong.com>' || UTL_TCP.CRLF );   -- ¹Þ´Â»ç¶÷
-  UTL_SMTP.WRITE_DATA(c,'Subject: Test' || UTL_TCP.CRLF );                          -- Á¦¸ñ
-  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- ÇÑ ÁÙ ¶ç¿ì±â
-  UTL_SMTP.WRITE_DATA(c,'ÇÑ±Û ¸ÞÀÏ Å×½ºÆ®' || UTL_TCP.CRLF );                       -- º»¹®À» ÇÑ±Û·Î...
+  UTL_SMTP.WRITE_DATA(c,'From: ' || '"hong2" <charieh@hong.com>' || UTL_TCP.CRLF ); -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_DATA(c,'To: ' || '"hong1" <charieh@hong.com>' || UTL_TCP.CRLF );   -- ë°›ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_DATA(c,'Subject: Test' || UTL_TCP.CRLF );                          -- ì œëª©
+  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- í•œ ì¤„ ë„ìš°ê¸°
+  UTL_SMTP.WRITE_DATA(c,'í•œê¸€ ë©”ì¼ í…ŒìŠ¤íŠ¸' || UTL_TCP.CRLF );                       -- ë³¸ë¬¸ì„ í•œê¸€ë¡œ...
   
-  UTL_SMTP.CLOSE_DATA(c); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á
+  UTL_SMTP.CLOSE_DATA(c); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ
   
-  -- Á¾·á
+  -- ì¢…ë£Œ
   UTL_SMTP.QUIT(c);
 
 
@@ -156,14 +156,14 @@ EXCEPTION
      UTL_SMTP.QUIT(c);
 END;
 
--- ÇÑ±Û ±úÁüÀ» ¾ø¾Ö±â À§ÇØ WRITE_RAW_DATA¸¦ »ç¿ëÇÑ´Ù. 
+-- í•œê¸€ ê¹¨ì§ì„ ì—†ì• ê¸° ìœ„í•´ WRITE_RAW_DATAë¥¼ ì‚¬ìš©í•œë‹¤. 
 DECLARE
-  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ¼­¹ö¸í
-  vn_port    NUMBER := 25;                -- Æ÷Æ®¹øÈ£
+  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ì„œë²„ëª…
+  vn_port    NUMBER := 25;                -- í¬íŠ¸ë²ˆí˜¸
   vv_domain  VARCHAR2(30) := 'hong.com';
   
-  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- º¸³»´Â ÁÖ¼Ò
-  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ¹Þ´Â ÁÖ¼Ò 
+  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- ë³´ë‚´ëŠ” ì£¼ì†Œ
+  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ë°›ëŠ” ì£¼ì†Œ 
   
   c utl_smtp.connection;
 
@@ -173,22 +173,22 @@ BEGIN
 
   UTL_SMTP.HELO(c, vv_domain); -- HELO
   
-  UTL_SMTP.MAIL(c, vv_from);   -- º¸³»´Â»ç¶÷
-  UTL_SMTP.RCPT(c, vv_to);     -- ¹Þ´Â»ç¶÷  
+  UTL_SMTP.MAIL(c, vv_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.RCPT(c, vv_to);     -- ë°›ëŠ”ì‚¬ëžŒ  
    
-  UTL_SMTP.OPEN_DATA(c); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
-  -- °¢ ¸Þ½ÃÁö´Â <CR><LF>·Î ºÐ¸®ÇÑ´Ù. ÀÌ´Â UTL_TCP.CRLF ÇÔ¼ö¸¦ ÀÌ¿ëÇÑ´Ù. 
+  UTL_SMTP.OPEN_DATA(c); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
+  -- ê° ë©”ì‹œì§€ëŠ” <CR><LF>ë¡œ ë¶„ë¦¬í•œë‹¤. ì´ëŠ” UTL_TCP.CRLF í•¨ìˆ˜ë¥¼ ì´ìš©í•œë‹¤. 
   
-  UTL_SMTP.WRITE_DATA(c,'From: ' || '"hong2" <charieh@hong.com>' || UTL_TCP.CRLF ); -- º¸³»´Â»ç¶÷
-  UTL_SMTP.WRITE_DATA(c,'To: ' || '"hong1" <charieh@hong.com>' || UTL_TCP.CRLF );   -- ¹Þ´Â»ç¶÷
-  UTL_SMTP.WRITE_DATA(c,'Subject: Test' || UTL_TCP.CRLF );                          -- Á¦¸ñ
-  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- ÇÑ ÁÙ ¶ç¿ì±â
-  -- º»¹®À» ÇÑ±Û·Î ÀÛ¼ºÇÏ°í, ÀÌ¸¦ RAW Å¸ÀÔÀ¸·Î º¯È¯ÇÑ´Ù. 
-  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('ÇÑ±Û ¸ÞÀÏ Å×½ºÆ®' || UTL_TCP.CRLF)  );
+  UTL_SMTP.WRITE_DATA(c,'From: ' || '"hong2" <charieh@hong.com>' || UTL_TCP.CRLF ); -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_DATA(c,'To: ' || '"hong1" <charieh@hong.com>' || UTL_TCP.CRLF );   -- ë°›ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_DATA(c,'Subject: Test' || UTL_TCP.CRLF );                          -- ì œëª©
+  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- í•œ ì¤„ ë„ìš°ê¸°
+  -- ë³¸ë¬¸ì„ í•œê¸€ë¡œ ìž‘ì„±í•˜ê³ , ì´ë¥¼ RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
+  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('í•œê¸€ ë©”ì¼ í…ŒìŠ¤íŠ¸' || UTL_TCP.CRLF)  );
   
-  UTL_SMTP.CLOSE_DATA(c); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á
+  UTL_SMTP.CLOSE_DATA(c); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ
   
-  -- Á¾·á
+  -- ì¢…ë£Œ
   UTL_SMTP.QUIT(c);
 
 
@@ -210,14 +210,14 @@ EXCEPTION
 END;
 
 
--- º¸³»´Â»ç¶÷, ¹Þ´Â»ç¶÷, Á¦¸ñ, º»¹® ÀüÃ¼¸¦ ÇÑ±Û·Î ÇÑ´Ù. 
+-- ë³´ë‚´ëŠ”ì‚¬ëžŒ, ë°›ëŠ”ì‚¬ëžŒ, ì œëª©, ë³¸ë¬¸ ì „ì²´ë¥¼ í•œê¸€ë¡œ í•œë‹¤. 
 DECLARE
-  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ¼­¹ö¸í
-  vn_port    NUMBER := 25;                -- Æ÷Æ®¹øÈ£
+  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ì„œë²„ëª…
+  vn_port    NUMBER := 25;                -- í¬íŠ¸ë²ˆí˜¸
   vv_domain  VARCHAR2(30) := 'hong.com';
   
-  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- º¸³»´Â ÁÖ¼Ò
-  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ¹Þ´Â ÁÖ¼Ò 
+  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- ë³´ë‚´ëŠ” ì£¼ì†Œ
+  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ë°›ëŠ” ì£¼ì†Œ 
   vv_text    VARCHAR2(300);
   
   c utl_smtp.connection;
@@ -228,24 +228,24 @@ BEGIN
 
   UTL_SMTP.HELO(c, vv_domain); -- HELO
   
-  UTL_SMTP.MAIL(c, vv_from);   -- º¸³»´Â»ç¶÷
-  UTL_SMTP.RCPT(c, vv_to);     -- ¹Þ´Â»ç¶÷  
+  UTL_SMTP.MAIL(c, vv_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.RCPT(c, vv_to);     -- ë°›ëŠ”ì‚¬ëžŒ  
    
-  UTL_SMTP.OPEN_DATA(c); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
+  UTL_SMTP.OPEN_DATA(c); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
   
-  vv_text := 'From: ' || '"È«±æµ¿" <charieh@hong.com>' || UTL_TCP.CRLF;            -- º¸³»´Â»ç¶÷
-  vv_text :=  vv_text || 'To: ' || '"È«±æµ¿" <charieh@hong.com>' || UTL_TCP.CRLF;  -- ¹Þ´Â »ç¶÷
-  vv_text :=  vv_text || 'Subject: ÇÑ±ÛÁ¦¸ñ' || UTL_TCP.CRLF;                         -- Á¦¸ñ
-  vv_text :=  vv_text || UTL_TCP.CRLF;                                            -- ÇÑ ÁÙ ¶ç¿ì±â
-  vv_text :=  vv_text || 'ÇÑ±Û ¸ÞÀÏ Å×½ºÆ®' || UTL_TCP.CRLF;                      -- ¸ÞÀÏº»¹®
+  vv_text := 'From: ' || '"í™ê¸¸ë™" <charieh@hong.com>' || UTL_TCP.CRLF;            -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  vv_text :=  vv_text || 'To: ' || '"í™ê¸¸ë™" <charieh@hong.com>' || UTL_TCP.CRLF;  -- ë°›ëŠ” ì‚¬ëžŒ
+  vv_text :=  vv_text || 'Subject: í•œê¸€ì œëª©' || UTL_TCP.CRLF;                         -- ì œëª©
+  vv_text :=  vv_text || UTL_TCP.CRLF;                                            -- í•œ ì¤„ ë„ìš°ê¸°
+  vv_text :=  vv_text || 'í•œê¸€ ë©”ì¼ í…ŒìŠ¤íŠ¸' || UTL_TCP.CRLF;                      -- ë©”ì¼ë³¸ë¬¸
     
 
-  -- º»¹® ÀüÃ¼¸¦ ÇÑ¹ø¿¡ RAW Å¸ÀÔÀ¸·Î º¯È¯ ÈÄ ¸ÞÀÏ³»¿ë ÀÛ¼º 
+  -- ë³¸ë¬¸ ì „ì²´ë¥¼ í•œë²ˆì— RAW íƒ€ìž…ìœ¼ë¡œ ë³€í™˜ í›„ ë©”ì¼ë‚´ìš© ìž‘ì„± 
   UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW(vv_text)  ); 
   
-  UTL_SMTP.CLOSE_DATA(c); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á
+  UTL_SMTP.CLOSE_DATA(c); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ
   
-  -- Á¾·á
+  -- ì¢…ë£Œ
   UTL_SMTP.QUIT(c);
 
 
@@ -267,48 +267,48 @@ EXCEPTION
 END;
 
 
--- (3) HTML ¸ÞÀÏ º¸³»±â
+-- (3) HTML ë©”ì¼ ë³´ë‚´ê¸°
 DECLARE
-  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ¼­¹ö¸í
-  vn_port    NUMBER := 25;                -- Æ÷Æ®¹øÈ£
+  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ì„œë²„ëª…
+  vn_port    NUMBER := 25;                -- í¬íŠ¸ë²ˆí˜¸
   vv_domain  VARCHAR2(30) := 'hong.com';  
-  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- º¸³»´Â ÁÖ¼Ò
-  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ¹Þ´Â ÁÖ¼Ò 
+  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- ë³´ë‚´ëŠ” ì£¼ì†Œ
+  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ë°›ëŠ” ì£¼ì†Œ 
   
   c utl_smtp.connection;
-  vv_html    VARCHAR2(200); -- HTML ¸Þ½ÃÁö¸¦ ´ãÀ» º¯¼ö
+  vv_html    VARCHAR2(200); -- HTML ë©”ì‹œì§€ë¥¼ ë‹´ì„ ë³€ìˆ˜
 BEGIN
   c := UTL_SMTP.OPEN_CONNECTION(vv_host, vn_port);
 
   UTL_SMTP.HELO(c, vv_domain); -- HELO  
-  UTL_SMTP.MAIL(c, vv_from);   -- º¸³»´Â»ç¶÷
-  UTL_SMTP.RCPT(c, vv_to);     -- ¹Þ´Â»ç¶÷  
+  UTL_SMTP.MAIL(c, vv_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.RCPT(c, vv_to);     -- ë°›ëŠ”ì‚¬ëžŒ  
    
-  UTL_SMTP.OPEN_DATA(c); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
-  UTL_SMTP.WRITE_DATA(c,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ¹öÀü
-  -- Content-Type: HTML Çü½Ä, ÇÑ±ÛÀ» »ç¿ëÇÏ¹Ç·Î ¹®ÀÚ¼ÂÀº euc-kr
+  UTL_SMTP.OPEN_DATA(c); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
+  UTL_SMTP.WRITE_DATA(c,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ë²„ì „
+  -- Content-Type: HTML í˜•ì‹, í•œê¸€ì„ ì‚¬ìš©í•˜ë¯€ë¡œ ë¬¸ìžì…‹ì€ euc-kr
   UTL_SMTP.WRITE_DATA(c,'Content-Type: text/html; charset="euc-kr"' || UTL_TCP.CRLF ); 
   
-  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('From: ' || '"È«±æµ¿" <charieh@hong.com>' || UTL_TCP.CRLF) ); -- º¸³»´Â»ç¶÷
-  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('To: ' || '"È«±æµ¿" <charieh@hong.com>' || UTL_TCP.CRLF) );   -- ¹Þ´Â»ç¶÷
-  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('Subject: HTML Å×½ºÆ® ¸ÞÀÏ' || UTL_TCP.CRLF) );               -- Á¦¸ñ
-  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- ÇÑ ÁÙ ¶ç¿ì±â
+  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('From: ' || '"í™ê¸¸ë™" <charieh@hong.com>' || UTL_TCP.CRLF) ); -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('To: ' || '"í™ê¸¸ë™" <charieh@hong.com>' || UTL_TCP.CRLF) );   -- ë°›ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('Subject: HTML í…ŒìŠ¤íŠ¸ ë©”ì¼' || UTL_TCP.CRLF) );               -- ì œëª©
+  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- í•œ ì¤„ ë„ìš°ê¸°
   
-  -- HTML º»¹®À» ÀÛ¼º
+  -- HTML ë³¸ë¬¸ì„ ìž‘ì„±
   vv_html := '<HEAD>
-   <TITLE>HTML Å×½ºÆ®</TITLE>
+   <TITLE>HTML í…ŒìŠ¤íŠ¸</TITLE>
  </HEAD>
  <BDOY>
-    <p>ÀÌ ¸ÞÀÏÀº <b>HTML</b> <i>¹öÀü</i> À¸·Î </p>
-    <p>ÀÛ¼ºµÈ <strong>¸ÞÀÏ</strong>ÀÔ´Ï´Ù. </p>
+    <p>ì´ ë©”ì¼ì€ <b>HTML</b> <i>ë²„ì „</i> ìœ¼ë¡œ </p>
+    <p>ìž‘ì„±ëœ <strong>ë©”ì¼</strong>ìž…ë‹ˆë‹¤. </p>
  </BODY>
 </HTML>';
 
-  -- ¸ÞÀÏ º»¹® 
+  -- ë©”ì¼ ë³¸ë¬¸ 
   UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW(vv_html || UTL_TCP.CRLF)  );
   
-  UTL_SMTP.CLOSE_DATA(c); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á  
-  UTL_SMTP.QUIT(c);       -- ¸ÞÀÏ ¼¼¼Ç Á¾·á
+  UTL_SMTP.CLOSE_DATA(c); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ  
+  UTL_SMTP.QUIT(c);       -- ë©”ì¼ ì„¸ì…˜ ì¢…ë£Œ
 
 EXCEPTION 
   WHEN UTL_SMTP.INVALID_OPERATION THEN
@@ -328,40 +328,40 @@ EXCEPTION
 END;
 
 
---(4) Ã·ºÎÆÄÀÏ º¸³»±â
---¨ç ÆÄÀÏ Ã³¸®
+--(4) ì²¨ë¶€íŒŒì¼ ë³´ë‚´ê¸°
+--â‘  íŒŒì¼ ì²˜ë¦¬
 
--- Directory °´Ã¼ »ý¼º
+-- Directory ê°ì²´ ìƒì„±
 CREATE OR REPLACE DIRECTORY SMTP_FILE AS 'C:\ch18_file';
 
--- ¨è UTL_FILE ÆÐÅ°Áö
+-- â‘¡ UTL_FILE íŒ¨í‚¤ì§€
 
 CREATE OR REPLACE FUNCTION fn_get_raw_file ( p_dir   VARCHAR2,
                                              p_file  VARCHAR2)
     RETURN RAW
 IS
     vf_buffer RAW(32767);
-    vf_raw    RAW(32767); --¹ÝÈ¯ÇÒ ÆÄÀÏ 
+    vf_raw    RAW(32767); --ë°˜í™˜í•  íŒŒì¼ 
     
     vf_type  UTL_FILE.FILE_TYPE;
 BEGIN
-	  -- ÆÄÀÏÀ» ¹ÙÀÌÆ®¸ðµå·Î ÀÐ´Â´Ù. 
-	  -- p_dir : µð·ºÅä¸®¸í, p_file : ÆÄÀÏ¸í, rb: ¹ÙÀÌÆ®¸ðµå·Î ÀÐ±â
+	  -- íŒŒì¼ì„ ë°”ì´íŠ¸ëª¨ë“œë¡œ ì½ëŠ”ë‹¤. 
+	  -- p_dir : ë””ë ‰í† ë¦¬ëª…, p_file : íŒŒì¼ëª…, rb: ë°”ì´íŠ¸ëª¨ë“œë¡œ ì½ê¸°
 	  vf_type := UTL_FILE.FOPEN ( p_dir, p_file, 'rb');
 	  
-	  -- ÆÄÀÏÀÌ ¿ÀÇÂµÆ´ÂÁö IS_OPEN ÇÔ¼ö¸¦ ÀÌ¿ëÇØ È®ÀÎ. 
+	  -- íŒŒì¼ì´ ì˜¤í”ˆëëŠ”ì§€ IS_OPEN í•¨ìˆ˜ë¥¼ ì´ìš©í•´ í™•ì¸. 
 	  IF UTL_FILE.IS_OPEN ( vf_type ) THEN
 	     
-	     -- ·çÇÁ¸¦ µ¹¸ç ÆÄÀÏÀ» ÀÐ´Â´Ù. 
+	     -- ë£¨í”„ë¥¼ ëŒë©° íŒŒì¼ì„ ì½ëŠ”ë‹¤. 
 	     LOOP
 	        BEGIN 
-	           -- GET_RAW ÇÁ·Î½ÃÀú·Î ÆÄÀÏÀ» ÀÐ¾î vf_buffer º¯¼ö¿¡ ´ã´Â´Ù.  
+	           -- GET_RAW í”„ë¡œì‹œì €ë¡œ íŒŒì¼ì„ ì½ì–´ vf_buffer ë³€ìˆ˜ì— ë‹´ëŠ”ë‹¤.  
 	           UTL_FILE.GET_RAW(vf_type, vf_buffer, 32767);
-	           -- ¹ÝÈ¯ÇÒ RAW Å¸ÀÔ º¯¼ö¿¡ vf_buffer¸¦ ÇÒ´ç.
+	           -- ë°˜í™˜í•  RAW íƒ€ìž… ë³€ìˆ˜ì— vf_bufferë¥¼ í• ë‹¹.
 	           vf_raw := vf_raw || vf_buffer;
 	           
 	        EXCEPTION 
-	           -- ´õ ÀÌ»ó °¡Á®¿Ã µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é ·çÇÁ¸¦ ºüÁ®³ª°£´Ù. 
+	           -- ë” ì´ìƒ ê°€ì ¸ì˜¬ ë°ì´í„°ê°€ ì—†ìœ¼ë©´ ë£¨í”„ë¥¼ ë¹ ì ¸ë‚˜ê°„ë‹¤. 
 	           WHEN NO_DATA_FOUND THEN 
 	                EXIT;
 	        END;
@@ -370,65 +370,65 @@ BEGIN
 	      
 	  END IF;
 	  
-	  -- ÆÄÀÏÀ» ´Ý´Â´Ù. 
+	  -- íŒŒì¼ì„ ë‹«ëŠ”ë‹¤. 
 	  UTL_FILE.FCLOSE(vf_type);
 	  
 	  RETURN vf_raw;
 END;  
 
 
--- ¨ê ÆÄÀÏÀ» Ã·ºÎÇØ ¸ÞÀÏ Àü¼Û
+-- â‘£ íŒŒì¼ì„ ì²¨ë¶€í•´ ë©”ì¼ ì „ì†¡
 
 DECLARE
-  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ¼­¹ö¸í
-  vn_port    NUMBER := 25;                -- Æ÷Æ®¹øÈ£
+  vv_host    VARCHAR2(30) := 'localhost'; -- SMTP ì„œë²„ëª…
+  vn_port    NUMBER := 25;                -- í¬íŠ¸ë²ˆí˜¸
   vv_domain  VARCHAR2(30) := 'hong.com';  
-  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- º¸³»´Â ÁÖ¼Ò
-  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ¹Þ´Â ÁÖ¼Ò 
+  vv_from    VARCHAR2(50) := 'charieh@hong.com';  -- ë³´ë‚´ëŠ” ì£¼ì†Œ
+  vv_to      VARCHAR2(50) := 'charieh@hong.com';  -- ë°›ëŠ” ì£¼ì†Œ 
   
   c utl_smtp.connection;
-  vv_html      VARCHAR2(200); -- HTML ¸Þ½ÃÁö¸¦ ´ãÀ» º¯¼ö
-  -- boundary Ç¥½Ã¸¦ À§ÇÑ º¯¼ö, uniqueÇÑ ÀÓÀÇÀÇ °ªÀ» »ç¿ëÇÏ¸é µÈ´Ù. 
+  vv_html      VARCHAR2(200); -- HTML ë©”ì‹œì§€ë¥¼ ë‹´ì„ ë³€ìˆ˜
+  -- boundary í‘œì‹œë¥¼ ìœ„í•œ ë³€ìˆ˜, uniqueí•œ ìž„ì˜ì˜ ê°’ì„ ì‚¬ìš©í•˜ë©´ ëœë‹¤. 
   vv_boundary  VARCHAR2(50) := 'DIFOJSLKDFO.WEFOWJFOWE'; 
   
-  vv_directory  VARCHAR2(30) := 'SMTP_FILE'; --ÆÄÀÏÀÌ ÀÖ´Â µð·ºÅä¸®¸í 
-  vv_filename   VARCHAR2(30) := 'ch18_txt_file.txt';  -- ÆÄÀÏ¸í  
-  vf_file_buff  RAW(32767);   -- ½ÇÁ¦ ÆÄÀÏÀ» ´ãÀ» RAWÅ¸ÀÔ º¯¼ö 
+  vv_directory  VARCHAR2(30) := 'SMTP_FILE'; --íŒŒì¼ì´ ìžˆëŠ” ë””ë ‰í† ë¦¬ëª… 
+  vv_filename   VARCHAR2(30) := 'ch18_txt_file.txt';  -- íŒŒì¼ëª…  
+  vf_file_buff  RAW(32767);   -- ì‹¤ì œ íŒŒì¼ì„ ë‹´ì„ RAWíƒ€ìž… ë³€ìˆ˜ 
   vf_temp_buff  RAW(54);
-  vn_file_len   NUMBER := 0;  -- ÆÄÀÏ ±æÀÌ
+  vn_file_len   NUMBER := 0;  -- íŒŒì¼ ê¸¸ì´
   
-  -- ÇÑ ÁÙ´ç ¿Ã ¼ö ÀÖ´Â BASE64 º¯È¯µÈ µ¥ÀÌÅÍ ÃÖ´ë ±æÀÌ 
+  -- í•œ ì¤„ë‹¹ ì˜¬ ìˆ˜ ìžˆëŠ” BASE64 ë³€í™˜ëœ ë°ì´í„° ìµœëŒ€ ê¸¸ì´ 
   vn_base64_max_len  NUMBER := 54; --76 * (3/4);
-  vn_pos             NUMBER := 1; --ÆÄÀÏ À§Ä¡¸¦ ´ã´Â º¯¼ö 
-  -- ÆÄÀÏÀ» ÇÑ ÁÙ¾¿ ÀÚ¸¦ ¶§ »ç¿ëÇÒ ´ÜÀ§ ¹ÙÀÌÆ® ¼ö 
+  vn_pos             NUMBER := 1; --íŒŒì¼ ìœ„ì¹˜ë¥¼ ë‹´ëŠ” ë³€ìˆ˜ 
+  -- íŒŒì¼ì„ í•œ ì¤„ì”© ìžë¥¼ ë•Œ ì‚¬ìš©í•  ë‹¨ìœ„ ë°”ì´íŠ¸ ìˆ˜ 
   vn_divide          NUMBER := 0;
 BEGIN
   c := UTL_SMTP.OPEN_CONNECTION(vv_host, vn_port);
 
   UTL_SMTP.HELO(c, vv_domain); -- HELO  
-  UTL_SMTP.MAIL(c, vv_from);   -- º¸³»´Â»ç¶÷
-  UTL_SMTP.RCPT(c, vv_to);     -- ¹Þ´Â»ç¶÷  
+  UTL_SMTP.MAIL(c, vv_from);   -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.RCPT(c, vv_to);     -- ë°›ëŠ”ì‚¬ëžŒ  
    
-  UTL_SMTP.OPEN_DATA(c); -- ¸ÞÀÏº»¹® ÀÛ¼º ½ÃÀÛ 
-  UTL_SMTP.WRITE_DATA(c,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ¹öÀü
-  -- Content-Type: multipart/mixed, boundary ÀÔ·Â 
+  UTL_SMTP.OPEN_DATA(c); -- ë©”ì¼ë³¸ë¬¸ ìž‘ì„± ì‹œìž‘ 
+  UTL_SMTP.WRITE_DATA(c,'MIME-Version: 1.0' || UTL_TCP.CRLF ); -- MIME ë²„ì „
+  -- Content-Type: multipart/mixed, boundary ìž…ë ¥ 
   UTL_SMTP.WRITE_DATA(c,'Content-Type: multipart/mixed; boundary="' || vv_boundary || '"' || UTL_TCP.CRLF); 
-  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('From: ' || '"È«±æµ¿" <charieh@hong.com>' || UTL_TCP.CRLF) ); -- º¸³»´Â»ç¶÷
-  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('To: ' || '"È«±æµ¿" <charieh@hong.com>' || UTL_TCP.CRLF) );   -- ¹Þ´Â»ç¶÷
-  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('Subject: HTML Ã·ºÎÆÄÀÏ Å×½ºÆ®' || UTL_TCP.CRLF) );             -- Á¦¸ñ
-  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- ÇÑ ÁÙ ¶ç¿ì±â
+  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('From: ' || '"í™ê¸¸ë™" <charieh@hong.com>' || UTL_TCP.CRLF) ); -- ë³´ë‚´ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('To: ' || '"í™ê¸¸ë™" <charieh@hong.com>' || UTL_TCP.CRLF) );   -- ë°›ëŠ”ì‚¬ëžŒ
+  UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW('Subject: HTML ì²¨ë¶€íŒŒì¼ í…ŒìŠ¤íŠ¸' || UTL_TCP.CRLF) );             -- ì œëª©
+  UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF );                                            -- í•œ ì¤„ ë„ìš°ê¸°
   
-  -- HTML º»¹®À» ÀÛ¼º
+  -- HTML ë³¸ë¬¸ì„ ìž‘ì„±
   vv_html := '<HEAD>
-   <TITLE>HTML Å×½ºÆ®</TITLE>
+   <TITLE>HTML í…ŒìŠ¤íŠ¸</TITLE>
  </HEAD>
  <BDOY>
-    <p>ÀÌ ¸ÞÀÏÀº <b>HTML</b> <i>¹öÀü</i> À¸·Î </p>
-    <p>Ã·ºÎÆÄÀÏ±îÁö µé¾î°£ <strong>¸ÞÀÏ</strong>ÀÔ´Ï´Ù. </p>
+    <p>ì´ ë©”ì¼ì€ <b>HTML</b> <i>ë²„ì „</i> ìœ¼ë¡œ </p>
+    <p>ì²¨ë¶€íŒŒì¼ê¹Œì§€ ë“¤ì–´ê°„ <strong>ë©”ì¼</strong>ìž…ë‹ˆë‹¤. </p>
  </BODY>
 </HTML>';
 
-  -- ¸ÞÀÏ º»¹® 
+  -- ë©”ì¼ ë³¸ë¬¸ 
   UTL_SMTP.WRITE_DATA(c, '--' || vv_boundary || UTL_TCP.CRLF );
   UTL_SMTP.WRITE_DATA(c, 'Content-Type: text/html;' || UTL_TCP.CRLF );
   UTL_SMTP.WRITE_DATA(c, 'charset=euc-kr' || UTL_TCP.CRLF );
@@ -436,9 +436,9 @@ BEGIN
   UTL_SMTP.WRITE_RAW_DATA(c, UTL_RAW.CAST_TO_RAW(vv_html || UTL_TCP.CRLF)  );
   UTL_SMTP.WRITE_DATA( c, UTL_TCP.CRLF );
   
-  -- Ã·ºÎÆÄÀÏ Ãß°¡ 
+  -- ì²¨ë¶€íŒŒì¼ ì¶”ê°€ 
   UTL_SMTP.WRITE_DATA(c, '--' || vv_boundary || UTL_TCP.CRLF ); 
-  -- ÆÄÀÏÀÇ Content-TypeÀº application/octet-stream
+  -- íŒŒì¼ì˜ Content-Typeì€ application/octet-stream
   UTL_SMTP.WRITE_DATA(c,'Content-Type: application/octet-stream; name="' || vv_filename || '"' || UTL_TCP.CRLF);
   UTL_SMTP.WRITE_DATA(c,'Content-Transfer-Encoding: base64' || UTL_TCP.CRLF);
   UTL_SMTP.WRITE_DATA(c,'Content-Disposition: attachment; filename="' || vv_filename || '"' || UTL_TCP.CRLF);
@@ -447,45 +447,45 @@ BEGIN
   UTL_SMTP.WRITE_DATA(c, UTL_TCP.CRLF);
 
   
-  -- fn_get_raw_file ÇÔ¼ö¸¦ »ç¿ëÇØ ½ÇÁ¦ ÆÄÀÏÀ» ÀÐ¾î¿Â´Ù. 
+  -- fn_get_raw_file í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ ì‹¤ì œ íŒŒì¼ì„ ì½ì–´ì˜¨ë‹¤. 
   vf_file_buff := fn_get_raw_file(vv_directory, vv_filename);
-  -- ÆÄÀÏÀÇ ÃÑ Å©±â¸¦ °¡Á®¿Â´Ù. 
+  -- íŒŒì¼ì˜ ì´ í¬ê¸°ë¥¼ ê°€ì ¸ì˜¨ë‹¤. 
   vn_file_len := DBMS_LOB.GETLENGTH(vf_file_buff);
   
-  -- ÆÄÀÏÀüÃ¼ Å©±â°¡ vn_base64_max_len º¸´Ù ÀÛ´Ù¸é, ºÐÇÒ´ÜÀ§¼öÀÎ vn_divide °ªÀº ÆÄÀÏÅ©±â·Î ¼³Á¤ 
+  -- íŒŒì¼ì „ì²´ í¬ê¸°ê°€ vn_base64_max_len ë³´ë‹¤ ìž‘ë‹¤ë©´, ë¶„í• ë‹¨ìœ„ìˆ˜ì¸ vn_divide ê°’ì€ íŒŒì¼í¬ê¸°ë¡œ ì„¤ì • 
   IF vn_file_len <= vn_base64_max_len THEN
      vn_divide := vn_file_len;
-  ELSE -- ±×·¸Áö ¾Ê´Ù¸é BASE64 ºÐÇÒ´ÜÀ§ÀÎ vn_base64_max_len·Î ¼³Á¤ 
+  ELSE -- ê·¸ë ‡ì§€ ì•Šë‹¤ë©´ BASE64 ë¶„í• ë‹¨ìœ„ì¸ vn_base64_max_lenë¡œ ì„¤ì • 
      vn_divide := vn_base64_max_len;
   END IF;
   
-  -- ·çÇÁ¸¦ µ¹¸ç ÆÄÀÏÀ» BASE64·Î º¯È¯ÇØ ÇÑ Âá¾¿ Âï´Â´Ù. 
+  -- ë£¨í”„ë¥¼ ëŒë©° íŒŒì¼ì„ BASE64ë¡œ ë³€í™˜í•´ í•œ ì­ì”© ì°ëŠ”ë‹¤. 
   vn_pos := 0;
   WHILE vn_pos < vn_file_len
   LOOP
     
-    -- (ÆÄÀÏÀüÃ¼Å©±â - ÇöÀçÅ©±â)°¡ ºÐÇÒ´ÜÀ§º¸´Ù Å©¸é 
+    -- (íŒŒì¼ì „ì²´í¬ê¸° - í˜„ìž¬í¬ê¸°)ê°€ ë¶„í• ë‹¨ìœ„ë³´ë‹¤ í¬ë©´ 
     IF (vn_file_len - vn_pos) >= vn_divide then 
        vn_divide := vn_divide;
-    ELSE -- ±×·¸Áö ¾ÊÀ¸¸é ºÐÇÒ´ÜÀ§ = (ÆÄÀÏÀüÃ¼Å©±â - ÇöÀçÅ©±â)
+    ELSE -- ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ ë¶„í• ë‹¨ìœ„ = (íŒŒì¼ì „ì²´í¬ê¸° - í˜„ìž¬í¬ê¸°)
        vn_divide := vn_file_len - vn_pos;
     END IF ;    
     
-    -- ÆÄÀÏÀ» 54 ´ÜÀ§·Î ÀÚ¸¥´Ù. 
+    -- íŒŒì¼ì„ 54 ë‹¨ìœ„ë¡œ ìžë¥¸ë‹¤. 
     vf_temp_buff := UTL_RAW.SUBSTR ( vf_file_buff, vn_pos, vn_divide);
-    -- BASE64 ÀÎÄÚµùÀ» ÇÑ ÈÄ ÆÄÀÏ³»¿ë Ã·ºÎ 
+    -- BASE64 ì¸ì½”ë”©ì„ í•œ í›„ íŒŒì¼ë‚´ìš© ì²¨ë¶€ 
     UTL_SMTP.WRITE_RAW_DATA(c, UTL_ENCODE.BASE64_ENCODE ( vf_temp_buff));
     UTL_SMTP.WRITE_DATA(c,  UTL_TCP.CRLF ); 
     
-    -- vn_pos´Â vn_base64_max_len °ª ´ÜÀ§·Î Áõ°¡
+    -- vn_posëŠ” vn_base64_max_len ê°’ ë‹¨ìœ„ë¡œ ì¦ê°€
     vn_pos := vn_pos + vn_divide;
   END LOOP;
   
-    -- ¸Ç ¸¶Áö¸· boundary¿¡´Â ¾Õ°ú µÚ¿¡ '--'¸¦ ¹Ýµå½Ã ºÙ¿©¾ß ÇÑ´Ù.
+    -- ë§¨ ë§ˆì§€ë§‰ boundaryì—ëŠ” ì•žê³¼ ë’¤ì— '--'ë¥¼ ë°˜ë“œì‹œ ë¶™ì—¬ì•¼ í•œë‹¤.
   UTL_SMTP.WRITE_DATA(c, '--' ||  vv_boundary || '--' || UTL_TCP.CRLF ); 
   
-  UTL_SMTP.CLOSE_DATA(c); -- ¸ÞÀÏ º»¹® ÀÛ¼º Á¾·á  
-  UTL_SMTP.QUIT(c);       -- ¸ÞÀÏ ¼¼¼Ç Á¾·á
+  UTL_SMTP.CLOSE_DATA(c); -- ë©”ì¼ ë³¸ë¬¸ ìž‘ì„± ì¢…ë£Œ  
+  UTL_SMTP.QUIT(c);       -- ë©”ì¼ ì„¸ì…˜ ì¢…ë£Œ
 
 EXCEPTION 
   WHEN UTL_SMTP.INVALID_OPERATION THEN
@@ -504,8 +504,8 @@ EXCEPTION
      UTL_SMTP.QUIT(c);
 END;
 
--- 03. UTL_MAIL À» ÀÌ¿ëÇÑ ¸ÞÀÏ Àü¼Û
--- (2) UTL_MAIL ÆÐÅ°Áö¸¦ »ç¿ëÇÑ ¸ÞÀÏ Àü¼Û
+-- 03. UTL_MAIL ì„ ì´ìš©í•œ ë©”ì¼ ì „ì†¡
+-- (2) UTL_MAIL íŒ¨í‚¤ì§€ë¥¼ ì‚¬ìš©í•œ ë©”ì¼ ì „ì†¡
 
 BEGIN
 
@@ -514,8 +514,8 @@ BEGIN
        recipients => 'charieh@hong.com',
        cc         => null,
        bcc        => null,
-       subject    => 'UTL_MAIL Àü¼Û Å×½ºÆ®',
-       message    => 'UTL_MAILÀ» ÀÌ¿ëÇØ Àü¼ÛÇÏ´Â ¸ÞÀÏÀÔ´Ï´Ù',
+       subject    => 'UTL_MAIL ì „ì†¡ í…ŒìŠ¤íŠ¸',
+       message    => 'UTL_MAILì„ ì´ìš©í•´ ì „ì†¡í•˜ëŠ” ë©”ì¼ìž…ë‹ˆë‹¤',
        mime_type  => 'text/plain; charset=euc-kr',
        priority   => 3,
        replyto    => 'charieh@hong.com');
@@ -525,18 +525,18 @@ EXCEPTION WHEN OTHERS THEN
 
 END;
 
--- HTML ¸ÞÀÏ
+-- HTML ë©”ì¼
 DECLARE 
 
   vv_html  VARCHAR2(300);
 BEGIN
 	
   vv_html := '<HEAD>
-   <TITLE>HTML Å×½ºÆ®</TITLE>
+   <TITLE>HTML í…ŒìŠ¤íŠ¸</TITLE>
  </HEAD>
  <BDOY>
-    <p>ÀÌ ¸ÞÀÏÀº <b>HTML</b> <i>¹öÀü</i> À¸·Î </p>
-    <p> <strong>UTL_MAIL</strong> ÆÐÅ°Áö¸¦ »ç¿ëÇØ º¸³½ ¸ÞÀÏÀÔ´Ï´Ù. </p>
+    <p>ì´ ë©”ì¼ì€ <b>HTML</b> <i>ë²„ì „</i> ìœ¼ë¡œ </p>
+    <p> <strong>UTL_MAIL</strong> íŒ¨í‚¤ì§€ë¥¼ ì‚¬ìš©í•´ ë³´ë‚¸ ë©”ì¼ìž…ë‹ˆë‹¤. </p>
  </BODY>
 </HTML>';
 
@@ -545,7 +545,7 @@ BEGIN
        recipients => 'charieh@hong.com',
        cc         => null,
        bcc        => null,
-       subject    => 'UTL_MAIL Àü¼Û Å×½ºÆ®2',
+       subject    => 'UTL_MAIL ì „ì†¡ í…ŒìŠ¤íŠ¸2',
        message    => vv_html,
        mime_type  => 'text/html; charset=euc-kr',
        priority   => 1,
@@ -556,25 +556,25 @@ EXCEPTION WHEN OTHERS THEN
 
 END;
 
--- ¨é Ã·ºÎÆÄÀÏ Àü¼Û
+-- â‘¢ ì²¨ë¶€íŒŒì¼ ì „ì†¡
 DECLARE 
-  vv_directory  VARCHAR2(30) := 'SMTP_FILE'; --ÆÄÀÏÀÌ ÀÖ´Â µð·ºÅä¸®¸í 
-  vv_filename   VARCHAR2(30) := 'ch18_txt_file.txt';  -- ÆÄÀÏ¸í  
-  vf_file_buff  RAW(32767);   -- ½ÇÁ¦ ÆÄÀÏÀ» ´ãÀ» RAWÅ¸ÀÔ º¯¼ö 
+  vv_directory  VARCHAR2(30) := 'SMTP_FILE'; --íŒŒì¼ì´ ìžˆëŠ” ë””ë ‰í† ë¦¬ëª… 
+  vv_filename   VARCHAR2(30) := 'ch18_txt_file.txt';  -- íŒŒì¼ëª…  
+  vf_file_buff  RAW(32767);   -- ì‹¤ì œ íŒŒì¼ì„ ë‹´ì„ RAWíƒ€ìž… ë³€ìˆ˜ 
   vv_html  VARCHAR2(300);
   
 BEGIN
 	
   vv_html := '<HEAD>
-   <TITLE>HTML Å×½ºÆ®</TITLE>
+   <TITLE>HTML í…ŒìŠ¤íŠ¸</TITLE>
  </HEAD>
  <BDOY>
-    <p>ÀÌ ¸ÞÀÏÀº <b>HTML</b> <i>¹öÀü</i> À¸·Î </p>
-    <p> <strong>UTL_MAIL</strong> ÆÐÅ°Áö¸¦ »ç¿ëÇØ º¸³½ ¸ÞÀÏÀÔ´Ï´Ù. </p>
+    <p>ì´ ë©”ì¼ì€ <b>HTML</b> <i>ë²„ì „</i> ìœ¼ë¡œ </p>
+    <p> <strong>UTL_MAIL</strong> íŒ¨í‚¤ì§€ë¥¼ ì‚¬ìš©í•´ ë³´ë‚¸ ë©”ì¼ìž…ë‹ˆë‹¤. </p>
  </BODY>
 </HTML>';
 
-   -- ÆÄÀÏ ÀÐ¾î¿À±â
+   -- íŒŒì¼ ì½ì–´ì˜¤ê¸°
    vf_file_buff := fn_get_raw_file(vv_directory, vv_filename);
 
    UTL_MAIL.SEND_ATTACH_RAW (
@@ -582,7 +582,7 @@ BEGIN
        recipients => 'charieh@hong.com',
        cc         => null,
        bcc        => null,
-       subject    => 'UTL_MAIL ÆÄÀÏÀü¼Û Å×½ºÆ®',
+       subject    => 'UTL_MAIL íŒŒì¼ì „ì†¡ í…ŒìŠ¤íŠ¸',
        message    => vv_html,
        mime_type  => 'text/html; charset=euc-kr',
        priority   => 1,

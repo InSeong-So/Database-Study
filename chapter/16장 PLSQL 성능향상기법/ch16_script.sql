@@ -1,5 +1,5 @@
--- 02. ÀÏ°ýÃ³¸®
--- (1) BULK COLLECT Àý
+-- 02. ì¼ê´„ì²˜ë¦¬
+-- (1) BULK COLLECT ì ˆ
 
 CREATE TABLE emp_bulk (
         bulk_id         NUMBER        NOT NULL, 
@@ -47,9 +47,9 @@ SELECT COUNT(*)
   FROM emp_bulk;
   
   
--- ÀÏ¹Ý Ä¿¼­  
+-- ì¼ë°˜ ì»¤ì„œ  
 DECLARE
-  -- Ä¿¼­¼±¾ð 
+  -- ì»¤ì„œì„ ì–¸ 
   CURSOR c1 IS
   SELECT employee_id
    FROM emp_bulk;
@@ -59,7 +59,7 @@ DECLARE
   vd_sysdate  DATE;
   vn_total_time NUMBER := 0;
 BEGIN
-	-- ½ÃÀÛÀü vd_sysdate¿¡ ÇöÀç½Ã°¡ ¼³Á¤
+	-- ì‹œìž‘ì „ vd_sysdateì— í˜„ìž¬ì‹œê°€ ì„¤ì •
 	vd_sysdate := SYSDATE;
 	
 	OPEN c1;
@@ -68,96 +68,96 @@ BEGIN
 	  FETCH c1 INTO vn_emp_id;
 	  EXIT WHEN c1%NOTFOUND;
 	  
-	  -- ·çÇÁÈ½¼ö
+	  -- ë£¨í”„íšŸìˆ˜
 	  vn_cnt := vn_cnt + 1;
 	
   END LOOP;
   
   CLOSE c1;
   
-  -- ÃÑ ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+  -- ì´ ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
   vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
   
-  -- ·çÇÁÈ½¼ö Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('ÀüÃ¼°Ç¼ö : ' || vn_cnt);
-  -- ÃÑ ¼Ò¿ä½Ã°£ Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('¼Ò¿ä½Ã°£ : ' || vn_total_time);  
+  -- ë£¨í”„íšŸìˆ˜ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ì „ì²´ê±´ìˆ˜ : ' || vn_cnt);
+  -- ì´ ì†Œìš”ì‹œê°„ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ì†Œìš”ì‹œê°„ : ' || vn_total_time);  
 	
 END;  
 
 
 -- BULK COLLECT 
 DECLARE
-  -- Ä¿¼­¼±¾ð 
+  -- ì»¤ì„œì„ ì–¸ 
   CURSOR c1 IS
   SELECT employee_id
    FROM emp_bulk;
    
-  -- ÄÃ·º¼Ç Å¸ÀÔ ¼±¾ð
+  -- ì»¬ë ‰ì…˜ íƒ€ìž… ì„ ì–¸
   TYPE bkEmpTP IS TABLE OF emp_bulk.employee_id%TYPE;
-  -- bkEmpTP Çü º¯¼ö¼±¾ð
+  -- bkEmpTP í˜• ë³€ìˆ˜ì„ ì–¸
   vnt_bkEmpTP bkEmpTP;
 
   vd_sysdate  DATE;
   vn_total_time NUMBER := 0;
 BEGIN
-	-- ½ÃÀÛÀü vd_sysdate¿¡ ÇöÀç½Ã°¡ ¼³Á¤
+	-- ì‹œìž‘ì „ vd_sysdateì— í˜„ìž¬ì‹œê°€ ì„¤ì •
 	vd_sysdate := SYSDATE;
 	
 	OPEN c1;
-	-- ·çÇÁ¸¦ µ¹¸®Áö ¾Ê´Â´Ù. 
+	-- ë£¨í”„ë¥¼ ëŒë¦¬ì§€ ì•ŠëŠ”ë‹¤. 
 	FETCH c1 BULK COLLECT INTO vnt_bkEmpTP;
   
   CLOSE c1;
   
-  -- ÃÑ ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+  -- ì´ ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
   vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
   
-  -- ÄÃ·º¼Çº¯¼öÀÎ vnt_bkEmpTP ¿ä¼Ò°¹¼ö Ãâ·Â 
-  DBMS_OUTPUT.PUT_LINE('ÀüÃ¼°Ç¼ö : ' || vnt_bkEmpTP.COUNT);
-  -- ÃÑ ¼Ò¿ä½Ã°£ Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('¼Ò¿ä½Ã°£ : ' || vn_total_time);  
+  -- ì»¬ë ‰ì…˜ë³€ìˆ˜ì¸ vnt_bkEmpTP ìš”ì†Œê°¯ìˆ˜ ì¶œë ¥ 
+  DBMS_OUTPUT.PUT_LINE('ì „ì²´ê±´ìˆ˜ : ' || vnt_bkEmpTP.COUNT);
+  -- ì´ ì†Œìš”ì‹œê°„ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ì†Œìš”ì‹œê°„ : ' || vn_total_time);  
 	
 END;  
 
---(2) FORALL¹®
+--(2) FORALLë¬¸
 
 SELECT MIN(bulk_id), MAX(bulk_id), COUNT(*)
   FROM emp_bulk;
   
--- ÀÎµ¦½º »ý¼º  
+-- ì¸ë±ìŠ¤ ìƒì„±  
 CREATE INDEX emp_bulk_idx01 ON emp_bulk ( bulk_id );  
 
--- Åë°èÁ¤º¸ »ý¼º
+-- í†µê³„ì •ë³´ ìƒì„±
 EXECUTE DBMS_STATS.GATHER_TABLE_STATS( 'ORA_USER', 'EMP_BULK');
 
--- ÀÏ¹ÝÀûÀÎ Ä¿¼­¿Í ·çÇÁ
+-- ì¼ë°˜ì ì¸ ì»¤ì„œì™€ ë£¨í”„
 DECLARE
-  -- Ä¿¼­¼±¾ð 
+  -- ì»¤ì„œì„ ì–¸ 
   CURSOR c1 IS
   SELECT DISTINCT bulk_id
    FROM emp_bulk;
 
   
-  -- ÄÃ·º¼Ç Å¸ÀÔ ¼±¾ð
+  -- ì»¬ë ‰ì…˜ íƒ€ìž… ì„ ì–¸
   TYPE BulkIDTP IS TABLE OF emp_bulk.bulk_id%TYPE;
   
-  -- BulkIDTP Çü º¯¼ö¼±¾ð
+  -- BulkIDTP í˜• ë³€ìˆ˜ì„ ì–¸
   vnt_BulkID    BulkIDTP;
   vd_sysdate    DATE;
   vn_total_time NUMBER := 0; 
 
 BEGIN
 	
-	-- ½ÃÀÛÀü vd_sysdate¿¡ ÇöÀç½Ã°¡ ¼³Á¤
+	-- ì‹œìž‘ì „ vd_sysdateì— í˜„ìž¬ì‹œê°€ ì„¤ì •
 	vd_sysdate := SYSDATE;
 	
 	OPEN c1;
 	
-  -- BULK COLLECT ÀýÀ» »ç¿ëÇØ vnt_BulkID º¯¼ö¿¡ µ¥ÀÌÅÍ ´ã±â
+  -- BULK COLLECT ì ˆì„ ì‚¬ìš©í•´ vnt_BulkID ë³€ìˆ˜ì— ë°ì´í„° ë‹´ê¸°
 	FETCH c1 BULK COLLECT INTO vnt_BulkID;	
 	
-	-- ·çÇÁ¸¦ µ¹¸ç DELETE 
+	-- ë£¨í”„ë¥¼ ëŒë©° DELETE 
 	FOR i IN 1..vnt_BulkID.COUNT
   LOOP
 	  UPDATE emp_bulk
@@ -170,45 +170,45 @@ BEGIN
   
   CLOSE c1;
   
-  -- ÃÑ ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+  -- ì´ ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
   vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
   
-  -- ÄÃ·º¼Çº¯¼öÀÎ vnt_BulkID ¿ä¼Ò°¹¼ö Ãâ·Â 
-  DBMS_OUTPUT.PUT_LINE('ÀüÃ¼°Ç¼ö : ' || vnt_BulkID.COUNT);
-  -- ÃÑ ¼Ò¿ä½Ã°£ Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('FOR LOOP ¼Ò¿ä½Ã°£ : ' || vn_total_time);  	
+  -- ì»¬ë ‰ì…˜ë³€ìˆ˜ì¸ vnt_BulkID ìš”ì†Œê°¯ìˆ˜ ì¶œë ¥ 
+  DBMS_OUTPUT.PUT_LINE('ì „ì²´ê±´ìˆ˜ : ' || vnt_BulkID.COUNT);
+  -- ì´ ì†Œìš”ì‹œê°„ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('FOR LOOP ì†Œìš”ì‹œê°„ : ' || vn_total_time);  	
 	
 	
 END;
 
 
--- FORALL ¹® »ç¿ë
+-- FORALL ë¬¸ ì‚¬ìš©
 DECLARE
-  -- Ä¿¼­¼±¾ð 
+  -- ì»¤ì„œì„ ì–¸ 
   CURSOR c1 IS
   SELECT DISTINCT bulk_id
    FROM emp_bulk;
 
   
-  -- ÄÃ·º¼Ç Å¸ÀÔ ¼±¾ð
+  -- ì»¬ë ‰ì…˜ íƒ€ìž… ì„ ì–¸
   TYPE BulkIDTP IS TABLE OF emp_bulk.bulk_id%TYPE;
   
-  -- BulkIDTP Çü º¯¼ö¼±¾ð
+  -- BulkIDTP í˜• ë³€ìˆ˜ì„ ì–¸
   vnt_BulkID    BulkIDTP;
   vd_sysdate    DATE;
   vn_total_time NUMBER := 0;  
 
 BEGIN
 	
-	-- ½ÃÀÛÀü vd_sysdate¿¡ ÇöÀç½Ã°¡ ¼³Á¤
+	-- ì‹œìž‘ì „ vd_sysdateì— í˜„ìž¬ì‹œê°€ ì„¤ì •
 	vd_sysdate := SYSDATE;
 	
 	OPEN c1;
 	
-	-- BULK COLLECT ÀýÀ» »ç¿ëÇØ vnt_BulkID º¯¼ö¿¡ µ¥ÀÌÅÍ ´ã±â
+	-- BULK COLLECT ì ˆì„ ì‚¬ìš©í•´ vnt_BulkID ë³€ìˆ˜ì— ë°ì´í„° ë‹´ê¸°
 	FETCH c1 BULK COLLECT INTO vnt_BulkID;
 	
-	-- ·çÇÁ¸¦ µ¹¸®Áö ¾Ê°í DELETE. 	
+	-- ë£¨í”„ë¥¼ ëŒë¦¬ì§€ ì•Šê³  DELETE. 	
 	FORALL i IN 1..vnt_BulkID.COUNT
 	  UPDATE emp_bulk
        SET retire_date = hire_date
@@ -218,21 +218,21 @@ BEGIN
   
   CLOSE c1;
   
-  -- ÃÑ ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+  -- ì´ ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
   vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
   
-  -- ÄÃ·º¼Çº¯¼öÀÎ vnt_bkEmpTP ¿ä¼Ò°¹¼ö Ãâ·Â 
-  DBMS_OUTPUT.PUT_LINE('ÀüÃ¼°Ç¼ö : ' || vnt_BulkID.COUNT);
-  -- ÃÑ ¼Ò¿ä½Ã°£ Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('FORALL ¼Ò¿ä½Ã°£ : ' || vn_total_time);  	
+  -- ì»¬ë ‰ì…˜ë³€ìˆ˜ì¸ vnt_bkEmpTP ìš”ì†Œê°¯ìˆ˜ ì¶œë ¥ 
+  DBMS_OUTPUT.PUT_LINE('ì „ì²´ê±´ìˆ˜ : ' || vnt_BulkID.COUNT);
+  -- ì´ ì†Œìš”ì‹œê°„ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('FORALL ì†Œìš”ì‹œê°„ : ' || vn_total_time);  	
 	
 	
 END;
 
 
--- 03. ÇÔ¼ö ¼º´É Çâ»ó
+-- 03. í•¨ìˆ˜ ì„±ëŠ¥ í–¥ìƒ
 
--- ÀÏ¹ÝÇÔ¼ö »ý¼º
+-- ì¼ë°˜í•¨ìˆ˜ ìƒì„±
 CREATE OR REPLACE FUNCTION fn_get_depname_normal ( pv_dept_id VARCHAR2 )
      RETURN VARCHAR2
 IS
@@ -251,7 +251,7 @@ EXCEPTION WHEN OTHERS THEN
 	
 END;
 
--- ÀÏ¹ÝÇÔ¼ö¸¦ ÀÌ¿ëÇÑ UPDATE
+-- ì¼ë°˜í•¨ìˆ˜ë¥¼ ì´ìš©í•œ UPDATE
 DECLARE
   vn_cnt        NUMBER := 0;
   vd_sysdate    DATE;
@@ -260,7 +260,7 @@ BEGIN
 
   vd_sysdate := SYSDATE;
   
-  -- dep_name ÄÃ·³¿¡ ºÎ¼­¸íÀ» °¡Á®¿Í °»½Å 
+  -- dep_name ì»¬ëŸ¼ì— ë¶€ì„œëª…ì„ ê°€ì ¸ì™€ ê°±ì‹  
   UPDATE emp_bulk
      SET dep_name = fn_get_depname_normal ( department_id )
    WHERE bulk_id BETWEEN 1 AND 1000;
@@ -269,13 +269,13 @@ BEGIN
   
   COMMIT;
 
-  -- ÃÑ ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+  -- ì´ ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
   vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
   
-  -- UPDATE °Ç¼ö Ãâ·Â  
-  DBMS_OUTPUT.PUT_LINE('UPDATE °Ç¼ö : ' || vn_cnt);
-  -- ÃÑ ¼Ò¿ä½Ã°£ Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('¼Ò¿ä½Ã°£ : ' || vn_total_time);  
+  -- UPDATE ê±´ìˆ˜ ì¶œë ¥  
+  DBMS_OUTPUT.PUT_LINE('UPDATE ê±´ìˆ˜ : ' || vn_cnt);
+  -- ì´ ì†Œìš”ì‹œê°„ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ì†Œìš”ì‹œê°„ : ' || vn_total_time);  
 
 END;
 
@@ -287,7 +287,7 @@ SELECT department_id, dep_name, COUNT(*)
  ORDER BY department_id, dep_name;
  
  
--- RESULT CACHE ±â´ÉÀÌ Å¾ÀçµÈ ÇÔ¼ö  
+-- RESULT CACHE ê¸°ëŠ¥ì´ íƒ‘ìž¬ëœ í•¨ìˆ˜  
 CREATE OR REPLACE FUNCTION fn_get_depname_rsltcache ( pv_dept_id VARCHAR2 )
      RETURN VARCHAR2
      RESULT_CACHE
@@ -295,7 +295,7 @@ CREATE OR REPLACE FUNCTION fn_get_depname_rsltcache ( pv_dept_id VARCHAR2 )
 IS
    vs_dep_name DEPARTMENTS.DEPARTMENT_NAME%TYPE;
 BEGIN
-	-- ºÎ¼­¸íÀ» °¡Á®¿Â´Ù.
+	-- ë¶€ì„œëª…ì„ ê°€ì ¸ì˜¨ë‹¤.
 	SELECT department_name
 	  INTO vs_dep_name
 	  FROM DEPARTMENTS
@@ -325,13 +325,13 @@ BEGIN
   
   COMMIT;
 
-  -- ÃÑ ¼Ò¿ä½Ã°£ °è»ê (ÃÊ·Î °è»êÇÏ±â À§ÇØ * 60 * 60 * 24À» °öÇÔ)
+  -- ì´ ì†Œìš”ì‹œê°„ ê³„ì‚° (ì´ˆë¡œ ê³„ì‚°í•˜ê¸° ìœ„í•´ * 60 * 60 * 24ì„ ê³±í•¨)
   vn_total_time := (SYSDATE - vd_sysdate) * 60 * 60 * 24;
   
-  -- UPDATE °Ç¼ö Ãâ·Â  
-  DBMS_OUTPUT.PUT_LINE('ÀüÃ¼°Ç¼ö : ' || vn_cnt);
-  -- ÃÑ ¼Ò¿ä½Ã°£ Ãâ·Â
-  DBMS_OUTPUT.PUT_LINE('¼Ò¿ä½Ã°£ : ' || vn_total_time);  
+  -- UPDATE ê±´ìˆ˜ ì¶œë ¥  
+  DBMS_OUTPUT.PUT_LINE('ì „ì²´ê±´ìˆ˜ : ' || vn_cnt);
+  -- ì´ ì†Œìš”ì‹œê°„ ì¶œë ¥
+  DBMS_OUTPUT.PUT_LINE('ì†Œìš”ì‹œê°„ : ' || vn_total_time);  
 
 END;
 

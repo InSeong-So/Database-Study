@@ -1,4 +1,4 @@
--- ¼ýÀÚÇÔ¼ö
+-- ìˆ«ìží•¨ìˆ˜
 SELECT ABS(10), ABS(-10), ABS(-10.123)
   FROM DUAL;
 
@@ -47,8 +47,8 @@ SELECT EXP(2), LN(2.713), LOG(10, 100)
   FROM DUAL;
   
   
--- ¹®ÀÚÇÔ¼ö
-SELECT INITCAP('never say goodbye'), INITCAP('never6say*good°¡bye')
+-- ë¬¸ìží•¨ìˆ˜
+SELECT INITCAP('never say goodbye'), INITCAP('never6say*goodê°€bye')
   FROM DUAL;  
   
 SELECT LOWER('NEVER SAY GOODBYE'), UPPER('never say goodbye')
@@ -65,16 +65,16 @@ SELECT SUBSTR('ABCD EFG', 1, 4)
 SELECT SUBSTR('ABCDEFG', 1, 4), SUBSTR('ABCDEFG', -1, 4)
   FROM DUAL;  
   
-SELECT SUBSTRB('ABCDEFG', 1, 4), SUBSTRB('°¡³ª´Ù¶ó¸¶¹Ù»ç', 1, 4)
+SELECT SUBSTRB('ABCDEFG', 1, 4), SUBSTRB('ê°€ë‚˜ë‹¤ë¼ë§ˆë°”ì‚¬', 1, 4)
   FROM DUAL;    
   
 SELECT LTRIM('ABCDEFGABC', 'ABC'), 
-       LTRIM('°¡³ª´Ù¶ó', '°¡'),
+       LTRIM('ê°€ë‚˜ë‹¤ë¼', 'ê°€'),
        RTRIM('ABCDEFGABC', 'ABC'), 
-       RTRIM('°¡³ª´Ù¶ó', '¶ó')
+       RTRIM('ê°€ë‚˜ë‹¤ë¼', 'ë¼')
   FROM DUAL;    
   
-SELECT LTRIM('°¡³ª´Ù¶ó', '³ª'), RTRIM('°¡³ª´Ù¶ó', '³ª')
+SELECT LTRIM('ê°€ë‚˜ë‹¤ë¼', 'ë‚˜'), RTRIM('ê°€ë‚˜ë‹¤ë¼', 'ë‚˜')
   FROM DUAL;    
   
   
@@ -98,7 +98,7 @@ SELECT RPAD(phone_num, 12, '(02)')
 FROM ex4_1;
           
           
-SELECT REPLACE('³ª´Â ³Ê¸¦ ¸ð¸£´Âµ¥ ³Ê´Â ³ª¸¦ ¾Ë°Ú´Â°¡?', '³ª', '³Ê')
+SELECT REPLACE('ë‚˜ëŠ” ë„ˆë¥¼ ëª¨ë¥´ëŠ”ë° ë„ˆëŠ” ë‚˜ë¥¼ ì•Œê² ëŠ”ê°€?', 'ë‚˜', 'ë„ˆ')
   FROM DUAL;   
   
 SELECT LTRIM(' ABC DEF '),
@@ -106,18 +106,18 @@ SELECT LTRIM(' ABC DEF '),
        REPLACE(' ABC DEF ', ' ', ''),
   FROM DUAL;            
   
-SELECT REPLACE('³ª´Â ³Ê¸¦ ¸ð¸£´Âµ¥ ³Ê´Â ³ª¸¦ ¾Ë°Ú´Â°¡?', '³ª´Â', '³Ê¸¦') AS rep,
-       TRANSLATE('³ª´Â ³Ê¸¦ ¸ð¸£´Âµ¥ ³Ê´Â ³ª¸¦ ¾Ë°Ú´Â°¡?', '³ª´Â', '³Ê¸¦') AS trn
+SELECT REPLACE('ë‚˜ëŠ” ë„ˆë¥¼ ëª¨ë¥´ëŠ”ë° ë„ˆëŠ” ë‚˜ë¥¼ ì•Œê² ëŠ”ê°€?', 'ë‚˜ëŠ”', 'ë„ˆë¥¼') AS rep,
+       TRANSLATE('ë‚˜ëŠ” ë„ˆë¥¼ ëª¨ë¥´ëŠ”ë° ë„ˆëŠ” ë‚˜ë¥¼ ì•Œê² ëŠ”ê°€?', 'ë‚˜ëŠ”', 'ë„ˆë¥¼') AS trn
   FROM DUAL; 
     
     
-SELECT INSTR('³»°¡ ¸¸¾à ¿Ü·Î¿ï ¶§¸é, ³»°¡ ¸¸¾à ±«·Î¿ï ¶§¸é, ³»°¡ ¸¸¾à Áñ°Å¿ï ¶§¸é', '¸¸¾à') AS INSTR1, 
-       INSTR('³»°¡ ¸¸¾à ¿Ü·Î¿ï ¶§¸é, ³»°¡ ¸¸¾à ±«·Î¿ï ¶§¸é, ³»°¡ ¸¸¾à Áñ°Å¿ï ¶§¸é', '¸¸¾à', 5) AS INSTR2, 
-       INSTR('³»°¡ ¸¸¾à ¿Ü·Î¿ï ¶§¸é, ³»°¡ ¸¸¾à ±«·Î¿ï ¶§¸é, ³»°¡ ¸¸¾à Áñ°Å¿ï ¶§¸é', '¸¸¾à', 5, 2) AS INSTR3 
+SELECT INSTR('ë‚´ê°€ ë§Œì•½ ì™¸ë¡œìš¸ ë•Œë©´, ë‚´ê°€ ë§Œì•½ ê´´ë¡œìš¸ ë•Œë©´, ë‚´ê°€ ë§Œì•½ ì¦ê±°ìš¸ ë•Œë©´', 'ë§Œì•½') AS INSTR1, 
+       INSTR('ë‚´ê°€ ë§Œì•½ ì™¸ë¡œìš¸ ë•Œë©´, ë‚´ê°€ ë§Œì•½ ê´´ë¡œìš¸ ë•Œë©´, ë‚´ê°€ ë§Œì•½ ì¦ê±°ìš¸ ë•Œë©´', 'ë§Œì•½', 5) AS INSTR2, 
+       INSTR('ë‚´ê°€ ë§Œì•½ ì™¸ë¡œìš¸ ë•Œë©´, ë‚´ê°€ ë§Œì•½ ê´´ë¡œìš¸ ë•Œë©´, ë‚´ê°€ ë§Œì•½ ì¦ê±°ìš¸ ë•Œë©´', 'ë§Œì•½', 5, 2) AS INSTR3 
   FROM DUAL;   
   
-SELECT LENGTH('´ëÇÑ¹Î±¹'),
-       LENGTHB('´ëÇÑ¹Î±¹')
+SELECT LENGTH('ëŒ€í•œë¯¼êµ­'),
+       LENGTHB('ëŒ€í•œë¯¼êµ­')
   FROM DUAL;     
   
   
@@ -125,7 +125,7 @@ SELECT employee_id, TRANSLATE(EMP_NAME,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','thehillsare
   FROM employees;
   
     
---³¯Â¥ ÇÔ¼ö
+--ë‚ ì§œ í•¨ìˆ˜
 SELECT SYSDATE, SYSTIMESTAMP
   FROM DUAL;    
   
@@ -142,10 +142,10 @@ SELECT LAST_DAY(SYSDATE)
 SELECT SYSDATE, ROUND(SYSDATE, 'month'), TRUNC(SYSDATE, 'month')
   FROM DUAL;   
   
-SELECT NEXT_DAY(SYSDATE, '±Ý¿äÀÏ')
+SELECT NEXT_DAY(SYSDATE, 'ê¸ˆìš”ì¼')
   FROM DUAL;
   
--- º¯È¯ÇÔ¼ö
+-- ë³€í™˜í•¨ìˆ˜
 SELECT TO_CHAR(123456789, '999,999,999')
   FROM DUAL;   
   
@@ -161,7 +161,7 @@ SELECT TO_DATE('20140101', 'YYYY-MM-DD')
 SELECT TO_DATE('20140101 13:44:50', 'YYYY-MM-DD HH24:MI:SS')
   FROM DUAL;  
   
--- NULL °ü·ÃÇÔ¼ö
+-- NULL ê´€ë ¨í•¨ìˆ˜
 SELECT NVL(manager_id, employee_id)
   FROM employees
  WHERE manager_id IS NULL;  
@@ -199,8 +199,8 @@ SELECT GREATEST(1, 2, 3, 2),
        LEAST(1, 2, 3, 2) 
   FROM DUAL;
   
-SELECT GREATEST('ÀÌ¼ø½Å', '°­°¨Âù', '¼¼Á¾´ë¿Õ'),
-       LEAST('ÀÌ¼ø½Å', '°­°¨Âù', '¼¼Á¾´ë¿Õ')
+SELECT GREATEST('ì´ìˆœì‹ ', 'ê°•ê°ì°¬', 'ì„¸ì¢…ëŒ€ì™•'),
+       LEAST('ì´ìˆœì‹ ', 'ê°•ê°ì°¬', 'ì„¸ì¢…ëŒ€ì™•')
   FROM DUAL;  
   
   SELECT prod_id,

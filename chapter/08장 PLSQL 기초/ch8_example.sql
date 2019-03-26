@@ -1,7 +1,7 @@
 --
-1. ±¸±¸´Ü Áß 3´ÜÀ» Ãâ·ÂÇÏ´Â ÀÍ¸í ºí·ÏÀ» ¸¸µé¾îº¸ÀÚ.
+1. êµ¬êµ¬ë‹¨ ì¤‘ 3ë‹¨ì„ ì¶œë ¥í•˜ëŠ” ìµëª… ë¸”ë¡ì„ ë§Œë“¤ì–´ë³´ìž.
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 BEGIN
    DBMS_OUTPUT.PUT_LINE('3 * 1 = ' || 3*1);
@@ -16,9 +16,9 @@ BEGIN
 END;
 
 
-2. »ç¿ø Å×ÀÌºí¿¡¼­ 201¹ø »ç¿øÀÇ ÀÌ¸§°ú ÀÌ¸ÞÀÏÁÖ¼Ò¸¦ Ãâ·ÂÇÏ´Â ÀÍ¸í ºí·ÏÀ» ¸¸µé¾î º¸ÀÚ.
+2. ì‚¬ì› í…Œì´ë¸”ì—ì„œ 201ë²ˆ ì‚¬ì›ì˜ ì´ë¦„ê³¼ ì´ë©”ì¼ì£¼ì†Œë¥¼ ì¶œë ¥í•˜ëŠ” ìµëª… ë¸”ë¡ì„ ë§Œë“¤ì–´ ë³´ìž.
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 DECLARE
    vs_emp_name employees.emp_name%TYPE;
@@ -35,15 +35,15 @@ END;
 
 
 
-3. »ç¿ø Å×ÀÌºí¿¡¼­ »ç¿ø¹øÈ£°¡ Á¦ÀÏ Å« »ç¿øÀ» Ã£¾Æ³½ µÚ, ÀÌ ¹øÈ£ +1¹øÀ¸·Î ¾Æ·¡ÀÇ »ç¿øÀ» »ç¿øÅ×ÀÌºí¿¡ ½Å±Ô ÀÔ·ÂÇÏ´Â ÀÍ¸í ºí·ÏÀ» ¸¸µé¾î º¸ÀÚ.
+3. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ì‚¬ì›ë²ˆí˜¸ê°€ ì œì¼ í° ì‚¬ì›ì„ ì°¾ì•„ë‚¸ ë’¤, ì´ ë²ˆí˜¸ +1ë²ˆìœ¼ë¡œ ì•„ëž˜ì˜ ì‚¬ì›ì„ ì‚¬ì›í…Œì´ë¸”ì— ì‹ ê·œ ìž…ë ¥í•˜ëŠ” ìµëª… ë¸”ë¡ì„ ë§Œë“¤ì–´ ë³´ìž.
 
-<»ç¿ø¸í>   : Harrison Ford
-<ÀÌ¸ÞÀÏ>   : HARRIS
-<ÀÔ»çÀÏÀÚ> : ÇöÀçÀÏÀÚ
-<ºÎ¼­¹øÈ£> : 50
+<ì‚¬ì›ëª…>   : Harrison Ford
+<ì´ë©”ì¼>   : HARRIS
+<ìž…ì‚¬ì¼ìž> : í˜„ìž¬ì¼ìž
+<ë¶€ì„œë²ˆí˜¸> : 50
 
 
-<Á¤´ä>
+<ì •ë‹µ>
 
 DECLARE
    vn_max_empno employees.employee_id%TYPE;

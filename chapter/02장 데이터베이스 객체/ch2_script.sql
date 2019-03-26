@@ -1,4 +1,4 @@
--- евюл╨М
+-- М┘▄Л²╢К╦■
 
 CREATE TABLE ex2_1 (
     COLUMN1    CHAR(10),
@@ -7,7 +7,7 @@ CREATE TABLE ex2_1 (
     COLUMN4    NUMBER
 );
 
--- ╣╔юлем е╦ют
+-- К█╟Л²╢М└╟ М┐─Л·┘
 INSERT INTO ex2_1 ( column1, column2 ) VALUES ('abc', 'abc');
 
 SELECT column1, LENGTH(column1) as len1,
@@ -29,14 +29,14 @@ SELECT column1, LENGTH(column1) AS len1,
 FROM ex2_2;
 
 
-INSERT INTO ex2_2 VALUES ('х╚╠Ф╣©', 'х╚╠Ф╣©', 'х╚╠Ф╣©');
+INSERT INTO ex2_2 VALUES ('М≥█Й╦╦К▐≥', 'М≥█Й╦╦К▐≥', 'М≥█Й╦╦К▐≥');
 
-INSERT INTO ex2_2 (column3) VALUES ('х╚╠Ф╣©');
+INSERT INTO ex2_2 (column3) VALUES ('М≥█Й╦╦К▐≥');
 
 SELECT column3, LENGTH(column3) AS len3, LENGTHB(column3) AS bytelen
 FROM ex2_2;
 
--- ╪Щюз ╣╔юлем е╦ют
+-- Л┬╚Л·░ К█╟Л²╢М└╟ М┐─Л·┘
 CREATE TABLE ex2_3 (
     COL_INT    INTEGER, 
     COL_DEC    DECIMAL, 
@@ -49,7 +49,7 @@ SELECT column_id, column_name, data_type, data_length
  ORDER BY column_id;
  
  
--- гЖюЕ ЁКго©Л
+-- М≤└Л·╔ К┘╦М∙≤Л ╟
 CREATE TABLE ex2_4 (
     COL_FLOT1   FLOAT(32),
     COL_FLOT2   FLOAT
@@ -59,7 +59,7 @@ CREATE TABLE ex2_4 (
 INSERT INTO ex2_4 (col_flot1, col_flot2) VALUES (1234567891234, 1234567891234);
 
 
--- Ё╞б╔ ╣╔юлем е╦ют
+-- К┌═Л╖° К█╟Л²╢М└╟ М┐─Л·┘
 CREATE TABLE ex2_5 (
     COL_DATE       DATE,
     COL_TIMESTAMP  TIMESTAMP
@@ -106,7 +106,7 @@ INSERT INTO ex2_7 VALUES ('', 'BB', 'BB');
 INSERT INTO ex2_7 VALUES ('', 'CC', 'CC');
 
 
--- ╠Б╨╩е╟
+-- Й╦╟КЁ╦М┌╓
 CREATE TABLE ex2_8 (
     COL1   VARCHAR2(10) PRIMARY KEY, 
     COL2   VARCHAR2(10) 
@@ -150,11 +150,11 @@ SELECT *
 FROM ex2_10;   
 
  
--- евюл╨М ╩Ха╕
+-- М┘▄Л²╢К╦■ Л┌╜Л═°
 
 DROP TABLE ex2_10;
 
--- евюл╨М ╨╞╟Ф
+-- М┘▄Л²╢К╦■ КЁ─Й╡╫
 
 CREATE TABLE ex2_10 (
    Col1        VARCHAR2(10) NOT NULL, 
@@ -191,15 +191,15 @@ SELECT constraint_name, constraint_type, table_name, search_condition
  WHERE table_name = 'EX2_10';
 
  
--- евюл╨М ╨╧╩Г
+-- М┘▄Л²╢К╦■ КЁ╣Л┌╛
 CREATE TABLE ex2_9_1 AS
 SELECT *
 FROM ex2_9;
 
 
--- ╨Д
+-- К╥╟
 SELECT a.employee_id, a.emp_name, a.department_id, 
-       b.department_name   -- ╨н╪╜╦М дц╥Ё
+       b.department_name   -- К╤─Л└°К╙┘ Л╩╛К÷╪
   FROM employees a, 
        departments b
  WHERE a.department_id = b.department_id;
@@ -216,7 +216,7 @@ SELECT *
   FROM emp_dept_v1;
   
   
--- юн╣╕╫╨
+-- Л²╦К█╠Л┼╓
 CREATE UNIQUE INDEX ex2_10_ix01
 ON ex4210 (col11);
 
@@ -247,7 +247,7 @@ WHERE table_name = 'EX2_10';
  
 DROP INDEX ex2_10_ix02;
 
--- ╫цЁК╢т
+-- Л▀°К┘╦К▀≤
 CREATE OR REPLACE SYNONYM syn_channel 
 FOR channels;
 
@@ -275,7 +275,7 @@ DROP SYNONYM syn_channel;
 
 DROP PUBLIC SYNONYM syn_channel2;
 
--- ╫цдЖ╫╨
+-- Л▀°М──Л┼╓
 CREATE SEQUENCE my_seq1
 INCREMENT BY 1
 START WITH 1
@@ -284,7 +284,7 @@ MAXVALUE 1000
 NOCYCLE
 NOCACHE;
 
-DELETE ex2_8;  -- ╠Ба╦ ╣╔юлем╦╕ аЖ©Н╢ы.
+DELETE ex2_8;  -- Й╦╟Л║╢ К█╟Л²╢М└╟К╔╪ Л╖─Л ╢К▀╓.
 
 INSERT INTO ex2_8 (col1) VALUES ( my_seq1.NEXTVAL);
 

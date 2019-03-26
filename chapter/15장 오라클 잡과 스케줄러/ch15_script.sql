@@ -1,5 +1,5 @@
 -- 02. DBMS_JOB
--- (1) DBMS_JOBÀÇ ÇÁ·Î½ÃÀú
+-- (1) DBMS_JOBì˜ í”„ë¡œì‹œì €
 
 CREATE TABLE ch15_job_test (
              seq          NUMBER,
@@ -9,7 +9,7 @@ CREATE OR REPLACE PROCEDURE ch15_job_test_proc
 IS
   vn_next_seq  NUMBER;
 BEGIN
-	-- ´ÙÀ½ ¼ø¹øÀ» °¡Á®¿Â´Ù. 
+	-- ë‹¤ìŒ ìˆœë²ˆì„ ê°€ì ¸ì˜¨ë‹¤. 
 	SELECT NVL(MAX(seq), 0) + 1
 	  INTO vn_next_seq
 	  FROM ch15_job_test;
@@ -25,14 +25,14 @@ EXCEPTION WHEN OTHERS THEN
 END;             
 
 
--- Àâ µî·Ï 
+-- ìž¡ ë“±ë¡ 
 DECLARE 
   v_job_no NUMBER;
 BEGIN
-	-- ÇöÀç½Ã°£ ±âÁØ 1ºÐ¿¡ 1¹ø¾¿ ch15_job_test_proc ÇÁ·Î½ÃÀú¸¦ ½ÇÇàÇÏ´Â Àâ µî·Ï 
+	-- í˜„ìž¬ì‹œê°„ ê¸°ì¤€ 1ë¶„ì— 1ë²ˆì”© ch15_job_test_proc í”„ë¡œì‹œì €ë¥¼ ì‹¤í–‰í•˜ëŠ” ìž¡ ë“±ë¡ 
 	DBMS_JOB.SUBMIT  ( job => v_job_no, what => 'ch15_job_test_proc;', next_date => SYSDATE, interval => 'SYSDATE + 1/60/24' );
 	COMMIT;
-	-- ½Ã½ºÅÛ¿¡¼­ ÀÚµ¿»ý¼ºµÈ Àâ ¹øÈ£ Ãâ·Â
+	-- ì‹œìŠ¤í…œì—ì„œ ìžë™ìƒì„±ëœ ìž¡ ë²ˆí˜¸ ì¶œë ¥
 	DBMS_OUTPUT.PUT_LINE('v_job_no : ' || v_job_no);
 END;
 
@@ -42,9 +42,9 @@ FROM ch15_job_test;
 SELECT job, last_date, last_sec, next_date, next_sec, broken, interval, failures, what
 FROM   user_jobs;
 
--- ÀâÀÇ ÁßÁö, ±×¸®°í Àç½ÇÇà 
+-- ìž¡ì˜ ì¤‘ì§€, ê·¸ë¦¬ê³  ìž¬ì‹¤í–‰ 
 BEGIN 
- -- ÀâÀÇ ÁßÁö 
+ -- ìž¡ì˜ ì¤‘ì§€ 
  DBMS_JOB.BROKEN(30, TRUE); 
  COMMIT;
 END; 
@@ -54,7 +54,7 @@ FROM   user_jobs;
 
 
 BEGIN 
- -- Àâ Àç½ÇÇà 
+ -- ìž¡ ìž¬ì‹¤í–‰ 
  DBMS_JOB.BROKEN(30, FALSE); 
  COMMIT;
 END; 
@@ -65,9 +65,9 @@ FROM   user_jobs;
 SELECT SEQ, TO_CHAR(INSERT_DATE, 'YYYY-MM-DD HH24:MI:SS')
 FROM ch15_job_test;
 
--- Àâ ¼Ó¼º º¯°æ
+-- ìž¡ ì†ì„± ë³€ê²½
 BEGIN 
- -- Àâ Àç½ÇÇà 
+ -- ìž¡ ìž¬ì‹¤í–‰ 
  DBMS_JOB.CHANGE(job => 30, what => 'ch15_job_test_proc;', next_date => SYSDATE, interval => 'SYSDATE + 3/60/24'); 
  COMMIT;
 END; 
@@ -78,17 +78,17 @@ FROM   user_jobs;
 SELECT SEQ, TO_CHAR(INSERT_DATE, 'YYYY-MM-DD HH24:MI:SS') AS DATES
 FROM ch15_job_test;
 
--- ÀâÀÇ ½ÇÇà 
+-- ìž¡ì˜ ì‹¤í–‰ 
 BEGIN 
- -- Àâ °­Á¦½ÇÇà
+ -- ìž¡ ê°•ì œì‹¤í–‰
  DBMS_JOB.RUN(30);
  COMMIT;
 END; 
 
 
--- ÀâÀÇ »èÁ¦
+-- ìž¡ì˜ ì‚­ì œ
 BEGIN 
- -- Àâ »èÁ¦
+ -- ìž¡ ì‚­ì œ
  DBMS_JOB.REMOVE(30);
  COMMIT;
 END; 
@@ -97,20 +97,20 @@ SELECT job, last_date, last_sec, next_date, next_sec, broken, interval, failures
 FROM   user_jobs;
 
 -- DBMS_SCHEDULER
--- ÇÁ·Î±×·¥ °´Ã¼ »ý¼º
+-- í”„ë¡œê·¸ëž¨ ê°ì²´ ìƒì„±
 
 BEGIN
    DBMS_SCHEDULER.CREATE_PROGRAM (
         program_name => 'my_program1',
         program_type => 'STORED_PROCEDURE',
         program_action => 'ch15_job_test_proc ',
-        comments => 'Ã¹¹øÂ° ÇÁ·Î±×·¥');
+        comments => 'ì²«ë²ˆì§¸ í”„ë¡œê·¸ëž¨');
 END;
 
 SELECT program_name, program_type, program_action, number_of_arguments, enabled, comments
 FROM USER_SCHEDULER_PROGRAMS;
 
--- ½ºÄÉÁÙ °´Ã¼ »ý¼º
+-- ìŠ¤ì¼€ì¤„ ê°ì²´ ìƒì„±
 
 BEGIN
    DBMS_SCHEDULER.CREATE_SCHEDULE (
@@ -118,14 +118,14 @@ BEGIN
         start_date => NULL,
         repeat_interval => 'FREQ=MINUTELY; INTERVAL=1',
         end_date => NULL,
-        comments => '1ºÐ¸¶´Ù ¼öÇà');
+        comments => '1ë¶„ë§ˆë‹¤ ìˆ˜í–‰');
 END;
 
 
 SELECT schedule_name, schedule_type, start_date, repeat_interval, end_date, comments
 FROM USER_SCHEDULER_SCHEDULES;
 
--- Àâ °´Ã¼ »ý¼º(¹öÀü1)
+-- ìž¡ ê°ì²´ ìƒì„±(ë²„ì „1)
 
 BEGIN
   DBMS_SCHEDULER.CREATE_JOB (
@@ -133,7 +133,7 @@ BEGIN
        job_type            => 'STORED_PROCEDURE',
        job_action          => 'ch15_job_test_proc ',
        repeat_interval     => 'FREQ=MINUTELY; INTERVAL=1',
-       comments            => '¹öÀü1 Àâ°´Ã¼' );
+       comments            => 'ë²„ì „1 ìž¡ê°ì²´' );
 END;
 
 SELECT job_name, job_style, job_type, job_action, repeat_interval, enabled, auto_drop, state, comments
@@ -141,7 +141,7 @@ FROM USER_SCHEDULER_JOBS;
 
 TRUNCATE TABLE ch15_job_test;
 
--- MY_JOB1 È°¼ºÈ­
+-- MY_JOB1 í™œì„±í™”
 
 BEGIN
   DBMS_SCHEDULER.ENABLE ('my_job1');
@@ -161,7 +161,7 @@ FROM USER_SCHEDULER_JOB_LOG;
 SELECT log_date, job_name, status, error#, req_start_date, actual_start_date, run_duration
 FROM USER_SCHEDULER_JOB_RUN_DETAILS;
 
--- ¹öÀü 2 Àâ °´Ã¼ »ý¼º
+-- ë²„ì „ 2 ìž¡ ê°ì²´ ìƒì„±
 
 BEGIN
   DBMS_SCHEDULER.DISABLE ('my_job1');
@@ -174,7 +174,7 @@ BEGIN
        job_name            => 'my_job2',
        program_name        => 'MY_PROGRAM1',
        schedule_name       => 'MY_SCHEDULE1',
-       comments            => '¹öÀü2 Àâ °´Ã¼' );
+       comments            => 'ë²„ì „2 ìž¡ ê°ì²´' );
 END;
 
 
@@ -182,7 +182,7 @@ SELECT job_name, program_name, job_type, job_action, schedule_name, schedule_typ
 FROM USER_SCHEDULER_JOBS;
 
 
--- my_job2 È°¼ºÈ­ 
+-- my_job2 í™œì„±í™” 
 BEGIN
   DBMS_SCHEDULER.ENABLE ('my_job2');
 END;  
@@ -190,7 +190,7 @@ END;
 SELECT SEQ, TO_CHAR(INSERT_DATE, 'YYYY-MM-DD HH24:MI:SS')
 FROM ch15_job_test;
 
--- my_program1 È°¼ºÈ­ 
+-- my_program1 í™œì„±í™” 
 BEGIN
   DBMS_SCHEDULER.ENABLE ('my_program1');
 END;  
@@ -203,26 +203,26 @@ SELECT log_date, job_name, status, error#, req_start_date, actual_start_date, ru
 FROM USER_SCHEDULER_JOB_RUN_DETAILS
 WHERE JOB_NAME = 'MY_JOB2';
 
--- ¿ÜºÎ ÇÁ·Î±×·¥ ½ÇÇà
+-- ì™¸ë¶€ í”„ë¡œê·¸ëž¨ ì‹¤í–‰
 TRUNCATE TABLE ch15_job_test;
 
 SELECT SEQ, TO_CHAR(INSERT_DATE, 'YYYY-MM-DD HH24:MI:SS')
 FROM ch15_job_test;
 
--- Àâ °´Ã¼ »ý¼º
+-- ìž¡ ê°ì²´ ìƒì„±
 BEGIN
   DBMS_SCHEDULER.CREATE_JOB (
-       job_name            => 'MY_EX_JOB1',   -- Àâ ¸í
-       job_type            => 'EXECUTABLE',   -- ¿ÜºÎ ½ÇÇàÆÄÀÏ
-       number_of_arguments => 2,              -- ¸Å°³º¯¼ö°¡ 2°³¶ó´Â ÀÇ¹Ì
-       job_action          => 'c:\windows\system32\cmd.exe',   -- À©µµ¿ìÀÇ CMD.EXE¸¦ ½ÇÇà
-       repeat_interval     => 'FREQ=MINUTELY; INTERVAL=1',     -- 1ºÐ¿¡ 1È¸¾¿ ¼öÇà
-       comments            => '¿ÜºÎÆÄÀÏ ½ÇÇà Àâ°´Ã¼' );        -- Àâ ¼³¸í 
+       job_name            => 'MY_EX_JOB1',   -- ìž¡ ëª…
+       job_type            => 'EXECUTABLE',   -- ì™¸ë¶€ ì‹¤í–‰íŒŒì¼
+       number_of_arguments => 2,              -- ë§¤ê°œë³€ìˆ˜ê°€ 2ê°œë¼ëŠ” ì˜ë¯¸
+       job_action          => 'c:\windows\system32\cmd.exe',   -- ìœˆë„ìš°ì˜ CMD.EXEë¥¼ ì‹¤í–‰
+       repeat_interval     => 'FREQ=MINUTELY; INTERVAL=1',     -- 1ë¶„ì— 1íšŒì”© ìˆ˜í–‰
+       comments            => 'ì™¸ë¶€íŒŒì¼ ì‹¤í–‰ ìž¡ê°ì²´' );        -- ìž¡ ì„¤ëª… 
        
-      DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE('MY_EX_JOB1',1,'/c');                     -- ¸Å°³º¯¼ö1
-      DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE('MY_EX_JOB1',2,'c:\scheduler_test.bat');  -- ¸Å°³º¯¼ö2 (½ÇÁ¦ ¹èÄ¡ÆÄÀÏ)
+      DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE('MY_EX_JOB1',1,'/c');                     -- ë§¤ê°œë³€ìˆ˜1
+      DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE('MY_EX_JOB1',2,'c:\scheduler_test.bat');  -- ë§¤ê°œë³€ìˆ˜2 (ì‹¤ì œ ë°°ì¹˜íŒŒì¼)
       
-      DBMS_SCHEDULER.ENABLE ('MY_EX_JOB1'); -- Àâ È°¼ºÈ­ 
+      DBMS_SCHEDULER.ENABLE ('MY_EX_JOB1'); -- ìž¡ í™œì„±í™” 
 END;
 
 
@@ -235,16 +235,16 @@ FROM USER_SCHEDULER_JOB_RUN_DETAILS
 WHERE JOB_NAME = 'MY_EX_JOB1';
 
 
--- Ã¼ÀÎ
+-- ì²´ì¸
 
 CREATE TABLE ch15_changed_object ( 
     
-    OBJECT_NAME      VARCHAR2(128),   -- °´Ã¼ ¸í
-    OBJECT_TYPE      VARCHAR2(50),    -- °´Ã¼ À¯Çü
-    CREATED          DATE,            -- °´Ã¼ »ý¼ºÀÏÀÚ
-    LAST_DDL_TIME    DATE,            -- °´Ã¼ º¯°æÀÏÀÚ
-    STATUS           VARCHAR2(7),     -- °´Ã¼ »óÅÂ
-    CREATION_DATE    DATE             -- »ý¼ºÀÏÀÚ
+    OBJECT_NAME      VARCHAR2(128),   -- ê°ì²´ ëª…
+    OBJECT_TYPE      VARCHAR2(50),    -- ê°ì²´ ìœ í˜•
+    CREATED          DATE,            -- ê°ì²´ ìƒì„±ì¼ìž
+    LAST_DDL_TIME    DATE,            -- ê°ì²´ ë³€ê²½ì¼ìž
+    STATUS           VARCHAR2(7),     -- ê°ì²´ ìƒíƒœ
+    CREATION_DATE    DATE             -- ìƒì„±ì¼ìž
      );
      
      
@@ -253,8 +253,8 @@ IS
   vn_cnt  NUMBER := 0;
 BEGIN
 	
-	-- ÀÏÁÖÀÏ°£ º¯°æµÈ °´Ã¼ Áß ch15_changed_object¿¡ ¾ø´Â °´Ã¼¸¸ Ã£´Â´Ù. 
-	-- ¿Ö³ÄÇÏ¸é ÀÌÀü ÇÁ·Î½ÃÀú ¼öÇà ½Ã º¯°æµÈ °´Ã¼°¡ ÀÖÀ¸¸é ÀÌ¹Ì ch15_changed_object¿¡ ÀÔ·ÂµÆ±â ¶§¹® 
+	-- ì¼ì£¼ì¼ê°„ ë³€ê²½ëœ ê°ì²´ ì¤‘ ch15_changed_objectì— ì—†ëŠ” ê°ì²´ë§Œ ì°¾ëŠ”ë‹¤. 
+	-- ì™œëƒí•˜ë©´ ì´ì „ í”„ë¡œì‹œì € ìˆ˜í–‰ ì‹œ ë³€ê²½ëœ ê°ì²´ê°€ ìžˆìœ¼ë©´ ì´ë¯¸ ch15_changed_objectì— ìž…ë ¥ëê¸° ë•Œë¬¸ 
 	SELECT COUNT(*)
 	INTO   vn_cnt
   FROM USER_OBJECTS a
@@ -264,10 +264,10 @@ BEGIN
                        FROM ch15_changed_object b
                       WHERE a.object_name = b.object_name);                
 
-  -- º¯°æµÈ °´Ã¼°¡ ¾øÀ¸¸é RAISE_APPLICATION_ERROR¸¦ ¹ß»ý½ÃÄÑ ¿¡·¯ÄÚµå¸¦ ³Ñ±ä´Ù. 
-  -- ¿¡·¯ÄÚµå¸¦ ³Ñ±â´Â ÀÌÀ¯´Â ·ê¿¡¼­ Ã³¸®ÇÏ±â À§ÇÔÀÌ´Ù.                           
+  -- ë³€ê²½ëœ ê°ì²´ê°€ ì—†ìœ¼ë©´ RAISE_APPLICATION_ERRORë¥¼ ë°œìƒì‹œì¼œ ì—ëŸ¬ì½”ë“œë¥¼ ë„˜ê¸´ë‹¤. 
+  -- ì—ëŸ¬ì½”ë“œë¥¼ ë„˜ê¸°ëŠ” ì´ìœ ëŠ” ë£°ì—ì„œ ì²˜ë¦¬í•˜ê¸° ìœ„í•¨ì´ë‹¤.                           
   IF vn_cnt = 0 THEN
-     RAISE_APPLICATION_ERROR(-20001, 'º¯°æµÈ °´Ã¼ ¾øÀ½');  
+     RAISE_APPLICATION_ERROR(-20001, 'ë³€ê²½ëœ ê°ì²´ ì—†ìŒ');  
   END IF;                         
 	
 	
@@ -301,38 +301,38 @@ EXCEPTION WHEN OTHERS THEN
       ROLLBACK;
 END;
 
--- ÇÁ·Î±×·¥ °´Ã¼ »ý¼º
+-- í”„ë¡œê·¸ëž¨ ê°ì²´ ìƒì„±
 BEGIN
-	 -- ch15_check_objects_prc¿¡ ´ëÇÑ ÇÁ·Î±×·¥ °´Ã¼ »ý¼º
+	 -- ch15_check_objects_prcì— ëŒ€í•œ í”„ë¡œê·¸ëž¨ ê°ì²´ ìƒì„±
    DBMS_SCHEDULER.CREATE_PROGRAM (
         program_name   => 'MY_CHAIN_PROG1',
         program_type   => 'STORED_PROCEDURE',
         program_action => 'ch15_check_objects_prc',
-        comments       => 'Ã¹¹øÂ° Ã¼ÀÎ ÇÁ·Î±×·¥');
+        comments       => 'ì²«ë²ˆì§¸ ì²´ì¸ í”„ë¡œê·¸ëž¨');
         
-	 -- ch15_make_objects_prc¿¡ ´ëÇÑ ÇÁ·Î±×·¥ °´Ã¼ »ý¼º        
+	 -- ch15_make_objects_prcì— ëŒ€í•œ í”„ë¡œê·¸ëž¨ ê°ì²´ ìƒì„±        
    DBMS_SCHEDULER.CREATE_PROGRAM (
         program_name   => 'MY_CHAIN_PROG2',
         program_type   => 'STORED_PROCEDURE',
         program_action => 'ch15_make_objects_prc',
-        comments       => 'µÎ¹øÂ° Ã¼ÀÎ ÇÁ·Î±×·¥'); 
+        comments       => 'ë‘ë²ˆì§¸ ì²´ì¸ í”„ë¡œê·¸ëž¨'); 
         
-   -- ÇÁ·Î±×·¥ °´Ã¼ È°¼ºÈ­      
+   -- í”„ë¡œê·¸ëž¨ ê°ì²´ í™œì„±í™”      
    DBMS_SCHEDULER.ENABLE ('MY_CHAIN_PROG1');   
    DBMS_SCHEDULER.ENABLE ('MY_CHAIN_PROG2');   
            
 END;
 
--- Ã¼ÀÎ »ý¼º
+-- ì²´ì¸ ìƒì„±
 BEGIN
   DBMS_SCHEDULER.CREATE_CHAIN (
        chain_name          => 'MY_CHAIN1',
        rule_set_name       => NULL,
        evaluation_interval => NULL,
-       comments            => 'Ã¹ ¹øÂ° Ã¼ÀÎ');
+       comments            => 'ì²« ë²ˆì§¸ ì²´ì¸');
 END;
 
--- ½ºÅÜ »ý¼º
+-- ìŠ¤í… ìƒì„±
 BEGIN
 	-- STEP1
 	DBMS_SCHEDULER.DEFINE_CHAIN_STEP(
@@ -347,58 +347,58 @@ BEGIN
 	     program_name => 'MY_CHAIN_PROG2');
 END;
 
--- ·ê »ý¼º
+-- ë£° ìƒì„±
 
 BEGIN
-  -- ÃÖÃÊ STEP1À» ½ÃÀÛ½ÃÅ°´Â ·ê 
+  -- ìµœì´ˆ STEP1ì„ ì‹œìž‘ì‹œí‚¤ëŠ” ë£° 
   DBMS_SCHEDULER.DEFINE_CHAIN_RULE (
        chain_name => 'MY_CHAIN1',
        condition  => 'TRUE',
        action     => 'START STEP1',
        rule_name  => 'MY_RULE1',
-       comments   => 'START ·ê' );
+       comments   => 'START ë£°' );
 		
 END;
 
 
 BEGIN
-  -- µÎ ¹øÂ° ·ê, ÀÏÁÖÀÏ°£ º¯°æµÈ °´Ã¼°¡ ¾ø´Ù¸é Á¾·á·Î ºüÁø´Ù.
-  -- ÀÌ´Â STEP1À» ½ÇÇàÇØ ±× °á°ú·Î ¿À·ùÄÚµå¸¦ ¹Þ¾ÒÀ» ¶§ Á¾·áÇÏµµ·Ï Ã³¸®ÇÑ´Ù. 
+  -- ë‘ ë²ˆì§¸ ë£°, ì¼ì£¼ì¼ê°„ ë³€ê²½ëœ ê°ì²´ê°€ ì—†ë‹¤ë©´ ì¢…ë£Œë¡œ ë¹ ì§„ë‹¤.
+  -- ì´ëŠ” STEP1ì„ ì‹¤í–‰í•´ ê·¸ ê²°ê³¼ë¡œ ì˜¤ë¥˜ì½”ë“œë¥¼ ë°›ì•˜ì„ ë•Œ ì¢…ë£Œí•˜ë„ë¡ ì²˜ë¦¬í•œë‹¤. 
   DBMS_SCHEDULER.DEFINE_CHAIN_RULE (
        chain_name => 'MY_CHAIN1',
        condition  => 'STEP1 ERROR_CODE = 20001',
        action     => 'END',
        rule_name  => 'MY_RULE2',
-       comments   => '·ê2' );
+       comments   => 'ë£°2' );
 		
 END;
 
 BEGIN
-  -- STEP1¿¡¼­ STEP2·Î °¡´Â ·ê
+  -- STEP1ì—ì„œ STEP2ë¡œ ê°€ëŠ” ë£°
   DBMS_SCHEDULER.DEFINE_CHAIN_RULE (
        chain_name => 'MY_CHAIN1',
        condition  => 'STEP1 SUCCEEDED',
        action     => 'START STEP2',
        rule_name  => 'MY_RULE3',
-       comments   => '·ê3' );
+       comments   => 'ë£°3' );
        
-  -- STEP2¸¦ ¸¶Ä¡·Î Á¾·áÇÏ´Â ·ê 
+  -- STEP2ë¥¼ ë§ˆì¹˜ë¡œ ì¢…ë£Œí•˜ëŠ” ë£° 
   DBMS_SCHEDULER.DEFINE_CHAIN_RULE (
        chain_name => 'MY_CHAIN1',
        condition  => 'STEP2 SUCCEEDED',
        action     => 'END',
        rule_name  => 'MY_RULE4',
-       comments   => '·ê4' );   
+       comments   => 'ë£°4' );   
 END;
 
--- Àâ °´Ã¼ »ý¼º	
+-- ìž¡ ê°ì²´ ìƒì„±	
 BEGIN
   DBMS_SCHEDULER.CREATE_JOB (
        job_name            => 'MY_CHAIN_JOBS',
        job_type            => 'CHAIN',
        job_action          => 'MY_CHAIN1',
        repeat_interval     => 'FREQ=MINUTELY; INTERVAL=1',
-       comments            => 'Ã¼ÀÎÀ» ½ÇÇàÇÏ´Â Àâ' );
+       comments            => 'ì²´ì¸ì„ ì‹¤í–‰í•˜ëŠ” ìž¡' );
 END;	
 	
 SELECT *
@@ -411,10 +411,10 @@ SELECT *
 FROM user_scheduler_chain_rules;
 
 BEGIN
-	-- Ã¼ÀÎ È°¼ºÈ­
+	-- ì²´ì¸ í™œì„±í™”
 	DBMS_SCHEDULER.ENABLE('MY_CHAIN1');
 	
-	-- Àâ È°¼ºÈ­
+	-- ìž¡ í™œì„±í™”
 	DBMS_SCHEDULER.ENABLE('MY_CHAIN_JOBS');	
 	
 END;

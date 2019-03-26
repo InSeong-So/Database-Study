@@ -1,11 +1,11 @@
--- µ¿µîÁ¶ÀÎ
+-- ë™ë“±ì¡°ì¸
 SELECT a.employee_id, a.emp_name, a.department_id, b.department_name
   FROM employees a,
        departments b
  WHERE a.department_id = b.department_id;
 
 
--- ¼¼¹ÌÁ¶ÀÎ
+-- ì„¸ë¯¸ì¡°ì¸
 SELECT department_id, department_name
   FROM departments a
  WHERE EXISTS ( SELECT * 
@@ -30,7 +30,7 @@ SELECT a.department_id, a.department_name
 ORDER BY a.department_name;
 
 
--- ¾ÈÆ¼Á¶ÀÎ
+-- ì•ˆí‹°ì¡°ì¸
 SELECT a.employee_id, a.emp_name, a.department_id, b.department_name
   FROM employees a,
        departments b
@@ -48,7 +48,7 @@ SELECT count(*)
 AND manager_id IS NULL) ;
 
 
--- ¼¿ÇÁÁ¶ÀÎ
+-- ì…€í”„ì¡°ì¸
 SELECT a.employee_id, a.emp_name, b.employee_id, b.emp_name, a.department_id
   FROM employees a,
         employees b
@@ -56,7 +56,7 @@ SELECT a.employee_id, a.emp_name, b.employee_id, b.emp_name, a.department_id
    AND a.department_id = b.department_id
    AND a.department_id = 20;
    
--- ¿ÜºÎÁ¶ÀÎ
+-- ì™¸ë¶€ì¡°ì¸
 SELECT a.department_id, a.department_name, b.job_id, b.department_id
 FROM departments a,
      job_history b
@@ -83,13 +83,13 @@ select a.employee_id, a.emp_name, b.job_id, b.department_id
    and a.department_id = b.department_id(+);
 
 
--- Ä«Å¸½Ã¾È Á¶ÀÎ
+-- ì¹´íƒ€ì‹œì•ˆ ì¡°ì¸
 SELECT a.employee_id, a.emp_name, b.department_id, b.department_name
   FROM employees a,
        departments b;
 
 
--- ANSI Á¶ÀÎ
+-- ANSI ì¡°ì¸
 SELECT a.employee_id, a.emp_name, b.department_id, b.department_name
   FROM employees a,
        departments b
@@ -118,7 +118,7 @@ SELECT a.employee_id, a.emp_name, department_id, b.department_name
  WHERE a.hire_date >= TO_DATE('2003-01-01','YYYY-MM-DD');
 
 
--- ANSI ¿ÜºÎÁ¶ÀÎ
+-- ANSI ì™¸ë¶€ì¡°ì¸
 select a.employee_id, a.emp_name, b.job_id, b.department_id 
   from employees a,
        job_history b
@@ -147,7 +147,7 @@ SELECT a.employee_id, a.emp_name, b.job_id, b.department_id
        and a.department_id = b.department_id) ;
 
 
--- CROSS Á¶ÀÎ
+-- CROSS ì¡°ì¸
 SELECT a.employee_id, a.emp_name, b.department_id, b.department_name
   FROM employees a,
        departments b;
@@ -158,7 +158,7 @@ FROM employees a
 CROSS JOIN departments b;
 
 
--- FULL OUTER Á¶ÀÎ
+-- FULL OUTER ì¡°ì¸
 CREATE TABLE HONG_A  (EMP_ID INT);
 
 CREATE TABLE HONG_B  (EMP_ID INT);
@@ -189,8 +189,8 @@ FULL OUTER JOIN hong_b b
 ON ( a.emp_id = b.emp_id);
 
 
--- ¼­ºêÄõ¸®
--- ¿¬°ü¼º ¾ø´Â ¼­ºêÄõ¸® 
+-- ì„œë¸Œì¿¼ë¦¬
+-- ì—°ê´€ì„± ì—†ëŠ” ì„œë¸Œì¿¼ë¦¬ 
 
 SELECT count(*)
   FROM employees 
@@ -223,7 +223,7 @@ DELETE employees
 ROLLBACK;                    
 
 
--- ¿¬°ü¼º ÀÖ´Â ¼­ºêÄõ¸®   
+-- ì—°ê´€ì„± ìžˆëŠ” ì„œë¸Œì¿¼ë¦¬   
 
 SELECT a.department_id, a.department_name
  FROM departments a
@@ -295,7 +295,7 @@ MERGE INTO employees a
  UPDATE SET a.salary = d.sal;
 
 
--- ÀÎ¶óÀÎºä
+-- ì¸ë¼ì¸ë·°
 
 SELECT a.employee_id, a.emp_name, b.department_id, b.department_name
   FROM employees a,
@@ -303,7 +303,7 @@ SELECT a.employee_id, a.emp_name, b.department_id, b.department_name
        ( SELECT AVG(c.salary) AS avg_salary 
            FROM departments b,
                 employees c
-          WHERE b.parent_id = 90  -- ±âÈ¹ºÎ
+          WHERE b.parent_id = 90  -- ê¸°íšë¶€
             AND b.department_id = c.department_id ) d
  WHERE a.department_id = b.department_id 
    AND a.salary > d.avg_salary;
@@ -332,7 +332,7 @@ SELECT a.*
  WHERE a.month_avg > b.year_avg ;
 
 
--- ÇöÀå ³ëÇÏ¿ì
+-- í˜„ìž¥ ë…¸í•˜ìš°
 SELECT SUBSTR(a.sales_month, 1, 4) as years,
         a.employee_id, 
         SUM(a.amount_sold) AS amount_sold
