@@ -12,12 +12,19 @@
     |프로시저(Procedure) |함수와 비슷하지만 값을 반환하지는 않는 객체 |
     |패키지(Pakage) | 용도에 맞게 함수나 프로시저를 하나로 묶어 놓은 객체|
 
+<br>
+
 ## 테이블
 - DBMS 상의 가장 기본적인 객체로 Row(행)와 Column(열)로 구성된 2차원의 객체이다.
+
     ```sql
     CREATE TABLE [스키마.]테이블명(
         컬럼1   컬럼1_데이터타입    [NULL, NOT NULL]
         컬럼2   컬럼2_데이터타입    [NULL, NOT NULL]
     )
     ```
-    
+
+## [오라클 내장함수](ORACLE_BASIC_FUNCTION.md)
+
+<hr>
+<br>
