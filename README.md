@@ -24,6 +24,9 @@
     )
     ```
 
+<hr>
+<br>
+
 ## [오라클 내장함수](ORACLE_BASIC_FUNCTION.md)
 
 <hr>
