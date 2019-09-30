@@ -1,7 +1,11 @@
 # 데이터베이스 관련 저장소
 
-## [SQLD](sqld/README.md)
+## [SQLD 정리](sqld/README.md)
+
+<br>
 
 ## [MySQL](mySQL/README.md)
+
+<br>
 
 ## [Oracle](oracleDB/README.md)
