@@ -258,7 +258,7 @@
 ## 관계의 표기법
 - 관계명 : 관계의 이름
 
-  ![](imgaes/SQL_026.jpg)
+  ![](images/SQL_026.jpg)
 
   - 관계시작점 : 관계가 시작되는 편
   - 관계끝점 : 관계를 받는 편
@@ -269,19 +269,19 @@
 - 관계차수 : 1:1, 1:N, M:N
   - 1:1(OneToOne)
 
-    ![](imgaes/SQL_027.jpg)
+    ![](images/SQL_027.jpg)
 
     <br>
 
   - 1:M(OneToMany)
 
-    ![](imgaes/SQL_028.jpg)
+    ![](images/SQL_028.jpg)
 
     <br>
 
   - M:N(ManyToMany)
 
-    ![](imgaes/SQL_029.jpg)
+    ![](images/SQL_029.jpg)
 
 - 관계선택사양 : 필수관계, 선택관계
 
