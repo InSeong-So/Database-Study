@@ -266,7 +266,7 @@ CREATE TABLE 테이블이름 (
     ```
 
     ```sql
-    -- ORACLE
+    -- [ORACLE]
 
     CREATE TABLE PLAYER ( 
         PLAYER_ID CHAR(7) NOT NULL, 
@@ -287,7 +287,7 @@ CREATE TABLE 테이블이름 (
     ); 
     ```
     ```sql
-    -- SQL Server
+    -- [SQL Server]
 
     CREATE TABLE PLAYER ( 
         PLAYER_ID CHAR(7) NOT NULL,
@@ -357,7 +357,7 @@ CREATE TABLE 테이블이름 (
                 (제약조건명은 미적용) 
     ```
     ```sql
-    -- ORACLE
+    -- [ORACLE]
 
     CREATE TABLE TEAM ( 
         TEAM_ID CHAR(3) NOT NULL,
@@ -379,7 +379,7 @@ CREATE TABLE 테이블이름 (
     ); 
     ```
     ```sql
-    -- SQL Server
+    -- [SQL Server]
 
     CREATE TABLE TEAM ( 
         TEAM_ID CHAR(3) NOT NULL,
@@ -405,11 +405,11 @@ CREATE TABLE 테이블이름 (
 
 ## 생성된 테이블 구조 확인
 ```sql
--- ORACLE
+-- [ORACLE]
 DESCRIBE 테이블명;
 DESC 테이블명;
 
--- SQL Server
+-- [SQL Server]
 exec sp_help 'dbo.테이블명';
 go
 ```
@@ -426,12 +426,12 @@ go
 
 - 작성 예
     ```sql
-    -- ORACLE
+    -- [ORACLE]
 
     CREATE TABLE TEAM_TEMP AS SELECT * FROM TEAM; 
     ```
     ```sql
-    -- SQL Server
+    -- [SQL Server]
 
     SELECT * INTO TEAM_TEMP FROM TEAM; 
     ```
@@ -466,12 +466,12 @@ go
 ### MODIFY COLUMN
 - 테이블의 컬럼에 대한 정의를 변경하는 명령어
     ```sql
-    -- ORACLE
+    -- [ORACLE]
     ALTER TABLE 테이블명 
     MODIFY (컬럼명1 데이터 유형 [DEFAULT 식] [NOT NULL], 
                 컬럼명2 데이터 유형 ...); 
 
-    -- SQL Server
+    -- [SQL Server]
     ALTER TABLE 테이블명 
     ALTER (컬럼명1 데이터 유형 [DEFAULT 식] [NOT NULL], 
                 컬럼명2 데이터 유형 ...); 
@@ -527,7 +527,7 @@ go
     ```sql
     RENAME 변경전 테이블명 TO 변경후 테이블명; 
 
-    -- SQL Server
+    -- [SQL Server]
     sp_rename 변경전 테이블명, 변경후 테이블명; 
     ```
 
@@ -542,7 +542,7 @@ go
 - 테이블의 모든 데이터 및 구조를 삭제
   - CASCADE CONSTRAINT 옵션은 해당 테이블에 참조되는 제약조건에 대해서도 삭제
 - SQL Server에서는 CASCADE 옵션이 존재하지 않으며 테이블을 삭제하기 전에 참조하는 FOREIGN KEY 제약 조건 또는 참조하는 테이블을 먼저 삭제해야 함
-- Oracle 10g 부터 RECYCLEBIN 파마메터가 ON일경우, PURGE 옵션을 사용하지 않으면 RECYCLEBIN 이동
+- ORACLE 10g 부터 RECYCLEBIN 파마메터가 ON일경우, PURGE 옵션을 사용하지 않으면 RECYCLEBIN 이동
 
 <br>
 
@@ -680,7 +680,7 @@ go
 ### 합성 연산자
 - 문자와 문자를 연결하는 합성(CONCATENATION) 연산자를 사용하면 별도의 프로그램 도움 없이 SQL 문장만으로도 유용한 리포트 출력 가능
 
-- 문자와 문자를 연결하는 경우 2개의 수직 바(||)에 의해 이루어진다. (Oracle)
+- 문자와 문자를 연결하는 경우 2개의 수직 바(||)에 의해 이루어진다. (ORACLE)
   - 문자와 문자를 연결하는 경우 + 표시에 의해 이루어진다. (SQL Server)
 
 - 두 벤더 모두 공통적으로 CONCAT (string1, string2) 함수를 사용할 수 있다.
@@ -688,5 +688,183 @@ go
 - 칼럼과 문자 또는 다른 칼럼과 연결시킨다.
 
 - 문자 표현식의 결과에 의해 새로운 칼럼을 생성한다.
+
+<br>
+
+# TCL(TRANSACTION CONTROL LANGUAGE)
+## 트랜잭션의 개요
+- 트랜잭션 : 데이터베이스의 논리적 연산단위
+  - 밀접히 관련되어 분리될 수 없는 한 개 이상의 데이터베이스 조작
+  - 트랜잭션은 분할할 수 없는 최소의 단위이다.
+  - 하나의 트랜잭션에는 하나 이상의 SQL 문장이 포함된다.
+  - 하나의 트랜잭션은 전부 적용하거나 전부 취소한다.
+
+- 계좌이체로 이해하는 트랜잭션
+    ```
+    STEP1. 100번 계좌의 잔액에서 10,000원을 뺀다.
+    - 자신의 계좌에서 잔액을 확인하고 이체할 금액을 인출한 후 나머지 금액을 저장
+    
+    STEP2. 200번 계좌의 잔액에 10,000원을 더한다.
+    - 이체할 계좌를 확인하고 앞에서 인출한 금액을 더한 다음 저장
+    ```
+
+    ```
+    계좌이체라는 작업은 위의 두 개의 업데이트가 모두 성공적으로 완료되었을 때 종료된다.
+    둘 중 하나라도 실패할 경우 계좌이체는 원래의 금액을 유지하고 있어야만 한다.
+    어떠한 장애에 의해 어느 한 쪽만 실행된다면 이체한 금액은 어디로 증발하거나 임의로 증가하게 된다.
+    그런 일이 있어서는 안 되므로 이러한 경우에는 수정을 취소하여 원 상태로 되돌려야 한다.
+    ```
+
+- 계좌이체 같은 하나의 논리적인 작업 단위를 구성하는 세부적인 연산들의 집합을 트랜잭션이라 한다.
+  - 이런 관점에서 데이터베이스 응용 프로그램은 트랜잭션의 집합으로 정의할 수 있다.
+
+- 트랜잭션의 대상은 UPDATE, INSERT, DELETE 등 데이터를 수정하는 DML 문이다.
+  - SELECT 문장은 직접적인 트랜잭션의 대상이 아니지만, SELECT FOR UPDATE 등 배타적 LOCK을 요구하는 SELECT 문장은 트랜잭션의 대상이 될 수 있다.
+
+- 요약
+  - DML(INSERT, UPDATE, DELETE) 수행시 변경되는 데이터의 무결성을 보장하는 것이 커밋(COMMIT)과 롤백(ROLLBACK)의 목적
+  - COMMIT은 변경된 데이터를 테이블이 영구적으로 반영
+  - 저장점(SAVEPOINT/SAVE TRANSACTION)은 데이터 변경작업을 사전에 지정한 저장점까지만 롤백
+  - ORACLE의 트랜잭션은 대상이 되는 SQL 문장을 실행하면 자동으로 시작되고, COMMIT 또는 ROLLBACK을 실행한 시점에서 종료
+  - COMMIT과 ROLLBACK을 실행하지 않아도 자동으로 트랜잭션이 종료되는 경우
+    - CREATE, ALTER, DROP, RENAME, TRUNCATE TABLE 등 DDL 문장을 실행하면 그 전후 시점에 자동으로 커밋
+    - DML 문장 이후에 커밋 없이 DDL 문장이 실행되면 DDL 수행 전에 자동으로 커밋
+    - 데이터베이스를 정상적으로 접속을 종료하면 자동으로 트랜잭션이 커밋
+    - 애플리케이션의 이상 종료로 데이터베이스와의 접속이 단절되었을 때는 트랜잭션이 자동으로 롤백
+  - SQL Server의 트랜잭션은 DBMS가 트랜잭션을 컨트롤하는 방식인 AUTO COMMIT이 기본 방식이다.
+    - 다음의 경우는 ORACLE과 같이 자동으로 트랜잭션이 종료된다.
+    - 애플리케이션의 이상 종료로 데이터베이스(인스턴스)와의 접속이 단절되었을 때는 트랜잭션이 자동으로 롤백
+
+<br>
+
+<div align=center>
+
+![](images/SQL_073.jpg)
+
+</div>
+
+<br>
+
+- 계좌이체에서 이체가 결정되기 전까지는 다른 사람이 해당 계좌의 정보를 변경할 수 없다.
+  - 이를 자물쇠를 채우듯이 한다고 하여 잠금(LOCKING)이라고 표현한다.
+
+- 트랜잭션의 특성(특히 원자성)을 충족하기 위해 데이터베이스는 다양한 레벨의 잠금 기능을 제공한다.
+  - 잠금은 기본적으로 트랜잭션이 수행하는 동안 특정 데이터에 대해서 다른 트랜잭션이 동시에 접근하지 못하도록 제한하는 기법이다.
+
+- 잠금이 걸린 데이터는 잠금을 실행한 트랜잭션만 독점적으로 접근할 수 있고 다른 트랜잭션으로부터 간섭이나 방해를 받지 않는 것이 보장된다.
+  - 잠금이 걸린 데이터는 잠금을 수행한 트랜잭션만이 해제할 수 있다.
+
+<br>
+
+## COMMIT
+- 입력한 자료나 수정한 자료에 대해서 또는 삭제한 자료에 대해서 전혀 문제가 없다고 판단되었을 경우 COMMIT 명령어를 통해서 트랜잭션을 완료할 수 있다.
+    ```sql
+    COMMIT; 
+    ```
+
+- COMMIT이나 ROLLBACK 이전의 데이터 상태
+  - 메모리 BUFFER에만 영향을 받았다면 데이터의 변경 이전 상태로 복구 가능
+  - 현재 사용자는 SELECT 문장으로 결과 확인 가능
+  - 다른 사용자는 현재 사용자가 수행한 명령의 결과를 볼 수 없음
+  - 변경된 행은 잠금(LOCKING)이 설정되어서 다른 사용자는 변경 불가
+
+- COMMIT 명령어는 DML(INSERT, UPDATE, DELETE)을 사용한 후에 변경 작업이 완료되었음을 데이터베이스에 알려 주기 위해 사용한다.
+
+- COMMIT 이후의 데이터 상태는 다음과 같다.
+  - 데이터에 대한 변경 사항이 데이터베이스에 반영
+  - 이전 데이터는 영원히 소실
+  - 모든 사용자는 결과를 볼 수 있음
+  - 관련된 행에 대한 잠금(LOCKING)이 풀리고, 다른 사용자들의 행 조작 가능
+
+### (별첨)SQL Server의 COMMIT
+- ORACLE은 DML을 실행하는 경우 DBMS가 트랜잭션을 내부적으로 실행하며 DML 문장 수행 후 사용자가 임의로 COMMIT 혹은 ROLLBACK을 수행해 주어야 트랜잭션이 종료
+- SQL Server는 기본적으로 AUTO COMMIT 모드이기 때문에 DML 수행 후 사용자가 COMMIT이나 ROLLBACK을 처리할 필요가 없음
+- DML 구문이 성공이면 자동으로 COMMIT이 되고 오류가 발생할 경우 자동으로 ROLLBACK 처리
+
+<br>
+
+### (별첨)SQL Server의 트랜잭션 방식
+- AUTO COMMIT
+  - SQL Server의 기본 방식이며, DML, DDL을 수행할 때마다 DBMS가 트랜잭션을 컨트롤하는 방식
+  - 명령어가 성공적으로 수행되면 자동으로 COMMIT을 수행하고 오류가 발생하면 자동으로 ROLLBACK 수행
+
+- 암시적 트랜잭션
+  - ORACLE과 같은 방식으로 처리
+  - 트랜잭션의 시작은 DBMS가 처리하고 트랜잭션의 끝은 사용자가 명시적으로 COMMIT 또는 ROLLBACK으로 처리
+  - 인스턴스 단위 또는 세션 단위로 설정 가능.
+    - 인스턴스 단위로 설정하려면 서버 속성 창의 연결화면에서 기본연결 옵션 중 암시적 트랜잭션에 체크
+  - 세션 단위로 설정하기 위해서는 세션 옵션 중 SET IMPLICIT TRANSACTION ON 사용
+
+- 명시적 트랜잭션
+  - 트랜잭션의 시작과 끝을 모두 사용자가 명시적으로 지정하는 방식
+  - BEGIN TRANSACTION (BEGIN TRAN 구문도 가능)으로 트랜잭션을 시작하고 COMMIT TRANSACTION(TRANSACTION은 생략 가능) 또는 ROLLBACK TRANSACTION(TRANSACTION은 생략 가능)으로 트랜잭션 종료
+  - ROLLBACK 구문을 만나면 최초의 BEGIN TRANSACTION 시점까지 모두 ROLLBACK 수행
+
+<br>
+
+## ROLLBACK
+- 롤백(ROLLBACK) : 테이블 내 입력, 수정, 삭제 데이터에 대하여 COMMIT 이전에 변경 사항을 취소
+  - 데이터 변경 사항이 취소되어 이전 상태로 복구되며, 관련된 행에 대한 잠금(LOCKING)이 풀리고 다른 사용자들이 데이터 변경을 할 수 있게 된다.
+    ```sql
+    ROLLBACK; 
+    ```
+
+- ROLLBACK 후의 데이터 상태
+  - 데이터에 대한 변경 사항은 취소된다.
+  - 이전 데이터는 다시 재저장된다.
+  - 관련된 행에 대한 잠금(LOCKING)이 풀리고, 다른 사용자들이 행을 조작할 수 있게 된다.
+
+- COMMIT과 ROLLBACK을 사용함으로써 다음과 같은 효과를 볼 수 있다.
+  - 데이터 무결성 보장
+  - 영구적인 변경을 하기 전에 데이터의 변경 사항 확인 가능
+  - 논리적으로 연관된 작업을 그룹핑하여 처리 가능
+
+### (별첨)SQL Server의 ROLLBACK
+- SQL Server는 AUTO COMMIT이 기본 방식이므로 임의적인 ROLLBACK 을 수행하려면 명시적으로 트랜잭션을 선언해야 된다.
+    ```sql
+    ROLLBACK;
+    ```
+
+<br>
+
+## SAVEPOINT
+- 저장점(SAVEPOINT)을 정의하면 롤백(ROLLBACK)할 때 트랜잭션에 포함된 전체 작업을 롤백하는 것이 아니라 현 시점에서 SAVEPOINT까지 트랜잭션의 일부만 롤백할 수 있다.
+
+- 복잡한 대규모 트랜잭션에서 에러가 발생했을 때 SAVEPOINT까지의 트랜잭션만 롤백하고 실패한 부분에 대해서만 다시 실행할 수 있다.
+
+- 복수의 저장점을 정의할 수 있으며, 동일이름으로 저장점을 정의했을 때는 나중에 정의한 저장점이 유효
+    ```sql
+    -- [ORACLE]
+
+    -- SVPT1이라는 저장점 정의
+    SAVEPOINT SVPT1;
+
+    -- 저장점까지 롤백
+    ROLLBACK TO SVPT1; 
+    ```
+    ```sql
+    -- [SQL Server]
+    -- SVPT1이라는 저장점 정의
+    SAVE TRANSACTION SVTR1; 
+
+    -- 저장점까지 롤백
+    ROLLBACK TRANSACTION SVTR1; 
+    ```
+
+<br>
+
+<div align=center>
+
+![](images/SQL_074.jpg)
+
+</div>
+
+<br>
+
+- 저장점 A로 되돌리고 나서 다시 B와 같이 미래 방향으로 되돌릴 수는 없다.
+  - 특정 저장점까지 롤백하면 그 저장점 이후에 설정한 저장점이 무효가 된다.
+  - 'ROLLBACK TO A'를 실행한 시점에서 저장점 A 이후에 정의한 저장점 B는 존재하지 않는다.
+
+- 저장점 지정 없이 "ROLLBACK"을 실행했을 경우 반영되지 않은 모든 변경 사항을 취소하고 트랜잭션 시작 위치로 되돌아간다.
 
 <br>
