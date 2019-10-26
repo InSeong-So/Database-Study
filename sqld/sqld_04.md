@@ -559,3 +559,134 @@ go
 - 테이블에 있는 데이터를 삭제하는 명령어는 TRUNCATE TABLE 명령어 이외에도 다음 DML 절에서 살펴볼 DELETE 명령어가 있다.
   - DELETE와 TRUNCATE는 처리하는 방식 자체가 다르다. 테이블의 전체 데이터를 삭제하는 경우, 시스템 활용 측면에서는 DELETE TABLE 보다는 시스템 부하가 적은 TRUNCATE TABLE을 권고한다.
 - TRUNCATE TABLE의 경우 정상적인 복구가 불가능하므로 주의
+
+<br>
+
+# DML(DATA MANIPULATION LANGUAGE)
+## INSERT
+- 테이블에 데이터를 입력하는 명령어
+    ```sql
+    -- 1번
+    INSERT INTO 테이블명 (COLUMN_LIST)
+            VALUES (COLUMN_LIST에 넣을 VALUE_LIST); 
+
+    -- 2번
+    INSERT INTO 테이블명
+            VALUES (전체 COLUMN에 넣을 VALUE_LIST); 
+
+
+    -- 조회한 값을 저장(컬럼명, 데이타 타입 동일하게)
+    INSERT INTO 테이블명
+            SELECT * FROM 테이블명;
+    ```
+
+- 해당 칼럼명과 입력되어야 하는 값을 서로 1:1로 매핑해서 기입
+  - 데이터 유형이 CHAR나 VARCHAR2 등 문자 유형일 경우 『 ' 』(SINGLE QUOTATION)로 입력할 값을 입력
+  - 숫자일 경우 『 ' 』(SINGLE QUOTATION)을 붙이지 않아야 한다.
+
+- 첫 번째 방법은 테이블의 칼럼을 정의할 수 있는데, 이때 칼럼의 순서는 테이블의 칼럼 순서와 매치할 필요는 없으며, 정의하지 않은 칼럼은 Default로 NULL 값이 입력
+  - 단, Primary Key나 Not NULL 로 지정된 칼럼은 NULL이 허용되지 않는다.
+
+- 두 번째 유형은 모든 칼럼에 데이터를 입력하는 경우로 굳이 COLUMN_LIST를 언급하지 않아도 되지만 칼럼의 순서대로 빠짐없이 데이터가 입력되어야 함
+
+- 데이터를 입력하는 경우 정의되지 않은 미지의 값은 두 개의 『 '' 』SINGLE QUOTATION을 붙여서 표현하거나, NATION이나 BIRTH_DATE의 경우처럼 NULL이라고 명시적으로 표현할 수 있다.
+
+<br>
+
+## UPDATE
+- 테이블의 데이터를 수정하는 명령어
+    ```sql
+    UPDATE 테이블명 
+    SET 수정되어야 할 칼럼명 = 수정되기를 원하는 새로운 값; 
+    ```
+
+<br>
+
+## DELETE
+- 테이블의 데이터를 삭제하는 명령어
+    ```sql
+    DELETE [FROM] 삭제를 원하는 정보가 들어있는 테이블명;
+    ```
+
+- FROM 문구는 생략 가능한 키워드로 뒤에서 배울 WHERE 절을 사용하지 않는다면 테이블의 전체 데이터가 삭제된다.
+
+### (별첨)데이터베이스의 DDL과 DML의 처리방식
+- DDL(CREATE, ALTER, RENAME, DROP)
+  - 직접 데이터베이스의 테이블에 영향을 미침
+  - DDL 명령어를 입력하는 순간 명령어에 해당하는 작업이 즉시(AUTO COMMIT) 완료
+  - TRUNCATE TABLE 명령어도 DDL에 해당
+
+- DML(INSERT, UPDATE, DELETE, SELECT)
+  - 조작하려는 테이블을 메모리 버퍼에 올려놓고 작업을 하기 때문에 실시간으로 테이블에 영향을 미치지 않음
+  - 버퍼에서 처리한 DML 명령어가 실제 테이블에 반영되기 위해서는 COMMIT 명령어를 입력하여 TRANSACTION을 종료해야 함
+  - SQL Server의 경우는 DML의 경우도 AUTO COMMIT으로 처리됨
+
+- TRUNCATE TABLE의 경우 삭제된 데이터의 로그가 없으므로 ROLLBACK이 불가능
+  - SQL Server의 경우 사용자가 임의적으로 트랜잭션을 시작한 후 TRUNCATE TABLE을 이용하여 데이터를 삭제한 이후 오류가 발견되어 다시 복구를 원할 경우 ROLLBACK 문을 이용하여 테이블 데이터를 원상태로 되돌릴 수 있다.
+
+<br>
+
+## SELECT
+- 테이블의 데이터를 조회하는 명령어
+    ```sql
+    SELECT [ALL/DISTINCT] 보고 싶은 칼럼명, 보고 싶은 칼럼명, ...
+    FROM 해당 칼럼들이 있는 테이블명;
+
+    -- ALL : Default 옵션. 중복된 데이터가 있어도 모두 출력
+    -- DISTINCT : 중복된 데이터가 있는 경우 1건으로 처리해서 출력
+    ```
+
+### *(WILDCARD)
+- 해당 테이블의 모든 칼럼 정보를 보고 싶을 경우에는 와일드카드로 애스터리스크( * )를 사용하여 조회
+    ```sql
+    SELECT * 
+    FROM 테이블명;
+    ```
+
+<br> 
+
+### 별칭(AS, ALIAS)
+- 조회된 결과에 별칭(ALIAS, ALIASES)을 부여하면 칼럼 레이블 변경 가능
+  - 칼럼명 바로 뒤에 위치
+  - 칼럼명과 ALIAS 사이에 AS, as 키워드를 사용할 수 있다.
+  - 이중 인용부호(Double quotation)는 ALIAS가 공백, 특수문자를 포함할 경우와 대소문자 구분이 필요할 경우 사용된다.
+    ```sql
+    SELECT PLAYER_NAME AS 선수명, POSITION AS 위치, HEIGHT AS 키, WEIGHT AS 몸무게 
+    FROM PLAYER; 
+
+    -- 칼럼 별명에서 AS를 사용하지 않아도 아래 SQL은 위 SQL과 같은 결과를 출력
+
+    SELECT PLAYER_NAME 선수명, POSITION 위치, HEIGHT 키, WEIGHT 몸무게 
+    FROM PLAYER; 
+    ```
+
+<br>
+
+## 산술 연산자와 합성 연산자
+### 산술 연산자
+- 산술 연산자는 NUMBER와 DATE 자료형에 대해 적용되며 일반적으로 수학에서의 4칙 연산과 동일
+  - 우선순위를 위한 괄호 적용 가능
+
+- 일반적으로 산술 연산을 사용하거나 특정 함수를 적용하게 되면 칼럼의 LABEL이 길어지게 되고, 기존의 칼럼에 대해 새로운 의미를 부여한 것이므로 적절한 ALIAS를 새롭게 부여하는 것이 좋다.
+
+- 산술 연산자는 수학에서와 같이 (), *, /, +, - 의 우선순위를 가진다.
+
+<div align=center>
+
+![](images/SQL_072.jpg)
+
+</div>
+
+### 합성 연산자
+- 문자와 문자를 연결하는 합성(CONCATENATION) 연산자를 사용하면 별도의 프로그램 도움 없이 SQL 문장만으로도 유용한 리포트 출력 가능
+
+- 문자와 문자를 연결하는 경우 2개의 수직 바(||)에 의해 이루어진다. (Oracle)
+  - 문자와 문자를 연결하는 경우 + 표시에 의해 이루어진다. (SQL Server)
+
+- 두 벤더 모두 공통적으로 CONCAT (string1, string2) 함수를 사용할 수 있다.
+
+- 칼럼과 문자 또는 다른 칼럼과 연결시킨다.
+
+- 문자 표현식의 결과에 의해 새로운 칼럼을 생성한다.
+
+<br>
