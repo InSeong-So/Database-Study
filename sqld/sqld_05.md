@@ -206,3 +206,102 @@
 - CROSS JOIN : 12건 출력
 
 <br>
+
+# 집합 연산자(SET OPERATOR)
+## 집합 연산자의 개요
+- 두 개 이상의 테이블에서 조인을 사용하지 않고 연관된 데이터를 조회하는 방법
+
+|집합 연산자|연산자의 의미|
+|-----------|-------------|
+|UNION|여러 개의 SQL문의 결과에 대한 합집합으로 결과에서 모든 중복된 행을 하나의 행으로 만든다.|
+|UNION ALL|여러 개의 SQL문의 결과에 대한 합집합으로 중복된 행도 결과에 표시된다. 즉, 단순히 결과만 합쳐놓은 것이다.|
+|-|일반적으로 여러 개의 결과가 상호 배타적인(Exclusive)일 때 많이 사용한다.|
+|-|개별 SQL문의 결과가 서로 중복되지 않는 경우 UNION 과 동일(결과의 정렬 순서에는 차이가 있을 수 있음).|
+|INTERSECT|여러 개의 SQL문의 결과에 대한 교집합으로 중복된 행을 하나의 행으로 만든다.|
+|EXCEPT/MINUS|앞 SQL문의 결과와 뒤 SQL문의 결과에 대한 차집합으로 중복된 행을 하나의 행으로 만든다.|
+
+<div align=center>
+
+![](images/SQL_079.jpg)
+
+</div>
+
+- UNION
+    ```sql
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE TEAM_ID = 'K02' 
+    UNION 
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE POSITION = 'GK';
+    ```
+
+- UNION ALL
+    ```sql
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE TEAM_ID = 'K02' 
+    UNION ALL 
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE POSITION = 'GK'; 
+    ```
+
+- INTERSECTIN
+    ```sql
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE TEAM_ID = 'K02' 
+    INTERSECT 
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE POSITION = 'GK' 
+    ORDER BY 1, 2, 3, 4, 5; 
+    ```
+
+- MINUS
+    ```sql
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE TEAM_ID = 'K02' 
+    MINUS 
+    SELECT TEAM_ID 팀코드
+        , PLAYER_NAME 선수명
+        , POSITION 포지션
+        , BACK_NO 백넘버
+        , HEIGHT 키 
+    FROM PLAYER 
+    WHERE POSITION = 'MF' 
+    ORDER BY 1, 2, 3, 4, 5; 
+    ```
+
+<br>
