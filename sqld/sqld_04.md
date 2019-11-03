@@ -980,3 +980,136 @@ SELECT PLAYER_NAME 선수이름
 <br>
 
 ### 논리 연산자
+- 조건들을 논리적으로 연결시키기 위해서 사용되는 연산자
+
+    |연산자|연산자의 의미|
+    |------|-------------|
+    |AND|앞에 있는 조건과 뒤에 오는 조건이 참(TRUE)이 되면 결과도 참(TRUE)|
+    |-|앞의 조건과 뒤의 조건을 동시에 만족해야 하는 것|
+    |OR|앞의 조건이 참(TRUE)이거나 뒤의 조건이 참(TRUE)이 되면 결과도 참(TRUE)|
+    |-|앞, 뒤의 조건 중 하나만 참(TRUE)이면 됨|
+    |NOT|뒤에 오는 조건에 반대되는 결과를 반환|
+    
+- AND 연산자
+    ```sql
+    SELECT PLAYER_NAME 선수이름  
+        , POSITION 포지션  
+        , BACK_NO 백넘버  
+        , HEIGHT 키  
+    FROM PLAYER  
+    WHERE TEAM_ID = 'K02'  
+        AND HEIGHT >= 170; 
+    ```
+
+- OR 연산자
+    ```sql
+    SELECT PLAYER_NAME 선수이름  
+        , POSITION 포지션  
+        , BACK_NO 백넘버  
+        , HEIGHT 키  
+    FROM PLAYER  
+    WHERE (TEAM_ID = 'K02'  
+        OR BACK_NO = 1)  
+        AND HEIGHT >= 170; 
+    ```
+
+<br>
+
+### 부정 연산자
+- 비교 연산자, SQL 비교 연산자에 대한 부정 표현
+
+- 부정 논리 연산자
+
+    |연산자|연산자의 의미|
+    |------|-------------|
+    |!=|같지 않음|
+    |^=|같지 않음|
+    |<>|같지 않음, ANSI/ISO 표준으로 모든 운영체제에서 사용 가능|
+    |NOT 컬럼명 =|~와 같지 않음|
+    |NOT 컬럼명 >|~보다 크지 않음|
+
+- 부정 SQL 연산자
+
+    |연산자|연산자의 의미|
+    |------|-------------|
+    |NOT BETWEEN a AND b|a와 b의 값 사이에 있지 않음(a, b 값을 포함하지 않음)|
+    |NOT IN (list)|list 값과 일치하지 않음|
+    |IS NOT NULL|NULL 값을 갖지 않음|
+
+- 예제
+    ```sql
+    -- 1
+    SELECT PLAYER_NAME 선수이름  
+        , POSITION 포지션  
+        , BACK_NO 백넘버  
+        , HEIGHT 키  
+    FROM PLAYER  
+    WHERE TEAM_ID = 'K02'  
+        AND NOT POSITION = 'MF'  
+        AND NOT HEIGHT BETWEEN 175 AND 185; 
+
+    -- 2
+    SELECT PLAYER_NAME 선수이름  
+        , POSITION 포지션  
+        , BACK_NO 백넘버  
+        , HEIGHT 키  
+    FROM PLAYER  
+    WHERE TEAM_ID = 'K02'  
+        AND POSITION <> 'MF'  
+        AND HEIGHT NOT BETWEEN 175 AND 185; 
+
+    -- 3
+    SELECT PLAYER_NAME 선수이름  
+        , NATION 국적  
+    FROM PLAYER  
+    WHERE NATION IS NOT NULL; 
+    ```
+
+<br>
+
+## ROWNUM, TOP 사용
+- SQL 처리 결과 집합의 각 행에 대해 임시로 부여되는 일련번호
+- 테이블이나 집합에서 원하는 만큼의 행만 가져오고 싶을 때 WHERE 절에서 행의 개수를 제한하는 목적으로 사용
+
+### ROWNUM
+- 한건을 가져올 경우
+    ```sql
+    SELECT PLAYER_NAME FROM PLAYER WHERE ROWNUM = 1;
+    SELECT PLAYER_NAME FROM PLAYER WHERE ROWNUM <= 1;
+    SELECT PLAYER_NAME FROM PLAYER WHERE ROWNUM < 2;
+    ```
+
+- N개 이상의 건을 가져올 경우
+    ```sql
+    SELECT PLAYER_NAME FROM PLAYER WHERE ROWNUM <= N;
+    SELECT PLAYER_NAME FROM PLAYER WHERE ROWNUM < N + 1
+    ```
+
+<br>
+
+### TOP 절
+- SQL Server 에서는 TOP 절을 사용
+
+- 형식
+    ```sql
+    TOP (Expression) [PERCENT] [WITH TIES]
+    ```
+  - Expression : 반환할 행의 수를 지정하는 숫자
+
+  - PERCENT : 쿼리 결과 집합에서 처음 Expression  행만 반환됨을 의미
+
+  - WITH TIES : ORDER BY 절이 지정된 경우에만 사용할 수 있으며 TOP N(PERCENT)의 마지막 행과 같은 값이 있는 경우 추가 행이 출력되도록 지정
+
+- 한건을 가져올 경우
+    ```sql
+    SELECT TOP(1) PLAYER_NAME FROM PLAYER;
+    ```
+
+- N개 이상의 건을 가져올 경우
+    ```sql
+    SELECT TOP(N) PLAYER_NAME FROM PLAYER;
+    ```
+
+- ORDER BY 를 사용하면 ROWNUM과 TOP 은 기능의 차이가 발생
+
+<br>
